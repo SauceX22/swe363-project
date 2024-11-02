@@ -10,29 +10,30 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tanstack/react-form": "^0.19.4",
-    "@tanstack/react-query": "^5.35.1",
-    "@tanstack/react-router": "^1.31.20",
-    "@tanstack/react-table": "^8.16.0",
-    "autoprefixer": "^10.4.19",
-    "postcss": "^8.4.38",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "tailwindcss": "^3.4.3"
+    "@tanstack/react-form": "^0.34.1",
+    "@tanstack/react-query": "^5.59.17",
+    "@tanstack/react-router": "^1.78.2",
+    "@tanstack/react-table": "^8.20.5",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^3.4.14"
   },
   "devDependencies": {
-    "@tanstack/eslint-plugin-query": "^5.32.1",
-    "@tanstack/router-devtools": "^1.31.20",
-    "@tanstack/router-vite-plugin": "^1.31.18",
-    "@types/react": "^18.2.66",
-    "@types/react-dom": "^18.2.22",
-    "@typescript-eslint/eslint-plugin": "^7.2.0",
-    "@typescript-eslint/parser": "^7.2.0",
-    "@vitejs/plugin-react": "^4.2.1",
-    "eslint": "^8.57.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.6",
-    "typescript": "^5.2.2",
-    "vite": "^5.2.0"
+    "@biomejs/biome": "1.9.4",
+    "@tanstack/eslint-plugin-query": "^5.59.7",
+    "@tanstack/router-devtools": "^1.78.2",
+    "@tanstack/router-vite-plugin": "^1.78.2",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@typescript-eslint/eslint-plugin": "^8.12.2",
+    "@typescript-eslint/parser": "^8.12.2",
+    "@vitejs/plugin-react": "^4.3.3",
+    "eslint": "^9.14.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.14",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.10"
   }
 }

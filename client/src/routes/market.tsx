@@ -6,6 +6,7 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -13,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/market")({
@@ -51,12 +53,10 @@ function MarketPage() {
   return (
     <div>
       <div className="flex justify-between">
-        <h1 className="text-left">KFUPM Market</h1>
-        <Button variant="outline" className="mt-4">
-          Add Yours!
-        </Button>
+        <h1 className="text-left text-2xl font-bold">KFUPM Market</h1>
       </div>
-      <div className="mt-6 flex space-x-4">
+      <Separator className="my-4 w-full" />
+      <div className="mb-8 flex flex-wrap items-center gap-4">
         <Input type="search" placeholder="Search..." className="w-64" />
         <Select name="price">
           <SelectTrigger className="w-[120px]">
@@ -81,8 +81,7 @@ function MarketPage() {
             </SelectContent>
           </SelectTrigger>
         </Select>
-        <h3 className="ml-4 mt-2">Sort by</h3>
-
+        <Label className="ml-4 mt-2">Sort by</Label>
         <Select>
           <SelectTrigger className="w-[120px]">
             <SelectValue placeholder="Default" />
@@ -97,6 +96,7 @@ function MarketPage() {
             <SelectItem value="Date: latest">Date: latest</SelectItem>
           </SelectContent>
         </Select>
+        <Button className="ml-auto">Add Yours!</Button>
       </div>
 
       <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-5 lg:grid-cols-5">

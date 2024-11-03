@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  server:
+    volumes:
+      - ./server:/app
+    command: npm run dev  # Use nodemon in dev mode
+    environment:
+      - NODE_ENV=development
+
+  client:
+    volumes:
+      - ./client:/app
+    command: npm run dev  # Vite development mode
+    environment:
+      - NODE_ENV=development

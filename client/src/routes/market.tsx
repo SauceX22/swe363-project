@@ -5,6 +5,7 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -56,7 +57,7 @@ function MarketPage() {
         </Button>
       </div>
       <div className="mt-6 flex space-x-4">
-        <input type="search" placeholder="Search..." className="w-64" />
+        <Input type="search" placeholder="Search..." className="w-64" />
         <Select name="price">
           <SelectTrigger className="w-[120px]">
             <SelectValue placeholder="Price (SAR)" />

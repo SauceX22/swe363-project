@@ -13,7 +13,7 @@ export const Route = createRootRoute({
           </Link>
         </div>
         <hr />
-        <main>
+        <main className="px-16 py-8">
           <Providers>
             <Outlet />
           </Providers>

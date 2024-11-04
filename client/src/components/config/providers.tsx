@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { useState } from "react";
 
 type ProviderProps = {
@@ -17,7 +18,10 @@ const Providers = ({ children }: ProviderProps) => {
   );
 
   return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <QueryClientProvider client={queryClient}>
+      {children}
+      <TanStackRouterDevtools />
+    </QueryClientProvider>
   );
 };
 

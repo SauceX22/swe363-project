@@ -8,7 +8,16 @@ export const Route = createLazyFileRoute("/login")({
 
 function LoginPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center">
+    <main
+      className="flex h-screen w-screen items-center justify-center"
+      style={{
+        backgroundImage: "url('/src/assets/kfupm.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        width: "100vw",
+        height: "100vh",
+      }}
+    >
       <div
         className="rounded-lg p-10 shadow-lg backdrop-blur-lg"
         style={{
@@ -40,15 +49,8 @@ function LoginPage() {
           </Button>
         </form>
       </div>
-    </div>
+    </main>
   );
 }
-
-// mahmoud i was forced to do it lil bro :(
-document.body.style.backgroundImage = "url('/src/assets/kfupm.png')";
-document.body.style.backgroundSize = "cover";
-document.body.style.backgroundPosition = "center";
-document.body.style.width = "100vw";
-document.body.style.height = "100vh";
 
 export default LoginPage;

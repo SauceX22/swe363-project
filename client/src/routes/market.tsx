@@ -51,7 +51,7 @@ const items: Item[] = [
 
 function MarketPage() {
   return (
-    <div>
+    <main className="px-64 py-8">
       <div className="flex justify-between">
         <h1 className="text-left text-2xl font-bold">KFUPM Market</h1>
       </div>
@@ -114,6 +114,6 @@ function MarketPage() {
           </Card>
         ))}
       </div>
-    </div>
+    </main>
   );
 }

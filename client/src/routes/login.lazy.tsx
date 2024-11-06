@@ -11,7 +11,7 @@ function LoginPage() {
     <main
       className="flex h-screen w-screen items-center justify-center"
       style={{
-        backgroundImage: "url('/src/assets/kfupm.png')",
+        backgroundImage: "url('/src/assets/login.png')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         width: "100vw",

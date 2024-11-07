@@ -13,15 +13,21 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as MarketImport } from './routes/market'
 
 // Create Virtual Routes
 
+const MarketLazyImport = createFileRoute('/market')()
 const LoginLazyImport = createFileRoute('/login')()
-const CardDetailLazyImport = createFileRoute('/card-detail')()
 const IndexLazyImport = createFileRoute('/')()
+const MarketItemIdLazyImport = createFileRoute('/market/$itemId')()
 
 // Create/Update Routes
+
+const MarketLazyRoute = MarketLazyImport.update({
+  id: '/market',
+  path: '/market',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/market.lazy').then((d) => d.Route))
 
 const LoginLazyRoute = LoginLazyImport.update({
   id: '/login',
@@ -29,23 +35,19 @@ const LoginLazyRoute = LoginLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/login.lazy').then((d) => d.Route))
 
-const CardDetailLazyRoute = CardDetailLazyImport.update({
-  id: '/card-detail',
-  path: '/card-detail',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/card-detail.lazy').then((d) => d.Route))
-
-const MarketRoute = MarketImport.update({
-  id: '/market',
-  path: '/market',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const IndexLazyRoute = IndexLazyImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const MarketItemIdLazyRoute = MarketItemIdLazyImport.update({
+  id: '/$itemId',
+  path: '/$itemId',
+  getParentRoute: () => MarketLazyRoute,
+} as any).lazy(() =>
+  import('./routes/market.$itemId.lazy').then((d) => d.Route),
+)
 
 // Populate the FileRoutesByPath interface
 
@@ -58,20 +60,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
-    '/market': {
-      id: '/market'
-      path: '/market'
-      fullPath: '/market'
-      preLoaderRoute: typeof MarketImport
-      parentRoute: typeof rootRoute
-    }
-    '/card-detail': {
-      id: '/card-detail'
-      path: '/card-detail'
-      fullPath: '/card-detail'
-      preLoaderRoute: typeof CardDetailLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -79,54 +67,78 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginLazyImport
       parentRoute: typeof rootRoute
     }
+    '/market': {
+      id: '/market'
+      path: '/market'
+      fullPath: '/market'
+      preLoaderRoute: typeof MarketLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/market/$itemId': {
+      id: '/market/$itemId'
+      path: '/$itemId'
+      fullPath: '/market/$itemId'
+      preLoaderRoute: typeof MarketItemIdLazyImport
+      parentRoute: typeof MarketLazyImport
+    }
   }
 }
 
 // Create and export the route tree
 
+interface MarketLazyRouteChildren {
+  MarketItemIdLazyRoute: typeof MarketItemIdLazyRoute
+}
+
+const MarketLazyRouteChildren: MarketLazyRouteChildren = {
+  MarketItemIdLazyRoute: MarketItemIdLazyRoute,
+}
+
+const MarketLazyRouteWithChildren = MarketLazyRoute._addFileChildren(
+  MarketLazyRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
-  '/market': typeof MarketRoute
-  '/card-detail': typeof CardDetailLazyRoute
   '/login': typeof LoginLazyRoute
+  '/market': typeof MarketLazyRouteWithChildren
+  '/market/$itemId': typeof MarketItemIdLazyRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
-  '/market': typeof MarketRoute
-  '/card-detail': typeof CardDetailLazyRoute
   '/login': typeof LoginLazyRoute
+  '/market': typeof MarketLazyRouteWithChildren
+  '/market/$itemId': typeof MarketItemIdLazyRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
-  '/market': typeof MarketRoute
-  '/card-detail': typeof CardDetailLazyRoute
   '/login': typeof LoginLazyRoute
+  '/market': typeof MarketLazyRouteWithChildren
+  '/market/$itemId': typeof MarketItemIdLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/market' | '/card-detail' | '/login'
+  fullPaths: '/' | '/login' | '/market' | '/market/$itemId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/market' | '/card-detail' | '/login'
-  id: '__root__' | '/' | '/market' | '/card-detail' | '/login'
+  to: '/' | '/login' | '/market' | '/market/$itemId'
+  id: '__root__' | '/' | '/login' | '/market' | '/market/$itemId'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
-  MarketRoute: typeof MarketRoute
-  CardDetailLazyRoute: typeof CardDetailLazyRoute
   LoginLazyRoute: typeof LoginLazyRoute
+  MarketLazyRoute: typeof MarketLazyRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
-  MarketRoute: MarketRoute,
-  CardDetailLazyRoute: CardDetailLazyRoute,
   LoginLazyRoute: LoginLazyRoute,
+  MarketLazyRoute: MarketLazyRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -140,22 +152,25 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/market",
-        "/card-detail",
-        "/login"
+        "/login",
+        "/market"
       ]
     },
     "/": {
       "filePath": "index.lazy.tsx"
     },
-    "/market": {
-      "filePath": "market.tsx"
-    },
-    "/card-detail": {
-      "filePath": "card-detail.lazy.tsx"
-    },
     "/login": {
       "filePath": "login.lazy.tsx"
+    },
+    "/market": {
+      "filePath": "market.lazy.tsx",
+      "children": [
+        "/market/$itemId"
+      ]
+    },
+    "/market/$itemId": {
+      "filePath": "market.$itemId.lazy.tsx",
+      "parent": "/market"
     }
   }
 }

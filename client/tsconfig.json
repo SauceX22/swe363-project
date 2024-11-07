@@ -29,7 +29,8 @@
     }
   },
   "include": [
-    "src"
+    "src",
+    "src/routes/market/index.lazy.tsx"
   ],
   "references": [
     {

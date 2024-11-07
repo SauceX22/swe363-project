@@ -1,53 +1,48 @@
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
-import { createFileRoute } from "@tanstack/react-router";
+} from '@/components/ui/select'
+import { Separator } from '@/components/ui/separator'
+import { createLazyFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute("/market")({
+export const Route = createLazyFileRoute('/market')({
   component: MarketPage,
-});
+})
 
 interface Item {
-  img: string;
-  name: string;
-  price: string;
+  img: string
+  name: string
+  price: string
 }
 
 const items: Item[] = [
   {
-    img: "landscape-placeholder-svgrepo-com.svg",
-    name: "Item Name",
-    price: "Item Price",
+    img: 'landscape-placeholder-svgrepo-com.svg',
+    name: 'Item Name',
+    price: 'Item Price',
   },
-  { img: "img", name: "Item Name", price: "Item Price" },
-  { img: "img", name: "Item Name", price: "Item Price" },
-  { img: "img", name: "Item Name", price: "Item Price" },
-  { img: "img", name: "Item Name", price: "Item Price" },
-  { img: "img", name: "Item Name", price: "Item Price" },
-  { img: "img", name: "Item Name", price: "Item Price" },
-  { img: "img", name: "Item Name", price: "Item Price" },
-  { img: "img", name: "Item Name", price: "Item Price" },
-  { img: "img", name: "Item Name", price: "Item Price" },
-  { img: "img", name: "Item Name", price: "Item Price" },
-  { img: "img", name: "Item Name", price: "Item Price" },
-  { img: "img", name: "Item Name", price: "Item Price" },
-  { img: "img", name: "Item Name", price: "Item Price" },
+  { img: 'img', name: 'Item Name', price: 'Item Price' },
+  { img: 'img', name: 'Item Name', price: 'Item Price' },
+  { img: 'img', name: 'Item Name', price: 'Item Price' },
+  { img: 'img', name: 'Item Name', price: 'Item Price' },
+  { img: 'img', name: 'Item Name', price: 'Item Price' },
+  { img: 'img', name: 'Item Name', price: 'Item Price' },
+  { img: 'img', name: 'Item Name', price: 'Item Price' },
+  { img: 'img', name: 'Item Name', price: 'Item Price' },
+  { img: 'img', name: 'Item Name', price: 'Item Price' },
+  { img: 'img', name: 'Item Name', price: 'Item Price' },
+  { img: 'img', name: 'Item Name', price: 'Item Price' },
+  { img: 'img', name: 'Item Name', price: 'Item Price' },
+  { img: 'img', name: 'Item Name', price: 'Item Price' },
   // Add more items as needed
-];
+]
 
 function MarketPage() {
   return (
@@ -62,7 +57,7 @@ function MarketPage() {
           <SelectTrigger className="w-[120px]">
             <SelectValue placeholder="Price (SAR)" />
             <SelectContent>
-              <SelectItem value="<100">{"<"}100</SelectItem>
+              <SelectItem value="<100">{'<'}100</SelectItem>
               <SelectItem value="100-250">100-250</SelectItem>
               <SelectItem value="250-500">250-500</SelectItem>
               <SelectItem value="500-750">500-750</SelectItem>
@@ -115,5 +110,5 @@ function MarketPage() {
         ))}
       </div>
     </main>
-  );
+  )
 }

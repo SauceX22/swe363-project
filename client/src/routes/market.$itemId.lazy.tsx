@@ -1,20 +1,27 @@
-import { createLazyFileRoute } from "@tanstack/react-router";
+import { getMarketItemDetailsSample } from '@/lib/sample-api'
+import { createLazyFileRoute } from '@tanstack/react-router'
 
-export const Route = createLazyFileRoute("/card-detail")({
-  component: CardDetail,
-});
+export const Route = createLazyFileRoute('/market/$itemId')({
+  component: ItemDetails,
+})
 
-function CardDetail() {
+function ItemDetails() {
+  const { itemId } = Route.useParams()
+
+  const itemDetails = getMarketItemDetailsSample({
+    itemId,
+  })
+
   return (
-    <main className="flex flex-col items-center bg-gray-200 p-8 min-h-screen">
+    <main className="flex min-h-screen flex-col items-center bg-gray-200 p-8">
       <div
-        className="flex rounded-[35px] bg-white shadow-lg p-10 mb-10"
-        style={{ width: "1500px", height: "700px" }}
+        className="mb-10 flex rounded-[35px] bg-white p-10 shadow-lg"
+        style={{ width: '1500px', height: '700px' }}
       >
         <img
           src="/src/assets/placeholder.png"
           alt="Item Image"
-          className="w-[650px] h-[600px] rounded-[16px] object-cover"
+          className="h-[600px] w-[650px] rounded-[16px] object-cover"
         />
 
         <div className="ml-10 flex flex-col justify-between">
@@ -37,7 +44,7 @@ function CardDetail() {
 
       <div
         className="rounded-[35px] bg-white p-5 shadow-lg"
-        style={{ width: "1500px", height: "350px" }}
+        style={{ width: '1500px', height: '350px' }}
       >
         <h3 className="mb-4 text-[1.75rem] font-semibold">Similar Items</h3>
         <div className="flex space-x-4 overflow-x-auto">
@@ -45,12 +52,12 @@ function CardDetail() {
             <div
               key={index}
               className="flex flex-col rounded-[16px] bg-[#64748B] p-3 text-white"
-              style={{ width: "210px", height: "250px" }}
+              style={{ width: '210px', height: '250px' }}
             >
               <img
                 src="/src/assets/placeholder.png"
                 alt="Similar Item"
-                className="w-[188px] h-[177px] rounded-[16px] object-cover"
+                className="h-[177px] w-[188px] rounded-[16px] object-cover"
               />
               <p className="mt-2 text-left text-lg font-medium">
                 Name of the item
@@ -61,7 +68,7 @@ function CardDetail() {
         </div>
       </div>
     </main>
-  );
+  )
 }
 
-export default CardDetail;
+export default ItemDetails

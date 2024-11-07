@@ -6,14 +6,15 @@ import { createRootRoute, Outlet } from "@tanstack/react-router";
 
 export const Route = createRootRoute({
   component: () => {
+    // get path from url
+    const isAuthPage = window.location.pathname.includes("/login");
+
     return (
       <body>
-        <Navbar />
-        <main className="px-64 py-8">
-          <Providers>
-            <Outlet />
-          </Providers>
-        </main>
+        {!isAuthPage ? <Navbar /> : null}
+        <Providers>
+          <Outlet />
+        </Providers>
       </body>
     );
   },

@@ -137,7 +137,7 @@ function NavLink({
   return (
     <Link
       href={href}
-      className={`text-primary-foreground transition-colors duration-200 ease-in-out ${mobile ? mobileClasses : desktopClasses}`}
+      className={`text-primary-foreground transition-colors duration-200 ease-in-out hover:bg-primary/80 hover:text-primary-foreground/80 hover:underline ${mobile ? mobileClasses : desktopClasses}`}
     >
       {children}
     </Link>

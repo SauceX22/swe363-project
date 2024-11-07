@@ -1,5 +1,22 @@
 import { getMarketItemDetailsSample } from "@/routers/market";
 import { createFileRoute, redirect } from "@tanstack/react-router";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 export const Route = createFileRoute("/market/$itemId")({
   component: ItemDetails,
@@ -8,7 +25,7 @@ export const Route = createFileRoute("/market/$itemId")({
     const { item, similarItems } = await getMarketItemDetailsSample({
       itemId,
     });
-    // if the id isn't there or something
+    // if the id isn't proper or doesn't exist, redirect to the market page
     if (!item) {
       throw redirect({
         to: "/market",
@@ -22,63 +39,78 @@ function ItemDetails() {
   const { item: itemDetails, similarItems } = Route.useLoaderData();
 
   return (
-    <main className="flex min-h-screen flex-col items-center bg-gray-200 p-4 md:p-8">
-      <div className="mb-10 flex flex-col rounded-3xl bg-white p-6 shadow-lg md:flex-row md:p-10 lg:w-11/12 xl:w-10/12">
-        <img
-          src={itemDetails.image}
-          alt={itemDetails.name}
-          className="h-64 w-full rounded-2xl object-cover md:h-[600px] md:w-1/2 lg:w-[650px]"
-        />
-
-        <div className="mt-6 flex flex-col justify-between md:ml-10 md:mt-0 md:w-1/2">
-          <div>
-            <h2 className="text-3xl font-bold md:text-4xl">
-              {itemDetails.name}
-            </h2>
-            <span className="mt-2 inline-block rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-800">
-              {itemDetails.tag}
-            </span>
-            <h3 className="mt-4 text-2xl font-bold md:text-3xl">
-              ${itemDetails.price}
-            </h3>
-            <p className="mt-2 text-base text-gray-600 md:text-lg">
-              {itemDetails.description}
-            </p>
-          </div>
-
-          <button className="mt-8 w-full rounded-full bg-slate-500 py-3 text-lg font-medium text-white transition-colors hover:bg-slate-600 md:w-1/2">
-            Get In Contact
-          </button>
+    <main className="flex min-h-screen flex-col items-center bg-background p-4 md:p-8">
+      <Card className="mb-8 flex w-full flex-row gap-8 p-6 md:p-10 lg:w-11/12 xl:w-10/12">
+        <CardHeader className="p-0">
+          <img
+            src={itemDetails.image}
+            alt={itemDetails.name}
+            className="aspect-square h-64 rounded-lg object-cover md:h-[600px] md:w-1/2 lg:w-[650px]"
+          />
+        </CardHeader>
+        <div className="flex flex-col items-start justify-between gap-4 p-0">
+          <CardContent className="justify-between p-0 md:ml-10 md:mt-0 md:w-1/2">
+            <div>
+              <CardTitle className="text-3xl font-bold md:text-4xl">
+                {itemDetails.name}
+              </CardTitle>
+              <Badge variant="secondary" className="mt-2 text-lg">
+                {itemDetails.tag}
+              </Badge>
+              <p className="mt-4 text-2xl font-bold md:text-3xl">
+                ${itemDetails.price}
+              </p>
+              <CardDescription className="mt-2 text-base md:text-lg">
+                {itemDetails.description}
+              </CardDescription>
+            </div>
+          </CardContent>
+          <CardFooter className="w-full p-0">
+            <Button size="lg" className="w-full">
+              Get In Contact
+            </Button>
+          </CardFooter>
         </div>
-      </div>
+      </Card>
 
-      <div className="rounded-3xl bg-white p-5 shadow-lg lg:w-11/12 xl:w-10/12">
-        <h3 className="mb-4 text-2xl font-semibold md:text-[1.75rem]">
-          Similar Items
-        </h3>
-        <div className="relative">
-          <div className="scrollbar-hide flex space-x-4 overflow-x-auto pb-4">
-            {similarItems.map((item) => (
-              <div
-                key={item.id}
-                className="flex min-w-[210px] flex-col rounded-2xl bg-slate-500 p-3 text-white"
-              >
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="h-44 w-full rounded-2xl object-cover"
-                />
-                <p className="mt-2 text-left text-lg font-medium">
-                  {item.name}
-                </p>
-                <p className="text-left text-lg font-medium">${item.price}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+      <Card className="w-full lg:w-11/12 xl:w-10/12">
+        <CardHeader>
+          <CardTitle className="text-2xl md:text-[1.75rem]">
+            Similar Items
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Carousel className="w-full" opts={{ align: "start" }}>
+            <CarouselContent className="-ml-4 flex snap-none">
+              {similarItems.map((item: any) => (
+                <CarouselItem
+                  key={item.id}
+                  className="basis-full pl-4 sm:basis-1/2 md:basis-1/3 lg:basis-[1/4]"
+                >
+                  <Card className="flex h-full w-64 flex-col p-4">
+                    <CardHeader className="p-0">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="aspect-square w-full object-cover"
+                      />
+                    </CardHeader>
+                    <CardContent className="p-0">
+                      <CardTitle className="mt-2 text-lg font-medium">
+                        {item.name}
+                      </CardTitle>
+                      <p className="text-lg font-medium">${item.price}</p>
+                      <CardDescription>{item.description}</CardDescription>
+                    </CardContent>
+                  </Card>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious variant="default" className="h-full" />
+            <CarouselNext variant="default" className="h-full" />
+          </Carousel>
+        </CardContent>
+      </Card>
     </main>
   );
 }
-
-export default ItemDetails;

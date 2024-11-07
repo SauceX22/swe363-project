@@ -4,6 +4,7 @@ const sampleMarketItems: MarketItem[] = [
   {
     id: "1",
     name: "Vintage Desk Lamp",
+    datePosted: new Date(),
     price: 50,
     description:
       "Very good lamp, bright light, easy on the eyes. Perfect for your home office or study area.",
@@ -13,6 +14,7 @@ const sampleMarketItems: MarketItem[] = [
   {
     id: "2",
     name: "Modern Floor Lamp",
+    datePosted: new Date(),
     price: 75,
     description:
       "Stylish floor lamp with a modern design. Best suited for contemporary living spaces.",
@@ -22,6 +24,7 @@ const sampleMarketItems: MarketItem[] = [
   {
     id: "3",
     name: "Table Lamp",
+    datePosted: new Date(),
     price: 40,
     description:
       "Compact and elegant table lamp. It provides excellent focused lighting.",
@@ -31,6 +34,7 @@ const sampleMarketItems: MarketItem[] = [
   {
     id: "4",
     name: "Wall Sconce",
+    datePosted: new Date(),
     price: 35,
     description:
       "Wall-mounted sconce that adds a touch of class to any room. Ideal for hallways or bedrooms.",
@@ -40,6 +44,7 @@ const sampleMarketItems: MarketItem[] = [
   {
     id: "5",
     name: "Pendant Light",
+    datePosted: new Date(),
     price: 60,
     description: "Hanging pendant light perfect for dining rooms and kitchens.",
     image: "/src/assets/placeholder.png",
@@ -48,6 +53,7 @@ const sampleMarketItems: MarketItem[] = [
   {
     id: "6",
     name: "Desk Lamp",
+    datePosted: new Date(),
     price: 45,
     description:
       "Adjustable desk lamp with LED lighting for efficient workspace illumination.",
@@ -57,6 +63,7 @@ const sampleMarketItems: MarketItem[] = [
   {
     id: "7",
     name: "Reading Light",
+    datePosted: new Date(),
     price: 30,
     description:
       "Perfect reading light with adjustable neck for personalized lighting.",
@@ -66,6 +73,7 @@ const sampleMarketItems: MarketItem[] = [
   {
     id: "8",
     name: "Smart Lamp",
+    datePosted: new Date(),
     price: 80,
     description:
       "Smart lamp with connectivity options for remote control and automation.",
@@ -75,6 +83,7 @@ const sampleMarketItems: MarketItem[] = [
   {
     id: "9",
     name: "LED Lamp",
+    datePosted: new Date(),
     price: 55,
     description: "Energy-efficient LED lamp with long-lasting brightness.",
     image: "/src/assets/placeholder.png",

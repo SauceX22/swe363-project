@@ -44,7 +44,7 @@ function ItemDetails() {
       <Card className="mb-8 flex w-full flex-row gap-8 p-6 md:p-10 lg:w-11/12 xl:w-10/12">
         <CardHeader className="p-0">
           <img
-            src={itemDetails.image}
+            src={itemDetails.image ?? "/src/assets/placeholder.png"}
             alt={itemDetails.name}
             className="aspect-square h-64 rounded-lg object-cover md:h-[600px] md:w-1/2 lg:w-[650px]"
           />

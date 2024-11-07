@@ -16,7 +16,7 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="select-none bg-secondary shadow-md">
+    <nav className="select-none bg-primary shadow-md">
       <div className="mx-auto max-w-[110rem] px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
@@ -131,15 +131,13 @@ function NavLink({
   children: React.ReactNode;
   mobile?: boolean;
 }) {
-  const baseClasses =
-    "text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-colors duration-200 ease-in-out";
   const desktopClasses = "px-3 py-2 rounded-md text-sm font-medium";
   const mobileClasses = "block px-3 py-2 rounded-md text-base font-medium";
 
   return (
     <Link
       href={href}
-      className={`${baseClasses} ${mobile ? mobileClasses : desktopClasses}`}
+      className={`text-primary-foreground transition-colors duration-200 ease-in-out ${mobile ? mobileClasses : desktopClasses}`}
     >
       {children}
     </Link>
@@ -152,7 +150,7 @@ function ProfileDropdown() {
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
-          className="flex items-center transition-colors duration-200 ease-in-out"
+          className="flex items-center bg-secondary transition-colors duration-200 ease-in-out hover:bg-secondary/80"
         >
           <Avatar className="mr-2 h-8 w-8">
             <AvatarImage src="/placeholder.svg" alt="User Avatar" />

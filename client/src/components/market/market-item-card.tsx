@@ -10,13 +10,13 @@ import { Link } from "@tanstack/react-router";
 
 export function MarketItemCard({ item }: { item: MarketItem }) {
   return (
-    <Link to={`/market/${item.id}`}>
-      <Card className="flex h-full w-64 flex-col p-4">
+    <Link to={`/market/${item.id}`} className="w-fit">
+      <Card className="flex h-full w-64 flex-col bg-primary p-4 text-primary-foreground hover:bg-primary/90">
         <CardHeader className="p-0">
           <img
             src={item.image ?? "/src/assets/placeholder.png"}
             alt={item.name}
-            className="aspect-square w-full object-cover"
+            className="aspect-square w-full rounded-md object-cover"
           />
         </CardHeader>
         <CardContent className="p-0">
@@ -24,7 +24,9 @@ export function MarketItemCard({ item }: { item: MarketItem }) {
             {item.name}
           </CardTitle>
           <p className="text-lg font-medium">${item.price}</p>
-          <CardDescription>{item.description}</CardDescription>
+          <CardDescription className="text-wrap text-muted">
+            {item.description}
+          </CardDescription>
         </CardContent>
       </Card>
     </Link>

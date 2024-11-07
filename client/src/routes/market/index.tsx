@@ -38,13 +38,13 @@ function MarketItemsPage() {
   } = useFilterMarketItems(initialItems);
 
   return (
-    <main className="container mx-auto px-4 py-8">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">KFUPM Market</h1>
+    <main className="mx-auto w-fit px-4 py-8">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+        <h1 className="mb-4 text-2xl font-bold sm:mb-0">KFUPM Market</h1>
       </div>
       <Separator className="my-4" />
-      <div className="mb-8 flex flex-wrap items-end gap-4">
-        <div className="w-full max-w-sm flex-grow sm:w-auto">
+      <div className="mb-8 grid items-end gap-4 sm:grid-cols-3 lg:grid-cols-5">
+        <div className="w-full">
           <Label htmlFor="search">Search</Label>
           <Input
             id="search"
@@ -54,7 +54,7 @@ function MarketItemsPage() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <div className="w-full max-w-[12rem]">
+        <div className="w-full">
           <Label htmlFor="price">Price (SAR)</Label>
           <Select value={priceRange} onValueChange={setPriceRange}>
             <SelectTrigger id="price">
@@ -71,7 +71,7 @@ function MarketItemsPage() {
             </SelectContent>
           </Select>
         </div>
-        <div className="w-full max-w-[12rem]">
+        <div className="w-full">
           <Label htmlFor="category">Category</Label>
           <Select value={category} onValueChange={setCategory}>
             <SelectTrigger id="category">
@@ -85,7 +85,7 @@ function MarketItemsPage() {
             </SelectContent>
           </Select>
         </div>
-        <div className="w-full max-w-[12rem]">
+        <div className="w-full">
           <Label htmlFor="sort">Sort by</Label>
           <Select value={sortBy} onValueChange={setSortBy}>
             <SelectTrigger id="sort">
@@ -101,14 +101,15 @@ function MarketItemsPage() {
           </Select>
         </div>
         <Link
-          className={cn(buttonVariants(), "ml-auto w-full max-w-[16rem]")}
-          // TODO to="/market/new"
+          className={cn(buttonVariants(), "w-full sm:w-auto")}
+          // TODO: Update with correct route when available
+          // to="/market/new"
         >
           Add Yours!
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+      <div className="grid justify-center gap-4 sm:grid-cols-2 md:grid-cols-3 md:justify-start lg:grid-cols-4 xl:grid-cols-5">
         {filteredItems.map((item) => (
           <MarketItemCard key={item.id} item={item} />
         ))}

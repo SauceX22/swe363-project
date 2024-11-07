@@ -1,4 +1,6 @@
-const sampleSimilarItems = [
+import type { MarketItem } from "@/types";
+
+const sampleMarketItems: MarketItem[] = [
   {
     id: "1",
     name: "Vintage Desk Lamp",
@@ -82,9 +84,15 @@ const sampleSimilarItems = [
 
 // Mock implementation of getMarketItemDetailsSample
 export function getMarketItemDetailsSample({ itemId }: { itemId: string }) {
-  const itemDetails = sampleSimilarItems.find((item) => item.id === itemId);
+  const itemDetails = sampleMarketItems.find((item) => item.id === itemId);
   return {
     item: itemDetails,
-    similarItems: sampleSimilarItems,
+    similarItems: sampleMarketItems,
+  };
+}
+
+export function getMarketItemsSample() {
+  return {
+    items: sampleMarketItems,
   };
 }

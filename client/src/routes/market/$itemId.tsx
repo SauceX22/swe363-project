@@ -17,6 +17,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { MarketItemCard } from "@/components/market/market-item-card";
 
 export const Route = createFileRoute("/market/$itemId")({
   component: ItemDetails,
@@ -87,22 +88,7 @@ function ItemDetails() {
                   key={item.id}
                   className="basis-full pl-4 sm:basis-1/2 md:basis-1/3 lg:basis-[1/4]"
                 >
-                  <Card className="flex h-full w-64 flex-col p-4">
-                    <CardHeader className="p-0">
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="aspect-square w-full object-cover"
-                      />
-                    </CardHeader>
-                    <CardContent className="p-0">
-                      <CardTitle className="mt-2 text-lg font-medium">
-                        {item.name}
-                      </CardTitle>
-                      <p className="text-lg font-medium">${item.price}</p>
-                      <CardDescription>{item.description}</CardDescription>
-                    </CardContent>
-                  </Card>
+                  <MarketItemCard item={item} />
                 </CarouselItem>
               ))}
             </CarouselContent>

@@ -1,10 +1,5 @@
+import { MarketItemCard } from "@/components/market/market-item-card";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -15,41 +10,20 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { getMarketItemsSample } from "@/routers/market";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/market/")({
   component: MarketPage,
+  loader: async () => {
+    const { items } = await getMarketItemsSample();
+    return { items };
+  },
 });
 
-interface Item {
-  img: string;
-  name: string;
-  price: string;
-}
-
-const items: Item[] = [
-  {
-    img: "landscape-placeholder-svgrepo-com.svg",
-    name: "Item Name",
-    price: "Item Price",
-  },
-  { img: "img", name: "Item Name", price: "Item Price" },
-  { img: "img", name: "Item Name", price: "Item Price" },
-  { img: "img", name: "Item Name", price: "Item Price" },
-  { img: "img", name: "Item Name", price: "Item Price" },
-  { img: "img", name: "Item Name", price: "Item Price" },
-  { img: "img", name: "Item Name", price: "Item Price" },
-  { img: "img", name: "Item Name", price: "Item Price" },
-  { img: "img", name: "Item Name", price: "Item Price" },
-  { img: "img", name: "Item Name", price: "Item Price" },
-  { img: "img", name: "Item Name", price: "Item Price" },
-  { img: "img", name: "Item Name", price: "Item Price" },
-  { img: "img", name: "Item Name", price: "Item Price" },
-  { img: "img", name: "Item Name", price: "Item Price" },
-  // Add more items as needed
-];
-
 function MarketPage() {
+  const { items } = Route.useLoaderData();
+
   return (
     <main className="px-64 py-8">
       <div className="flex justify-between">
@@ -101,17 +75,7 @@ function MarketPage() {
 
       <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-5 lg:grid-cols-5">
         {items.map((item) => (
-          <Card>
-            <CardHeader></CardHeader>
-            <CardContent>
-              <img src="https://placehold.co/600x400" alt="Item image" />
-            </CardContent>
-            <CardFooter className="flex flex-col">
-              <p>{item.name}</p>
-
-              <p>{item.price}</p>
-            </CardFooter>
-          </Card>
+          <MarketItemCard item={item} />
         ))}
       </div>
     </main>

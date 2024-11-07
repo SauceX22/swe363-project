@@ -1,5 +1,5 @@
-import { MarketItemCard } from "@/components/market/market-item-card";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { FoundItemCard } from "@/components/found/found-item-card";
+import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -10,37 +10,35 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { useFilterMarketItems } from "@/hooks/use-filter-market-items";
+import { useFilterFoundItems } from "@/hooks/use-filter-found-items";
 import { cn } from "@/lib/utils";
-import { getMarketItems } from "@/routers/market";
+import { getFoundItems } from "@/routers/found";
 import { createFileRoute, Link } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/market/")({
-  component: MarketItemsPage,
+export const Route = createFileRoute("/found/")({
+  component: FoundItemsPage,
   loader: async () => {
-    const { items } = await getMarketItems();
+    const { items } = await getFoundItems();
     return { items };
   },
 });
 
-function MarketItemsPage() {
+function FoundItemsPage() {
   const { items: initialItems } = Route.useLoaderData();
   const {
     filteredItems,
     searchTerm,
     setSearchTerm,
-    priceRange,
-    setPriceRange,
     category,
     setCategory,
     sortBy,
     setSortBy,
-  } = useFilterMarketItems(initialItems);
+  } = useFilterFoundItems(initialItems);
 
   return (
     <main className="container mx-auto px-4 py-8">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">KFUPM Market</h1>
+        <h1 className="text-2xl font-bold">KFUPM Found</h1>
       </div>
       <Separator className="my-4" />
       <div className="mb-8 flex flex-wrap items-end gap-4">
@@ -53,23 +51,6 @@ function MarketItemsPage() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-        </div>
-        <div className="w-full max-w-[12rem]">
-          <Label htmlFor="price">Price (SAR)</Label>
-          <Select value={priceRange} onValueChange={setPriceRange}>
-            <SelectTrigger id="price">
-              <SelectValue placeholder="Price" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="any">Any</SelectItem>
-              <SelectItem value="<100">{"<"}100</SelectItem>
-              <SelectItem value="100-250">100-250</SelectItem>
-              <SelectItem value="250-500">250-500</SelectItem>
-              <SelectItem value="500-750">500-750</SelectItem>
-              <SelectItem value="750-1000">750-1000</SelectItem>
-              <SelectItem value="1000+">1000+</SelectItem>
-            </SelectContent>
-          </Select>
         </div>
         <div className="w-full max-w-[12rem]">
           <Label htmlFor="category">Category</Label>
@@ -102,7 +83,7 @@ function MarketItemsPage() {
         </div>
         <Link
           className={cn(buttonVariants(), "ml-auto w-full max-w-[16rem]")}
-          // TODO to="/market/new"
+          // TsODO to="/found/new"
         >
           Add Yours!
         </Link>
@@ -110,7 +91,7 @@ function MarketItemsPage() {
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         {filteredItems.map((item) => (
-          <MarketItemCard key={item.id} item={item} />
+          <FoundItemCard key={item.id} item={item} />
         ))}
       </div>
     </main>

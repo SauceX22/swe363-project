@@ -1,4 +1,4 @@
-import { getMarketItemDetails } from "@/routers/market";
+import { getFoundItemDetails } from "@/routers/found";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import {
   Card,
@@ -17,26 +17,26 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { MarketItemCard } from "@/components/market/market-item-card";
+import { FoundItemCard } from "@/components/found/found-item-card";
 
-export const Route = createFileRoute("/market/$itemId")({
-  component: MarketItemDetailsPage,
+export const Route = createFileRoute("/found/$itemId")({
+  component: FoundItemDetailsPage,
   loader: async ({ params }) => {
     const { itemId } = params;
-    const { item, similarItems } = await getMarketItemDetails({
+    const { item, similarItems } = await getFoundItemDetails({
       itemId,
     });
-    // if the id isn't proper or doesn't exist, redirect to the market page
+    // if the id isn't proper or doesn't exist, redirect to the found page
     if (!item) {
       throw redirect({
-        to: "/market",
+        to: "/found",
       });
     }
     return { item, similarItems };
   },
 });
 
-function MarketItemDetailsPage() {
+function FoundItemDetailsPage() {
   const { item: itemDetails, similarItems } = Route.useLoaderData();
 
   return (
@@ -58,9 +58,6 @@ function MarketItemDetailsPage() {
               <Badge variant="secondary" className="mt-2 text-lg">
                 {itemDetails.tag}
               </Badge>
-              <p className="mt-4 text-2xl font-bold md:text-3xl">
-                ${itemDetails.price}
-              </p>
               <CardDescription className="mt-2 text-base md:text-lg">
                 {itemDetails.description}
               </CardDescription>
@@ -88,7 +85,7 @@ function MarketItemDetailsPage() {
                   key={item.id}
                   className="basis-full pl-4 sm:basis-1/2 md:basis-1/3 lg:basis-[1/4]"
                 >
-                  <MarketItemCard item={item} />
+                  <FoundItemCard item={item} />
                 </CarouselItem>
               ))}
             </CarouselContent>

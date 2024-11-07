@@ -7,3 +7,12 @@ export type MarketItem = {
   price: number;
   tag: string;
 };
+
+export type FoundItem = {
+  id: string;
+  name: string;
+  description: string;
+  datePosted: Date;
+  image: string | null;
+  tag: string;
+};

@@ -14,14 +14,23 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as MarketIndexImport } from './routes/market/index'
+import { Route as FoundIndexImport } from './routes/found/index'
 import { Route as MarketItemIdImport } from './routes/market/$itemId'
+import { Route as FoundItemIdImport } from './routes/found/$itemId'
 
 // Create Virtual Routes
 
+const MyitemsLazyImport = createFileRoute('/myitems')()
 const LoginLazyImport = createFileRoute('/login')()
 const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
+
+const MyitemsLazyRoute = MyitemsLazyImport.update({
+  id: '/myitems',
+  path: '/myitems',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/myitems.lazy').then((d) => d.Route))
 
 const LoginLazyRoute = LoginLazyImport.update({
   id: '/login',
@@ -41,9 +50,21 @@ const MarketIndexRoute = MarketIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const FoundIndexRoute = FoundIndexImport.update({
+  id: '/found/',
+  path: '/found/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const MarketItemIdRoute = MarketItemIdImport.update({
   id: '/market/$itemId',
   path: '/market/$itemId',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const FoundItemIdRoute = FoundItemIdImport.update({
+  id: '/found/$itemId',
+  path: '/found/$itemId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -65,11 +86,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginLazyImport
       parentRoute: typeof rootRoute
     }
+    '/myitems': {
+      id: '/myitems'
+      path: '/myitems'
+      fullPath: '/myitems'
+      preLoaderRoute: typeof MyitemsLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/found/$itemId': {
+      id: '/found/$itemId'
+      path: '/found/$itemId'
+      fullPath: '/found/$itemId'
+      preLoaderRoute: typeof FoundItemIdImport
+      parentRoute: typeof rootRoute
+    }
     '/market/$itemId': {
       id: '/market/$itemId'
       path: '/market/$itemId'
       fullPath: '/market/$itemId'
       preLoaderRoute: typeof MarketItemIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/found/': {
+      id: '/found/'
+      path: '/found'
+      fullPath: '/found'
+      preLoaderRoute: typeof FoundIndexImport
       parentRoute: typeof rootRoute
     }
     '/market/': {
@@ -87,14 +129,20 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/login': typeof LoginLazyRoute
+  '/myitems': typeof MyitemsLazyRoute
+  '/found/$itemId': typeof FoundItemIdRoute
   '/market/$itemId': typeof MarketItemIdRoute
+  '/found': typeof FoundIndexRoute
   '/market': typeof MarketIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/login': typeof LoginLazyRoute
+  '/myitems': typeof MyitemsLazyRoute
+  '/found/$itemId': typeof FoundItemIdRoute
   '/market/$itemId': typeof MarketItemIdRoute
+  '/found': typeof FoundIndexRoute
   '/market': typeof MarketIndexRoute
 }
 
@@ -102,30 +150,61 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
   '/login': typeof LoginLazyRoute
+  '/myitems': typeof MyitemsLazyRoute
+  '/found/$itemId': typeof FoundItemIdRoute
   '/market/$itemId': typeof MarketItemIdRoute
+  '/found/': typeof FoundIndexRoute
   '/market/': typeof MarketIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/market/$itemId' | '/market'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/myitems'
+    | '/found/$itemId'
+    | '/market/$itemId'
+    | '/found'
+    | '/market'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/market/$itemId' | '/market'
-  id: '__root__' | '/' | '/login' | '/market/$itemId' | '/market/'
+  to:
+    | '/'
+    | '/login'
+    | '/myitems'
+    | '/found/$itemId'
+    | '/market/$itemId'
+    | '/found'
+    | '/market'
+  id:
+    | '__root__'
+    | '/'
+    | '/login'
+    | '/myitems'
+    | '/found/$itemId'
+    | '/market/$itemId'
+    | '/found/'
+    | '/market/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   LoginLazyRoute: typeof LoginLazyRoute
+  MyitemsLazyRoute: typeof MyitemsLazyRoute
+  FoundItemIdRoute: typeof FoundItemIdRoute
   MarketItemIdRoute: typeof MarketItemIdRoute
+  FoundIndexRoute: typeof FoundIndexRoute
   MarketIndexRoute: typeof MarketIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   LoginLazyRoute: LoginLazyRoute,
+  MyitemsLazyRoute: MyitemsLazyRoute,
+  FoundItemIdRoute: FoundItemIdRoute,
   MarketItemIdRoute: MarketItemIdRoute,
+  FoundIndexRoute: FoundIndexRoute,
   MarketIndexRoute: MarketIndexRoute,
 }
 
@@ -141,7 +220,10 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/login",
+        "/myitems",
+        "/found/$itemId",
         "/market/$itemId",
+        "/found/",
         "/market/"
       ]
     },
@@ -151,8 +233,17 @@ export const routeTree = rootRoute
     "/login": {
       "filePath": "login.lazy.tsx"
     },
+    "/myitems": {
+      "filePath": "myitems.lazy.tsx"
+    },
+    "/found/$itemId": {
+      "filePath": "found/$itemId.tsx"
+    },
     "/market/$itemId": {
       "filePath": "market/$itemId.tsx"
+    },
+    "/found/": {
+      "filePath": "found/index.tsx"
     },
     "/market/": {
       "filePath": "market/index.tsx"

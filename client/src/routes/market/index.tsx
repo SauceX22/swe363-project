@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { useFilterMarketItems } from "@/hooks/use-filter-market-items";
+import { cn } from "@/lib/utils";
 import { getMarketItemsSample } from "@/routers/market";
 import { createFileRoute, Link } from "@tanstack/react-router";
 
@@ -42,8 +43,8 @@ function MarketPage() {
         <h1 className="text-2xl font-bold">KFUPM Market</h1>
       </div>
       <Separator className="my-4" />
-      <div className="mb-8 grid grid-cols-1 items-end gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-        <div className="col-span-full sm:col-span-2">
+      <div className="mb-8 flex flex-wrap items-end gap-4">
+        <div className="w-full max-w-sm flex-grow sm:w-auto">
           <Label htmlFor="search">Search</Label>
           <Input
             id="search"
@@ -53,14 +54,14 @@ function MarketPage() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <div>
+        <div className="w-full max-w-[12rem]">
           <Label htmlFor="price">Price (SAR)</Label>
           <Select value={priceRange} onValueChange={setPriceRange}>
             <SelectTrigger id="price">
               <SelectValue placeholder="Price" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="any">Any Price</SelectItem>
+              <SelectItem value="any">Any</SelectItem>
               <SelectItem value="<100">{"<"}100</SelectItem>
               <SelectItem value="100-250">100-250</SelectItem>
               <SelectItem value="250-500">250-500</SelectItem>
@@ -70,21 +71,21 @@ function MarketPage() {
             </SelectContent>
           </Select>
         </div>
-        <div>
+        <div className="w-full max-w-[12rem]">
           <Label htmlFor="category">Category</Label>
           <Select value={category} onValueChange={setCategory}>
             <SelectTrigger id="category">
               <SelectValue placeholder="Category" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Categories</SelectItem>
+              <SelectItem value="all">Any</SelectItem>
               <SelectItem value="Technology">Technology</SelectItem>
               <SelectItem value="Fashion">Fashion</SelectItem>
               <SelectItem value="Others">Others</SelectItem>
             </SelectContent>
           </Select>
         </div>
-        <div>
+        <div className="w-full max-w-[12rem]">
           <Label htmlFor="sort">Sort by</Label>
           <Select value={sortBy} onValueChange={setSortBy}>
             <SelectTrigger id="sort">
@@ -100,7 +101,7 @@ function MarketPage() {
           </Select>
         </div>
         <Link
-          className={buttonVariants()}
+          className={cn(buttonVariants(), "ml-auto w-full max-w-[16rem]")}
           // TODO to="/market/new"
         >
           Add Yours!

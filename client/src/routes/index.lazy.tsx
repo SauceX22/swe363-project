@@ -1,4 +1,4 @@
-import viteLogo from "/vite.svg";
+import mafqoodLogo from "/logo.svg";
 import { useState } from "react";
 
 import { createLazyFileRoute } from "@tanstack/react-router";
@@ -18,7 +18,20 @@ function App() {
     <>
       <div className="flex items-center justify-center gap-x-6">
         <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
+          <svg
+            width="42"
+            height="27"
+            viewBox="0 0 42 27"
+            fill="#eee"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M12.5922 26.168L41.2542 26.168L29.186 18.5347L0.523919 18.5347L12.5922 26.168ZM29.1862 18.5347L29.1862 0.40567L41.2544 8.03893V26.1679L29.1862 18.5347Z"
+              fill="#000"
+            />
+          </svg>
         </a>
         <a href="https://react.dev" target="_blank">
           <img src={reactLogo} className="logo react" alt="React logo" />

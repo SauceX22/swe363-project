@@ -27,7 +27,8 @@ function LoginPage() {
 
         <Button
           type="button"
-          className="mt-8 h-[64px] w-[369px] rounded-[57px] bg-[#F9F9F9] text-lg font-medium text-[#64748B]"
+          size="lg"
+          className="mt-8 w-full max-w-sm py-8 text-lg"
         >
           Login with KFUPM Email
         </Button>

@@ -14,8 +14,8 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as NotFoundImport } from './routes/not-found'
-import { Route as MainPageImport } from './routes/mainPage'
 import { Route as ContactUsImport } from './routes/contact-us'
+import { Route as IndexImport } from './routes/index'
 import { Route as MarketIndexImport } from './routes/market/index'
 import { Route as FoundIndexImport } from './routes/found/index'
 import { Route as MarketItemIdImport } from './routes/market/$itemId'
@@ -25,7 +25,6 @@ import { Route as FoundItemIdImport } from './routes/found/$itemId'
 
 const MyitemsLazyImport = createFileRoute('/myitems')()
 const LoginLazyImport = createFileRoute('/login')()
-const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
 
@@ -47,23 +46,17 @@ const NotFoundRoute = NotFoundImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const MainPageRoute = MainPageImport.update({
-  id: '/mainPage',
-  path: '/mainPage',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const ContactUsRoute = ContactUsImport.update({
   id: '/contact-us',
   path: '/contact-us',
   getParentRoute: () => rootRoute,
 } as any)
 
-const IndexLazyRoute = IndexLazyImport.update({
+const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+} as any)
 
 const MarketIndexRoute = MarketIndexImport.update({
   id: '/market/',
@@ -97,7 +90,7 @@ declare module '@tanstack/react-router' {
       id: '/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexLazyImport
+      preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
     '/contact-us': {
@@ -105,13 +98,6 @@ declare module '@tanstack/react-router' {
       path: '/contact-us'
       fullPath: '/contact-us'
       preLoaderRoute: typeof ContactUsImport
-      parentRoute: typeof rootRoute
-    }
-    '/mainPage': {
-      id: '/mainPage'
-      path: '/mainPage'
-      fullPath: '/mainPage'
-      preLoaderRoute: typeof MainPageImport
       parentRoute: typeof rootRoute
     }
     '/not-found': {
@@ -169,9 +155,8 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexLazyRoute
+  '/': typeof IndexRoute
   '/contact-us': typeof ContactUsRoute
-  '/mainPage': typeof MainPageRoute
   '/not-found': typeof NotFoundRoute
   '/login': typeof LoginLazyRoute
   '/myitems': typeof MyitemsLazyRoute
@@ -182,9 +167,8 @@ export interface FileRoutesByFullPath {
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexLazyRoute
+  '/': typeof IndexRoute
   '/contact-us': typeof ContactUsRoute
-  '/mainPage': typeof MainPageRoute
   '/not-found': typeof NotFoundRoute
   '/login': typeof LoginLazyRoute
   '/myitems': typeof MyitemsLazyRoute
@@ -196,9 +180,8 @@ export interface FileRoutesByTo {
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexLazyRoute
+  '/': typeof IndexRoute
   '/contact-us': typeof ContactUsRoute
-  '/mainPage': typeof MainPageRoute
   '/not-found': typeof NotFoundRoute
   '/login': typeof LoginLazyRoute
   '/myitems': typeof MyitemsLazyRoute
@@ -213,7 +196,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/contact-us'
-    | '/mainPage'
     | '/not-found'
     | '/login'
     | '/myitems'
@@ -225,7 +207,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/contact-us'
-    | '/mainPage'
     | '/not-found'
     | '/login'
     | '/myitems'
@@ -237,7 +218,6 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/contact-us'
-    | '/mainPage'
     | '/not-found'
     | '/login'
     | '/myitems'
@@ -249,9 +229,8 @@ export interface FileRouteTypes {
 }
 
 export interface RootRouteChildren {
-  IndexLazyRoute: typeof IndexLazyRoute
+  IndexRoute: typeof IndexRoute
   ContactUsRoute: typeof ContactUsRoute
-  MainPageRoute: typeof MainPageRoute
   NotFoundRoute: typeof NotFoundRoute
   LoginLazyRoute: typeof LoginLazyRoute
   MyitemsLazyRoute: typeof MyitemsLazyRoute
@@ -262,9 +241,8 @@ export interface RootRouteChildren {
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexLazyRoute: IndexLazyRoute,
+  IndexRoute: IndexRoute,
   ContactUsRoute: ContactUsRoute,
-  MainPageRoute: MainPageRoute,
   NotFoundRoute: NotFoundRoute,
   LoginLazyRoute: LoginLazyRoute,
   MyitemsLazyRoute: MyitemsLazyRoute,
@@ -286,7 +264,6 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/contact-us",
-        "/mainPage",
         "/not-found",
         "/login",
         "/myitems",
@@ -297,13 +274,10 @@ export const routeTree = rootRoute
       ]
     },
     "/": {
-      "filePath": "index.lazy.tsx"
+      "filePath": "index.tsx"
     },
     "/contact-us": {
       "filePath": "contact-us.tsx"
-    },
-    "/mainPage": {
-      "filePath": "mainPage.tsx"
     },
     "/not-found": {
       "filePath": "not-found.tsx"

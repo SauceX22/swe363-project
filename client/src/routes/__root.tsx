@@ -2,7 +2,11 @@ import "@/App.css";
 import Providers from "@/components/config/providers";
 import { Navbar } from "@/components/layout/navbar";
 
-import { createRootRoute, Outlet } from "@tanstack/react-router";
+import {
+  createRootRoute,
+  Outlet,
+  ScrollRestoration,
+} from "@tanstack/react-router";
 
 export const Route = createRootRoute({
   component: () => {
@@ -13,6 +17,7 @@ export const Route = createRootRoute({
       <body>
         {!isAuthPage ? <Navbar /> : null}
         <Providers>
+          <ScrollRestoration />
           <Outlet />
         </Providers>
       </body>

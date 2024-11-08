@@ -29,8 +29,12 @@ function MainPage() {
         </div>
         <div className="absolute left-0 top-0 h-full w-full bg-slate-600 opacity-40"></div>
         <div className="absolute left-0 top-1/2 flex w-full -translate-y-1/2 flex-col items-center justify-center p-4 text-center text-white">
-          <h1 className="text-5xl font-bold sm:text-7xl lg:text-9xl">Mafqood</h1>
-          <p className="mb-6 mt-4 text-xl sm:mt-6 sm:text-2xl lg:mt-10 lg:text-3xl">Whether you lost it or need it!</p>
+          <h1 className="text-5xl font-bold sm:text-7xl lg:text-9xl">
+            Mafqood
+          </h1>
+          <p className="mb-6 mt-4 text-xl sm:mt-6 sm:text-2xl lg:mt-10 lg:text-3xl">
+            Whether you lost it or need it!
+          </p>
           <Link to="/found" className="w-fit">
             <Button className="h-10 w-40 sm:h-12 sm:w-48">Find it Now</Button>
           </Link>
@@ -54,11 +58,19 @@ function MainPage() {
       </div>
 
       <div className="flex w-full flex-col bg-[#64748B] lg:h-[600px] lg:flex-row lg:justify-evenly">
-        <img className="mx-auto h-auto max-w-full object-contain p-8 lg:w-1/2" src={worried} alt="Worried person illustration" />
+        <img
+          className="mx-auto h-auto max-w-full object-contain p-8 lg:w-1/2"
+          src={worried}
+          alt="Worried person illustration"
+        />
         <div className="flex flex-col justify-center p-8 text-white lg:w-1/2 lg:p-20">
           <h2 className="mb-2 text-2xl font-semibold">About Mafqood</h2>
           <p className="mb-4 text-sm sm:text-base">
-          Mafqood is a platform dedicated to helping you find items lost within KFUPM. Whether you've misplaced something or found an item on campus, Mafqood connects you directly with others to reunite items with their owners. Simply browse through posted items or add your own find, making it easy to recover what’s lost.
+            Mafqood is a platform dedicated to helping you find items lost
+            within KFUPM. Whether you've misplaced something or found an item on
+            campus, Mafqood connects you directly with others to reunite items
+            with their owners. Simply browse through posted items or add your
+            own find, making it easy to recover what’s lost.
           </p>
           <Link to="/found" className="w-fit">
             <Button className="w-24 bg-white text-[#64748B] hover:bg-white hover:text-[#64748B] hover:shadow-xl">
@@ -85,7 +97,9 @@ function MainPage() {
       </div>
 
       <div className="flex w-full flex-col items-center justify-between bg-[#64748B] p-8 sm:flex-row sm:p-14">
-        <h2 className="mb-4 text-2xl text-white sm:mb-0 sm:text-3xl">Need Help?</h2>
+        <h2 className="mb-4 text-2xl text-white sm:mb-0 sm:text-3xl">
+          Need Help?
+        </h2>
         <Link to="/contact-us" className="w-fit">
           <Button className="w-full bg-white text-[#64748B] hover:bg-white hover:text-[#64748B] hover:shadow-xl sm:w-60">
             Contact Us

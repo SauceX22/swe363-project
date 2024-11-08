@@ -275,9 +275,8 @@ export interface RootRouteChildren {
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexLazyRoute: IndexLazyRoute,
+  IndexRoute: IndexRoute,
   ContactUsRoute: ContactUsRoute,
-  MainPageRoute: MainPageRoute,
   NotFoundRoute: NotFoundRoute,
   LoginLazyRoute: LoginLazyRoute,
   MyitemsLazyRoute: MyitemsLazyRoute,
@@ -299,7 +298,6 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/contact-us",
-        "/mainPage",
         "/not-found",
         "/login",
         "/myitems",
@@ -320,9 +318,6 @@ export const routeTree = rootRoute
     },
     "/contact-us": {
       "filePath": "contact-us.tsx"
-    },
-    "/mainPage": {
-      "filePath": "mainPage.tsx"
     },
     "/not-found": {
       "filePath": "not-found.tsx"

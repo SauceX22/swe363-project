@@ -34,8 +34,6 @@ cd client
 npm install
 ```
 
-```
-
 ### 3. Run the Application
 
 #### Client

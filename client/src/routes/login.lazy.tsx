@@ -1,8 +1,10 @@
+import { NotFoundComponent } from "@/components/not-found";
 import { Button } from "@/components/ui/button";
 import { createLazyFileRoute } from "@tanstack/react-router";
 
 export const Route = createLazyFileRoute("/login")({
   component: LoginPage,
+  notFoundComponent: NotFoundComponent,
 });
 
 function LoginPage() {
@@ -27,6 +29,7 @@ function LoginPage() {
 
         <Button
           type="button"
+          variant="secondary"
           size="lg"
           className="mt-8 w-full max-w-sm py-8 text-lg"
         >

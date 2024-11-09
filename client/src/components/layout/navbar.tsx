@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, type LinkProps } from "@tanstack/react-router";
 import { MenuIcon, XIcon, ChevronDownIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -21,7 +21,7 @@ export function Navbar() {
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <Link href="/" className="flex items-center">
+              <Link to="/" className="flex items-center">
                 <img
                   className="mr-2 h-8 w-8 transition-transform duration-200 ease-in-out hover:scale-105"
                   src="/logo.svg"
@@ -34,11 +34,11 @@ export function Navbar() {
             </div>
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">
-                <NavLink href="/found">Found Items</NavLink>
-                <NavLink href="/market">KFUPM Market</NavLink>
-                <NavLink href="/lost/new">Post Lost Item</NavLink>
-                <NavLink href="/profile/items">My Items</NavLink>
-                <NavLink href="/chat">Chat</NavLink>
+                <NavLink to="/found">Found Items</NavLink>
+                <NavLink to="/market">KFUPM Market</NavLink>
+                <NavLink to="/found/new">Post Lost & Found Item</NavLink>
+                <NavLink to="/myitems">My Items</NavLink>
+                <NavLink to="/chat">Chat</NavLink>
               </div>
             </div>
           </div>
@@ -69,19 +69,19 @@ export function Navbar() {
         } overflow-hidden`}
       >
         <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
-          <NavLink href="/found" mobile>
+          <NavLink to="/found" mobile>
             Found Items
           </NavLink>
-          <NavLink href="/market" mobile>
+          <NavLink to="/market" mobile>
             KFUPM Market
           </NavLink>
-          <NavLink href="/lost/new" mobile>
-            Post Lost Item
+          <NavLink to="/found/new" mobile>
+            Post Lost & Found Item
           </NavLink>
-          <NavLink href="/profile/items" mobile>
+          <NavLink to="/myitems" mobile>
             My Items
           </NavLink>
-          <NavLink href="/chat" mobile>
+          <NavLink to="/chat" mobile>
             Chat
           </NavLink>
         </div>
@@ -104,15 +104,12 @@ export function Navbar() {
           </div>
           <div className="mt-3 space-y-1 px-2">
             <Link
-              href="/profile"
+              to="/myitems"
               className="block rounded-md px-3 py-2 text-base font-medium text-secondary-foreground transition-colors duration-200 ease-in-out"
             >
-              Your Profile
+              Your Posted Items
             </Link>
-            <Link
-              href="/signout"
-              className="block rounded-md px-3 py-2 text-base font-medium transition-colors duration-200 ease-in-out hover:bg-gray-100 hover:text-gray-800"
-            >
+            <Link className="block rounded-md px-3 py-2 text-base font-medium transition-colors duration-200 ease-in-out hover:bg-gray-100 hover:text-gray-800">
               Sign out
             </Link>
           </div>
@@ -123,11 +120,11 @@ export function Navbar() {
 }
 
 function NavLink({
-  href,
+  to,
   children,
   mobile = false,
 }: {
-  href: string;
+  to: LinkProps["to"];
   children: React.ReactNode;
   mobile?: boolean;
 }) {
@@ -136,7 +133,7 @@ function NavLink({
 
   return (
     <Link
-      href={href}
+      to={to}
       className={`text-primary-foreground transition-colors duration-200 ease-in-out hover:bg-primary/80 hover:text-primary-foreground/80 hover:underline ${mobile ? mobileClasses : desktopClasses}`}
     >
       {children}
@@ -164,15 +161,13 @@ function ProfileDropdown() {
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <Link href="/profile" className="flex w-full">
-            Your Profile
+          <Link to="/myitems" className="flex w-full">
+            Your Posted Items
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <Link href="/signout" className="flex w-full">
-            Sign out
-          </Link>
+          <Link className="flex w-full">Sign out</Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

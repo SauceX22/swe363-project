@@ -2,6 +2,8 @@ import { getAllCategories, isPriceInRange } from "@/lib/utils";
 import type { MarketItem } from "@/types";
 import { useState } from "react";
 
+// custom hook to filter market items based on the search term, category, and sort order
+// this is used in the market page for the header filters
 export const useFilterMarketItems = (initialItems: MarketItem[]) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [priceRange, setPriceRange] = useState("any");

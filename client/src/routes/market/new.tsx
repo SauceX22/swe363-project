@@ -10,11 +10,14 @@ import { FormEvent, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { NotFoundComponent } from "@/components/not-found";
 
+// routing for the page
 export const Route = createFileRoute("/market/new")({
   component: AddMarketItem,
+  // not found component boundary
   notFoundComponent: NotFoundComponent,
 });
 
+// page it post a new item to the market
 export default function AddMarketItem() {
   const [image, setImage] = useState<File | null>(null);
   const [name, setName] = useState("");

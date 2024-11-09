@@ -9,8 +9,10 @@ import { useToast } from "@/hooks/use-toast";
 import { Label } from "@/components/ui/label";
 import { NotFoundComponent } from "@/components/not-found";
 
+// routing for the page
 export const Route = createFileRoute("/found/new")({
   component: AddFoundItem,
+  // not found component boundary
   notFoundComponent: NotFoundComponent,
 });
 

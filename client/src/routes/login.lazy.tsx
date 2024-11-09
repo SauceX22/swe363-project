@@ -2,8 +2,10 @@ import { NotFoundComponent } from "@/components/not-found";
 import { Button } from "@/components/ui/button";
 import { createLazyFileRoute } from "@tanstack/react-router";
 
+// routing for the page
 export const Route = createLazyFileRoute("/login")({
   component: LoginPage,
+  // not found component boundary
   notFoundComponent: NotFoundComponent,
 });
 

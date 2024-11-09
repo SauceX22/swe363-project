@@ -7,8 +7,10 @@ import { FoundItemCard } from "@/components/found/found-item-card";
 import { getMarketItems } from "@/routers/market";
 import { NotFoundComponent } from "@/components/not-found";
 
+// routing for the page
 export const Route = createFileRoute("/")({
   component: MainPage,
+  // not found component boundary
   notFoundComponent: NotFoundComponent,
   loader: async () => {
     const { items } = await getMarketItems();
@@ -17,6 +19,7 @@ export const Route = createFileRoute("/")({
 });
 
 function MainPage() {
+  // get the items from the market to display
   const { items: initialItems } = Route.useLoaderData();
 
   return (

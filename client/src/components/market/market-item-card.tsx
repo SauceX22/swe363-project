@@ -8,6 +8,7 @@ import {
 import type { MarketItem } from "@/types";
 import { Link } from "@tanstack/react-router";
 
+// card component for the market items posted by users
 export function MarketItemCard({ item }: { item: MarketItem }) {
   return (
     <Link to={`/market/${item.id}`} className="w-fit">

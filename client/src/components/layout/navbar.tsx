@@ -12,7 +12,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+// application's navbar
 export function Navbar() {
+  // track state for mobile sheet dropdown
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -119,6 +121,7 @@ export function Navbar() {
   );
 }
 
+// general navigation link for the header, to run on desktop/mobile
 function NavLink({
   to,
   children,
@@ -141,6 +144,7 @@ function NavLink({
   );
 }
 
+// user profile dropdown menu for the navigation links
 function ProfileDropdown() {
   return (
     <DropdownMenu>

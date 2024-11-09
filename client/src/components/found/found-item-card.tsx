@@ -8,6 +8,7 @@ import {
 import type { FoundItem } from "@/types";
 import { Link } from "@tanstack/react-router";
 
+// card component for the found items posted by users
 export function FoundItemCard({ item }: { item: FoundItem }) {
   return (
     <Link to={`/found/${item.id}`} className="w-fit">

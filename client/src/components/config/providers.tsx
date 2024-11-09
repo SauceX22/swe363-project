@@ -6,6 +6,7 @@ type ProviderProps = {
   children?: React.ReactNode;
 };
 
+// required providers for react-query, and other react libraries that need a wrapper around the whole app like theming libraries
 const Providers = ({ children }: ProviderProps) => {
   const [queryClient] = useState(
     new QueryClient({

@@ -11,11 +11,16 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { Contact, Message } from "@/types";
 import { Separator } from "@/components/ui/separator";
 import { useFilterContacts } from "@/hooks/use-filter-contacts";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const placeholderImage = "/src/assets/placeholder.png";
 
+// chat page component, this is a component becauase it relies on 2 routes
+// "/chat" and "/chat/$chatId", so we're using composition to render the page
 export function ChatPage({
+  // contacts the initial contacts to render in the chat page
   contacts,
+  // initialSelectedContactId the id of the contact to select by default
   initialSelectedContactId,
 }: {
   contacts: Contact[];
@@ -23,7 +28,7 @@ export function ChatPage({
 }) {
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
 
-  const [isMobileView, setIsMobileView] = useState(false);
+  const isMobileView = useIsMobile();
   const queryClient = useQueryClient();
 
   const { data: messages } = useQuery({
@@ -61,19 +66,6 @@ export function ChatPage({
       scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
     }
   }, [messages]);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobileView(window.innerWidth < 768);
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   const ContactsList = () => {
     const {

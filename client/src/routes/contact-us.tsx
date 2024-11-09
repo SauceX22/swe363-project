@@ -17,11 +17,14 @@ import {
 } from "@/components/ui/card";
 import { NotFoundComponent } from "@/components/not-found";
 
+// routing for the page
 export const Route = createFileRoute("/contact-us")({
   component: ContactUsForm,
+  // not found component boundary
   notFoundComponent: NotFoundComponent,
 });
 
+// validation schema for the form using zod
 const schema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
   subject: z.string().min(1, { message: "Subject is required" }),
@@ -35,6 +38,7 @@ type EmailResponse = {
   success?: string;
 };
 
+// send the email to the server method
 async function sendEmail(data: FormData): Promise<EmailResponse> {
   "use server";
 
@@ -67,6 +71,7 @@ export default function ContactUsForm() {
     resolver: zodResolver(schema),
   });
 
+  // submission handler
   const onSubmit = async (data: FormData) => {
     try {
       setServerError(null);

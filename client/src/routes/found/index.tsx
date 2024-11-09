@@ -16,8 +16,10 @@ import { cn } from "@/lib/utils";
 import { getFoundItems } from "@/routers/found";
 import { createFileRoute, Link } from "@tanstack/react-router";
 
+// routing for the page
 export const Route = createFileRoute("/found/")({
   component: FoundItemsPage,
+  // not found component boundary
   notFoundComponent: NotFoundComponent,
   loader: async () => {
     const { items } = await getFoundItems();

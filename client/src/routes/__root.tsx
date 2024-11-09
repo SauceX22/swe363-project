@@ -9,7 +9,9 @@ import {
   ScrollRestoration,
 } from "@tanstack/react-router";
 
+// root routing setup for all pages
 export const Route = createRootRoute({
+  // not found component boundary
   notFoundComponent: NotFoundComponent,
   component: () => {
     // get path from url
@@ -17,9 +19,12 @@ export const Route = createRootRoute({
 
     return (
       <body>
+        {/* if it's the login page dont show the navbar */}
         {!isAuthPage ? <Navbar /> : null}
         <Providers>
+          {/* used to restore scroll position to the top of the page in SPA apps */}
           <ScrollRestoration />
+          {/* where the routes are actually rendered */}
           <Outlet />
         </Providers>
       </body>

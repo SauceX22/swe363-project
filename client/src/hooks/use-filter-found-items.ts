@@ -2,6 +2,8 @@ import { getAllCategories } from "@/lib/utils";
 import type { FoundItem } from "@/types";
 import { useState } from "react";
 
+// custom hook to filter found items based on the search term, category, and sort order
+// this is used in the found page for the header filters
 export const useFilterFoundItems = (initialItems: FoundItem[]) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [category, setCategory] = useState("all");

@@ -1,17 +1,16 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
-import notFoundCat from '../assets/not-found-cat.svg'
+import { createFileRoute } from "@tanstack/react-router";
+import notFoundCat from "../assets/not-found-cat.svg";
 
-export const Route = createFileRoute('/not-found')({
+export const Route = createFileRoute("/not-found")({
   component: notFound,
-})
+});
 
 function notFound() {
-
   return (
-   <div className='w-1/2 mx-auto p-10 mt-auto'>
-    <img  src={notFoundCat} alt="img" />
-   </div>
-  )
+    <div className="mx-auto mt-auto w-1/2 p-10">
+      <img src={notFoundCat} alt="img" />
+    </div>
+  );
 }
 
-export default notFound
+export default notFound;

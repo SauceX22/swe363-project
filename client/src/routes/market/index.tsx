@@ -102,8 +102,7 @@ function MarketItemsPage() {
         </div>
         <Link
           className={cn(buttonVariants(), "w-full sm:w-auto")}
-          // TODO: Update with correct route when available
-          // to="/market/new"
+          to="/market/new"
         >
           Add Yours!
         </Link>

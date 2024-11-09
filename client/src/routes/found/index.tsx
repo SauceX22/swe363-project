@@ -81,8 +81,7 @@ function FoundItemsPage() {
         </div>
         <Link
           className={cn(buttonVariants(), "w-full sm:w-auto")}
-          // TODO: Update with correct route when available
-          // to="/found/new"
+          to="/found/new"
         >
           Add Yours!
         </Link>

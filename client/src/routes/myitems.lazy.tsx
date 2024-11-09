@@ -172,20 +172,26 @@ function MyItems() {
         </Select>
       </div>
       {sortedItems.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4">
-        {sortedItems.map((item, index) => (
-          <Card key={index}>
-            <img src={item.img} alt={`${item.name} image`} className="w-full h-auto" />
-            <CardFooter className="flex flex-col">
-              <h3 className="font-semibold text-lg mb-1">{item.name}</h3>
-              {item.type === "ForSale" && <p className="text-sm text-gray-600">Price: {item.price}</p>}
-              <p className="text-sm text-gray-600">Date: {item.date}</p>
-            </CardFooter>
-          </Card>
-        ))}
-      </div>):
-      (
-        <div className="mt-12 text-center p-8 bg-gray-100 rounded-lg">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
+          {sortedItems.map((item, index) => (
+            <Card key={index}>
+              <img
+                src={item.img}
+                alt={`${item.name} image`}
+                className="h-auto w-full"
+              />
+              <CardFooter className="flex flex-col">
+                <h3 className="mb-1 text-lg font-semibold">{item.name}</h3>
+                {item.type === "ForSale" && (
+                  <p className="text-sm text-gray-600">Price: {item.price}</p>
+                )}
+                <p className="text-sm text-gray-600">Date: {item.date}</p>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+      ) : (
+        <div className="mt-12 rounded-lg bg-gray-100 p-8 text-center">
           <p className="text-xl font-semibold text-gray-600">No items found</p>
         </div>
       )}

@@ -1,16 +1,18 @@
-import { useState, FormEvent } from "react";
-import { Upload, Camera } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
+import { Upload } from "lucide-react";
+import { FormEvent, useState } from "react";
 
 import { createFileRoute } from "@tanstack/react-router";
+import { NotFoundComponent } from "@/components/not-found";
 
 export const Route = createFileRoute("/market/new")({
   component: AddMarketItem,
+  notFoundComponent: NotFoundComponent,
 });
 
 export default function AddMarketItem() {

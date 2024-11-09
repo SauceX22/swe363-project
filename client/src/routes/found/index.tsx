@@ -1,4 +1,5 @@
 import { FoundItemCard } from "@/components/found/found-item-card";
+import { NotFoundComponent } from "@/components/not-found";
 import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,6 +18,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/found/")({
   component: FoundItemsPage,
+  notFoundComponent: NotFoundComponent,
   loader: async () => {
     const { items } = await getFoundItems();
     return { items };
@@ -33,6 +35,7 @@ function FoundItemsPage() {
     setCategory,
     sortBy,
     setSortBy,
+    allCategories,
   } = useFilterFoundItems(initialItems);
 
   return (
@@ -60,9 +63,9 @@ function FoundItemsPage() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">Any</SelectItem>
-              <SelectItem value="Technology">Technology</SelectItem>
-              <SelectItem value="Fashion">Fashion</SelectItem>
-              <SelectItem value="Others">Others</SelectItem>
+              {allCategories.map((category) => (
+                <SelectItem value={category}>{category}</SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>

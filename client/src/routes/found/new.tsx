@@ -7,9 +7,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Label } from "@/components/ui/label";
+import { NotFoundComponent } from "@/components/not-found";
 
 export const Route = createFileRoute("/found/new")({
   component: AddFoundItem,
+  notFoundComponent: NotFoundComponent,
 });
 
 export default function AddFoundItem() {

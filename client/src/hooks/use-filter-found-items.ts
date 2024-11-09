@@ -1,3 +1,4 @@
+import { getAllCategories } from "@/lib/utils";
 import type { FoundItem } from "@/types";
 import { useState } from "react";
 
@@ -37,5 +38,6 @@ export const useFilterFoundItems = (initialItems: FoundItem[]) => {
     setCategory,
     sortBy,
     setSortBy,
+    allCategories: getAllCategories(initialItems.map((item) => item.tag)),
   };
 };

@@ -1,5 +1,6 @@
 import { MarketItemCard } from "@/components/market/market-item-card";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { NotFoundComponent } from "@/components/not-found";
+import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -17,6 +18,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/market/")({
   component: MarketItemsPage,
+  notFoundComponent: NotFoundComponent,
   loader: async () => {
     const { items } = await getMarketItems();
     return { items };
@@ -35,6 +37,7 @@ function MarketItemsPage() {
     setCategory,
     sortBy,
     setSortBy,
+    allCategories,
   } = useFilterMarketItems(initialItems);
 
   return (
@@ -79,9 +82,9 @@ function MarketItemsPage() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">Any</SelectItem>
-              <SelectItem value="Technology">Technology</SelectItem>
-              <SelectItem value="Fashion">Fashion</SelectItem>
-              <SelectItem value="Others">Others</SelectItem>
+              {allCategories.map((category) => (
+                <SelectItem value={category}>{category}</SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>

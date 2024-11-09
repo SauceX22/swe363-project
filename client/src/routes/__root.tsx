@@ -1,6 +1,7 @@
 import "@/App.css";
 import Providers from "@/components/config/providers";
 import { Navbar } from "@/components/layout/navbar";
+import { NotFoundComponent } from "@/components/not-found";
 
 import {
   createRootRoute,
@@ -9,6 +10,7 @@ import {
 } from "@tanstack/react-router";
 
 export const Route = createRootRoute({
+  notFoundComponent: NotFoundComponent,
   component: () => {
     // get path from url
     const isAuthPage = window.location.pathname.includes("/login");

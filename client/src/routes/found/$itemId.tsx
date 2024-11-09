@@ -1,4 +1,5 @@
 import { FoundItemCard } from "@/components/found/found-item-card";
+import { NotFoundComponent } from "@/components/not-found";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,10 +11,11 @@ import {
 } from "@/components/ui/card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { getFoundItemDetails } from "@/routers/found";
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/found/$itemId")({
   component: FoundItemDetailsPage,
+  notFoundComponent: NotFoundComponent,
   loader: async ({ params }) => {
     const { itemId } = params;
     const { item, similarItems } = await getFoundItemDetails({
@@ -21,9 +23,7 @@ export const Route = createFileRoute("/found/$itemId")({
     });
     // if the id isn't proper or doesn't exist, redirect to the found page
     if (!item) {
-      throw redirect({
-        to: "/found",
-      });
+      throw notFound();
     }
     return { item, similarItems };
   },

@@ -18,10 +18,12 @@ import { Route as ContactUsImport } from './routes/contact-us'
 import { Route as IndexImport } from './routes/index'
 import { Route as MarketIndexImport } from './routes/market/index'
 import { Route as FoundIndexImport } from './routes/found/index'
+import { Route as ChatIndexImport } from './routes/chat/index'
 import { Route as MarketNewImport } from './routes/market/new'
 import { Route as MarketItemIdImport } from './routes/market/$itemId'
 import { Route as FoundNewImport } from './routes/found/new'
 import { Route as FoundItemIdImport } from './routes/found/$itemId'
+import { Route as ChatChatIdImport } from './routes/chat/$chatId'
 
 // Create Virtual Routes
 
@@ -65,6 +67,12 @@ const FoundIndexRoute = FoundIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const ChatIndexRoute = ChatIndexImport.update({
+  id: '/chat/',
+  path: '/chat/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const MarketNewRoute = MarketNewImport.update({
   id: '/market/new',
   path: '/market/new',
@@ -86,6 +94,12 @@ const FoundNewRoute = FoundNewImport.update({
 const FoundItemIdRoute = FoundItemIdImport.update({
   id: '/found/$itemId',
   path: '/found/$itemId',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ChatChatIdRoute = ChatChatIdImport.update({
+  id: '/chat/$chatId',
+  path: '/chat/$chatId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -121,6 +135,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginLazyImport
       parentRoute: typeof rootRoute
     }
+    '/chat/$chatId': {
+      id: '/chat/$chatId'
+      path: '/chat/$chatId'
+      fullPath: '/chat/$chatId'
+      preLoaderRoute: typeof ChatChatIdImport
+      parentRoute: typeof rootRoute
+    }
     '/found/$itemId': {
       id: '/found/$itemId'
       path: '/found/$itemId'
@@ -149,6 +170,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MarketNewImport
       parentRoute: typeof rootRoute
     }
+    '/chat/': {
+      id: '/chat/'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/found/': {
       id: '/found/'
       path: '/found'
@@ -173,10 +201,12 @@ export interface FileRoutesByFullPath {
   '/contact-us': typeof ContactUsRoute
   '/myitems': typeof MyitemsRoute
   '/login': typeof LoginLazyRoute
+  '/chat/$chatId': typeof ChatChatIdRoute
   '/found/$itemId': typeof FoundItemIdRoute
   '/found/new': typeof FoundNewRoute
   '/market/$itemId': typeof MarketItemIdRoute
   '/market/new': typeof MarketNewRoute
+  '/chat': typeof ChatIndexRoute
   '/found': typeof FoundIndexRoute
   '/market': typeof MarketIndexRoute
 }
@@ -186,10 +216,12 @@ export interface FileRoutesByTo {
   '/contact-us': typeof ContactUsRoute
   '/myitems': typeof MyitemsRoute
   '/login': typeof LoginLazyRoute
+  '/chat/$chatId': typeof ChatChatIdRoute
   '/found/$itemId': typeof FoundItemIdRoute
   '/found/new': typeof FoundNewRoute
   '/market/$itemId': typeof MarketItemIdRoute
   '/market/new': typeof MarketNewRoute
+  '/chat': typeof ChatIndexRoute
   '/found': typeof FoundIndexRoute
   '/market': typeof MarketIndexRoute
 }
@@ -200,10 +232,12 @@ export interface FileRoutesById {
   '/contact-us': typeof ContactUsRoute
   '/myitems': typeof MyitemsRoute
   '/login': typeof LoginLazyRoute
+  '/chat/$chatId': typeof ChatChatIdRoute
   '/found/$itemId': typeof FoundItemIdRoute
   '/found/new': typeof FoundNewRoute
   '/market/$itemId': typeof MarketItemIdRoute
   '/market/new': typeof MarketNewRoute
+  '/chat/': typeof ChatIndexRoute
   '/found/': typeof FoundIndexRoute
   '/market/': typeof MarketIndexRoute
 }
@@ -215,10 +249,12 @@ export interface FileRouteTypes {
     | '/contact-us'
     | '/myitems'
     | '/login'
+    | '/chat/$chatId'
     | '/found/$itemId'
     | '/found/new'
     | '/market/$itemId'
     | '/market/new'
+    | '/chat'
     | '/found'
     | '/market'
   fileRoutesByTo: FileRoutesByTo
@@ -227,10 +263,12 @@ export interface FileRouteTypes {
     | '/contact-us'
     | '/myitems'
     | '/login'
+    | '/chat/$chatId'
     | '/found/$itemId'
     | '/found/new'
     | '/market/$itemId'
     | '/market/new'
+    | '/chat'
     | '/found'
     | '/market'
   id:
@@ -239,10 +277,12 @@ export interface FileRouteTypes {
     | '/contact-us'
     | '/myitems'
     | '/login'
+    | '/chat/$chatId'
     | '/found/$itemId'
     | '/found/new'
     | '/market/$itemId'
     | '/market/new'
+    | '/chat/'
     | '/found/'
     | '/market/'
   fileRoutesById: FileRoutesById
@@ -253,10 +293,12 @@ export interface RootRouteChildren {
   ContactUsRoute: typeof ContactUsRoute
   MyitemsRoute: typeof MyitemsRoute
   LoginLazyRoute: typeof LoginLazyRoute
+  ChatChatIdRoute: typeof ChatChatIdRoute
   FoundItemIdRoute: typeof FoundItemIdRoute
   FoundNewRoute: typeof FoundNewRoute
   MarketItemIdRoute: typeof MarketItemIdRoute
   MarketNewRoute: typeof MarketNewRoute
+  ChatIndexRoute: typeof ChatIndexRoute
   FoundIndexRoute: typeof FoundIndexRoute
   MarketIndexRoute: typeof MarketIndexRoute
 }
@@ -266,10 +308,12 @@ const rootRouteChildren: RootRouteChildren = {
   ContactUsRoute: ContactUsRoute,
   MyitemsRoute: MyitemsRoute,
   LoginLazyRoute: LoginLazyRoute,
+  ChatChatIdRoute: ChatChatIdRoute,
   FoundItemIdRoute: FoundItemIdRoute,
   FoundNewRoute: FoundNewRoute,
   MarketItemIdRoute: MarketItemIdRoute,
   MarketNewRoute: MarketNewRoute,
+  ChatIndexRoute: ChatIndexRoute,
   FoundIndexRoute: FoundIndexRoute,
   MarketIndexRoute: MarketIndexRoute,
 }
@@ -288,10 +332,12 @@ export const routeTree = rootRoute
         "/contact-us",
         "/myitems",
         "/login",
+        "/chat/$chatId",
         "/found/$itemId",
         "/found/new",
         "/market/$itemId",
         "/market/new",
+        "/chat/",
         "/found/",
         "/market/"
       ]
@@ -308,6 +354,9 @@ export const routeTree = rootRoute
     "/login": {
       "filePath": "login.lazy.tsx"
     },
+    "/chat/$chatId": {
+      "filePath": "chat/$chatId.tsx"
+    },
     "/found/$itemId": {
       "filePath": "found/$itemId.tsx"
     },
@@ -319,6 +368,9 @@ export const routeTree = rootRoute
     },
     "/market/new": {
       "filePath": "market/new.tsx"
+    },
+    "/chat/": {
+      "filePath": "chat/index.tsx"
     },
     "/found/": {
       "filePath": "found/index.tsx"

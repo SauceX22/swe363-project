@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Link, type LinkProps } from "@tanstack/react-router";
+import { Link, useRouter, type LinkProps } from "@tanstack/react-router";
 import { MenuIcon, XIcon, ChevronDownIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,11 +11,21 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { getCookie, setCookie } from "@/lib/utils";
 
 // application's navbar
 export function Navbar() {
   // track state for mobile sheet dropdown
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+
+  function handleSignOut() {
+    // set the cookie if isLoggedIn is false
+    setCookie("isLoggedIn", "false");
+    router.navigate({
+      to: "/",
+    });
+  }
 
   return (
     <nav className="select-none bg-primary shadow-md">
@@ -46,7 +56,18 @@ export function Navbar() {
           </div>
           <div className="hidden md:block">
             <div className="ml-4 flex items-center md:ml-6">
-              <ProfileDropdown />
+              {getCookie("isLoggedIn") === "true" ? (
+                <ProfileDropdown handleSignOut={handleSignOut} />
+              ) : (
+                <Link
+                  to="/login"
+                  className={buttonVariants({
+                    variant: "secondary",
+                  })}
+                >
+                  Login
+                </Link>
+              )}
             </div>
           </div>
           <div className="-mr-2 flex md:hidden">
@@ -111,9 +132,12 @@ export function Navbar() {
             >
               Your Posted Items
             </Link>
-            <Link className="block rounded-md px-3 py-2 text-base font-medium transition-colors duration-200 ease-in-out hover:bg-gray-100 hover:text-gray-800">
+            <Button
+              className="block rounded-md px-3 py-2 text-base font-medium transition-colors duration-200 ease-in-out hover:bg-gray-100 hover:text-gray-800"
+              onClick={handleSignOut}
+            >
               Sign out
-            </Link>
+            </Button>
           </div>
         </div>
       </div>
@@ -145,7 +169,7 @@ function NavLink({
 }
 
 // user profile dropdown menu for the navigation links
-function ProfileDropdown() {
+function ProfileDropdown({ handleSignOut }: { handleSignOut: () => void }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -171,7 +195,9 @@ function ProfileDropdown() {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <Link className="flex w-full">Sign out</Link>
+          <Button className="flex w-full" onClick={handleSignOut}>
+            Sign out
+          </Button>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -32,3 +32,9 @@ export type Message = {
   content: string;
   timestamp: string;
 };
+
+export type CookieAttributes = {
+  expires?: string;
+  path?: string;
+  domain?: string;
+};

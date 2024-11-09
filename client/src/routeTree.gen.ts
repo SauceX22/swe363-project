@@ -20,6 +20,8 @@ import { Route as MarketIndexImport } from './routes/market/index'
 import { Route as FoundIndexImport } from './routes/found/index'
 import { Route as MarketItemIdImport } from './routes/market/$itemId'
 import { Route as FoundItemIdImport } from './routes/found/$itemId'
+import { Route as AddItemMarketImport } from './routes/add-item/market'
+import { Route as AddItemFoundImport } from './routes/add-item/found'
 
 // Create Virtual Routes
 
@@ -82,6 +84,18 @@ const FoundItemIdRoute = FoundItemIdImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AddItemMarketRoute = AddItemMarketImport.update({
+  id: '/add-item/market',
+  path: '/add-item/market',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AddItemFoundRoute = AddItemFoundImport.update({
+  id: '/add-item/found',
+  path: '/add-item/found',
+  getParentRoute: () => rootRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -119,6 +133,20 @@ declare module '@tanstack/react-router' {
       path: '/myitems'
       fullPath: '/myitems'
       preLoaderRoute: typeof MyitemsLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/add-item/found': {
+      id: '/add-item/found'
+      path: '/add-item/found'
+      fullPath: '/add-item/found'
+      preLoaderRoute: typeof AddItemFoundImport
+      parentRoute: typeof rootRoute
+    }
+    '/add-item/market': {
+      id: '/add-item/market'
+      path: '/add-item/market'
+      fullPath: '/add-item/market'
+      preLoaderRoute: typeof AddItemMarketImport
       parentRoute: typeof rootRoute
     }
     '/found/$itemId': {
@@ -160,6 +188,8 @@ export interface FileRoutesByFullPath {
   '/not-found': typeof NotFoundRoute
   '/login': typeof LoginLazyRoute
   '/myitems': typeof MyitemsLazyRoute
+  '/add-item/found': typeof AddItemFoundRoute
+  '/add-item/market': typeof AddItemMarketRoute
   '/found/$itemId': typeof FoundItemIdRoute
   '/market/$itemId': typeof MarketItemIdRoute
   '/found': typeof FoundIndexRoute
@@ -172,6 +202,8 @@ export interface FileRoutesByTo {
   '/not-found': typeof NotFoundRoute
   '/login': typeof LoginLazyRoute
   '/myitems': typeof MyitemsLazyRoute
+  '/add-item/found': typeof AddItemFoundRoute
+  '/add-item/market': typeof AddItemMarketRoute
   '/found/$itemId': typeof FoundItemIdRoute
   '/market/$itemId': typeof MarketItemIdRoute
   '/found': typeof FoundIndexRoute
@@ -185,6 +217,8 @@ export interface FileRoutesById {
   '/not-found': typeof NotFoundRoute
   '/login': typeof LoginLazyRoute
   '/myitems': typeof MyitemsLazyRoute
+  '/add-item/found': typeof AddItemFoundRoute
+  '/add-item/market': typeof AddItemMarketRoute
   '/found/$itemId': typeof FoundItemIdRoute
   '/market/$itemId': typeof MarketItemIdRoute
   '/found/': typeof FoundIndexRoute
@@ -199,6 +233,8 @@ export interface FileRouteTypes {
     | '/not-found'
     | '/login'
     | '/myitems'
+    | '/add-item/found'
+    | '/add-item/market'
     | '/found/$itemId'
     | '/market/$itemId'
     | '/found'
@@ -210,6 +246,8 @@ export interface FileRouteTypes {
     | '/not-found'
     | '/login'
     | '/myitems'
+    | '/add-item/found'
+    | '/add-item/market'
     | '/found/$itemId'
     | '/market/$itemId'
     | '/found'
@@ -221,6 +259,8 @@ export interface FileRouteTypes {
     | '/not-found'
     | '/login'
     | '/myitems'
+    | '/add-item/found'
+    | '/add-item/market'
     | '/found/$itemId'
     | '/market/$itemId'
     | '/found/'
@@ -234,6 +274,8 @@ export interface RootRouteChildren {
   NotFoundRoute: typeof NotFoundRoute
   LoginLazyRoute: typeof LoginLazyRoute
   MyitemsLazyRoute: typeof MyitemsLazyRoute
+  AddItemFoundRoute: typeof AddItemFoundRoute
+  AddItemMarketRoute: typeof AddItemMarketRoute
   FoundItemIdRoute: typeof FoundItemIdRoute
   MarketItemIdRoute: typeof MarketItemIdRoute
   FoundIndexRoute: typeof FoundIndexRoute
@@ -246,6 +288,8 @@ const rootRouteChildren: RootRouteChildren = {
   NotFoundRoute: NotFoundRoute,
   LoginLazyRoute: LoginLazyRoute,
   MyitemsLazyRoute: MyitemsLazyRoute,
+  AddItemFoundRoute: AddItemFoundRoute,
+  AddItemMarketRoute: AddItemMarketRoute,
   FoundItemIdRoute: FoundItemIdRoute,
   MarketItemIdRoute: MarketItemIdRoute,
   FoundIndexRoute: FoundIndexRoute,
@@ -267,6 +311,8 @@ export const routeTree = rootRoute
         "/not-found",
         "/login",
         "/myitems",
+        "/add-item/found",
+        "/add-item/market",
         "/found/$itemId",
         "/market/$itemId",
         "/found/",
@@ -287,6 +333,12 @@ export const routeTree = rootRoute
     },
     "/myitems": {
       "filePath": "myitems.lazy.tsx"
+    },
+    "/add-item/found": {
+      "filePath": "add-item/found.tsx"
+    },
+    "/add-item/market": {
+      "filePath": "add-item/market.tsx"
     },
     "/found/$itemId": {
       "filePath": "found/$itemId.tsx"

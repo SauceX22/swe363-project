@@ -1,7 +1,7 @@
 import { MarketItemCard } from "@/components/market/market-item-card";
 import { NotFoundComponent } from "@/components/not-found";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -10,8 +10,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
 import { getMarketItemDetails } from "@/routers/market";
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/market/$itemId")({
   component: MarketItemDetailsPage,
@@ -63,9 +64,12 @@ function MarketItemDetailsPage() {
                 </CardDescription>
               </div>
               <div className="mt-6 md:mt-8">
-                <Button size="lg" className="w-full">
+                <Link
+                  to="/chat"
+                  className={cn("w-full", buttonVariants({ size: "lg" }))}
+                >
                   Get In Contact
-                </Button>
+                </Link>
               </div>
             </div>
           </div>

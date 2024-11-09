@@ -13,11 +13,21 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as MyitemsImport } from './routes/myitems'
+import { Route as ContactUsImport } from './routes/contact-us'
+import { Route as IndexImport } from './routes/index'
+import { Route as MarketIndexImport } from './routes/market/index'
+import { Route as FoundIndexImport } from './routes/found/index'
+import { Route as ChatIndexImport } from './routes/chat/index'
+import { Route as MarketNewImport } from './routes/market/new'
+import { Route as MarketItemIdImport } from './routes/market/$itemId'
+import { Route as FoundNewImport } from './routes/found/new'
+import { Route as FoundItemIdImport } from './routes/found/$itemId'
+import { Route as ChatChatIdImport } from './routes/chat/$chatId'
 
 // Create Virtual Routes
 
 const LoginLazyImport = createFileRoute('/login')()
-const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
 
@@ -27,11 +37,71 @@ const LoginLazyRoute = LoginLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/login.lazy').then((d) => d.Route))
 
-const IndexLazyRoute = IndexLazyImport.update({
+const MyitemsRoute = MyitemsImport.update({
+  id: '/myitems',
+  path: '/myitems',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ContactUsRoute = ContactUsImport.update({
+  id: '/contact-us',
+  path: '/contact-us',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+} as any)
+
+const MarketIndexRoute = MarketIndexImport.update({
+  id: '/market/',
+  path: '/market/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const FoundIndexRoute = FoundIndexImport.update({
+  id: '/found/',
+  path: '/found/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ChatIndexRoute = ChatIndexImport.update({
+  id: '/chat/',
+  path: '/chat/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const MarketNewRoute = MarketNewImport.update({
+  id: '/market/new',
+  path: '/market/new',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const MarketItemIdRoute = MarketItemIdImport.update({
+  id: '/market/$itemId',
+  path: '/market/$itemId',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const FoundNewRoute = FoundNewImport.update({
+  id: '/found/new',
+  path: '/found/new',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const FoundItemIdRoute = FoundItemIdImport.update({
+  id: '/found/$itemId',
+  path: '/found/$itemId',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ChatChatIdRoute = ChatChatIdImport.update({
+  id: '/chat/$chatId',
+  path: '/chat/$chatId',
+  getParentRoute: () => rootRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -41,7 +111,84 @@ declare module '@tanstack/react-router' {
       id: '/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexLazyImport
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/contact-us': {
+      id: '/contact-us'
+      path: '/contact-us'
+      fullPath: '/contact-us'
+      preLoaderRoute: typeof ContactUsImport
+      parentRoute: typeof rootRoute
+    }
+    '/myitems': {
+      id: '/myitems'
+      path: '/myitems'
+      fullPath: '/myitems'
+      preLoaderRoute: typeof MyitemsImport
+      parentRoute: typeof rootRoute
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/chat/$chatId': {
+      id: '/chat/$chatId'
+      path: '/chat/$chatId'
+      fullPath: '/chat/$chatId'
+      preLoaderRoute: typeof ChatChatIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/found/$itemId': {
+      id: '/found/$itemId'
+      path: '/found/$itemId'
+      fullPath: '/found/$itemId'
+      preLoaderRoute: typeof FoundItemIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/found/new': {
+      id: '/found/new'
+      path: '/found/new'
+      fullPath: '/found/new'
+      preLoaderRoute: typeof FoundNewImport
+      parentRoute: typeof rootRoute
+    }
+    '/market/$itemId': {
+      id: '/market/$itemId'
+      path: '/market/$itemId'
+      fullPath: '/market/$itemId'
+      preLoaderRoute: typeof MarketItemIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/market/new': {
+      id: '/market/new'
+      path: '/market/new'
+      fullPath: '/market/new'
+      preLoaderRoute: typeof MarketNewImport
+      parentRoute: typeof rootRoute
+    }
+    '/chat/': {
+      id: '/chat/'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/found/': {
+      id: '/found/'
+      path: '/found'
+      fullPath: '/found'
+      preLoaderRoute: typeof FoundIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/market/': {
+      id: '/market/'
+      path: '/market'
+      fullPath: '/market'
+      preLoaderRoute: typeof MarketIndexImport
       parentRoute: typeof rootRoute
     }
     '/login': {
@@ -57,38 +204,125 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexLazyRoute
+  '/': typeof IndexRoute
+  '/contact-us': typeof ContactUsRoute
+  '/myitems': typeof MyitemsRoute
   '/login': typeof LoginLazyRoute
+  '/chat/$chatId': typeof ChatChatIdRoute
+  '/found/$itemId': typeof FoundItemIdRoute
+  '/found/new': typeof FoundNewRoute
+  '/market/$itemId': typeof MarketItemIdRoute
+  '/market/new': typeof MarketNewRoute
+  '/chat': typeof ChatIndexRoute
+  '/found': typeof FoundIndexRoute
+  '/market': typeof MarketIndexRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexLazyRoute
+  '/': typeof IndexRoute
+  '/contact-us': typeof ContactUsRoute
+  '/myitems': typeof MyitemsRoute
   '/login': typeof LoginLazyRoute
+  '/chat/$chatId': typeof ChatChatIdRoute
+  '/found/$itemId': typeof FoundItemIdRoute
+  '/found/new': typeof FoundNewRoute
+  '/market/$itemId': typeof MarketItemIdRoute
+  '/market/new': typeof MarketNewRoute
+  '/chat': typeof ChatIndexRoute
+  '/found': typeof FoundIndexRoute
+  '/market': typeof MarketIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexLazyRoute
+  '/': typeof IndexRoute
+  '/contact-us': typeof ContactUsRoute
+  '/myitems': typeof MyitemsRoute
   '/login': typeof LoginLazyRoute
+  '/chat/$chatId': typeof ChatChatIdRoute
+  '/found/$itemId': typeof FoundItemIdRoute
+  '/found/new': typeof FoundNewRoute
+  '/market/$itemId': typeof MarketItemIdRoute
+  '/market/new': typeof MarketNewRoute
+  '/chat/': typeof ChatIndexRoute
+  '/found/': typeof FoundIndexRoute
+  '/market/': typeof MarketIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login'
+  fullPaths:
+    | '/'
+    | '/contact-us'
+    | '/myitems'
+    | '/login'
+    | '/chat/$chatId'
+    | '/found/$itemId'
+    | '/found/new'
+    | '/market/$itemId'
+    | '/market/new'
+    | '/chat'
+    | '/found'
+    | '/market'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login'
-  id: '__root__' | '/' | '/login'
+  to:
+    | '/'
+    | '/contact-us'
+    | '/myitems'
+    | '/login'
+    | '/chat/$chatId'
+    | '/found/$itemId'
+    | '/found/new'
+    | '/market/$itemId'
+    | '/market/new'
+    | '/chat'
+    | '/found'
+    | '/market'
+  id:
+    | '__root__'
+    | '/'
+    | '/contact-us'
+    | '/myitems'
+    | '/login'
+    | '/chat/$chatId'
+    | '/found/$itemId'
+    | '/found/new'
+    | '/market/$itemId'
+    | '/market/new'
+    | '/chat/'
+    | '/found/'
+    | '/market/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexLazyRoute: typeof IndexLazyRoute
+  IndexRoute: typeof IndexRoute
+  ContactUsRoute: typeof ContactUsRoute
+  MyitemsRoute: typeof MyitemsRoute
   LoginLazyRoute: typeof LoginLazyRoute
+  ChatChatIdRoute: typeof ChatChatIdRoute
+  FoundItemIdRoute: typeof FoundItemIdRoute
+  FoundNewRoute: typeof FoundNewRoute
+  MarketItemIdRoute: typeof MarketItemIdRoute
+  MarketNewRoute: typeof MarketNewRoute
+  ChatIndexRoute: typeof ChatIndexRoute
+  FoundIndexRoute: typeof FoundIndexRoute
+  MarketIndexRoute: typeof MarketIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexLazyRoute: IndexLazyRoute,
+  IndexRoute: IndexRoute,
+  ContactUsRoute: ContactUsRoute,
+  MyitemsRoute: MyitemsRoute,
   LoginLazyRoute: LoginLazyRoute,
+  ChatChatIdRoute: ChatChatIdRoute,
+  FoundItemIdRoute: FoundItemIdRoute,
+  FoundNewRoute: FoundNewRoute,
+  MarketItemIdRoute: MarketItemIdRoute,
+  MarketNewRoute: MarketNewRoute,
+  ChatIndexRoute: ChatIndexRoute,
+  FoundIndexRoute: FoundIndexRoute,
+  MarketIndexRoute: MarketIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -102,14 +336,54 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/login"
+        "/contact-us",
+        "/myitems",
+        "/login",
+        "/chat/$chatId",
+        "/found/$itemId",
+        "/found/new",
+        "/market/$itemId",
+        "/market/new",
+        "/chat/",
+        "/found/",
+        "/market/"
       ]
     },
     "/": {
-      "filePath": "index.lazy.tsx"
+      "filePath": "index.tsx"
+    },
+    "/contact-us": {
+      "filePath": "contact-us.tsx"
+    },
+    "/myitems": {
+      "filePath": "myitems.tsx"
     },
     "/login": {
       "filePath": "login.lazy.tsx"
+    },
+    "/chat/$chatId": {
+      "filePath": "chat/$chatId.tsx"
+    },
+    "/found/$itemId": {
+      "filePath": "found/$itemId.tsx"
+    },
+    "/found/new": {
+      "filePath": "found/new.tsx"
+    },
+    "/market/$itemId": {
+      "filePath": "market/$itemId.tsx"
+    },
+    "/market/new": {
+      "filePath": "market/new.tsx"
+    },
+    "/chat/": {
+      "filePath": "chat/index.tsx"
+    },
+    "/found/": {
+      "filePath": "found/index.tsx"
+    },
+    "/market/": {
+      "filePath": "market/index.tsx"
     }
   }
 }

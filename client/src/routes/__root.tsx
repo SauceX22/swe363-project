@@ -1,25 +1,33 @@
-import "../App.css";
-import Providers from "../components/config/providers";
-import "../index.css";
+import "@/App.css";
+import Providers from "@/components/config/providers";
+import { Navbar } from "@/components/layout/navbar";
+import { NotFoundComponent } from "@/components/not-found";
 
-import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/router-devtools";
+import {
+  createRootRoute,
+  Outlet,
+  ScrollRestoration,
+} from "@tanstack/react-router";
 
+// root routing setup for all pages
 export const Route = createRootRoute({
+  // not found component boundary
+  notFoundComponent: NotFoundComponent,
   component: () => {
+    // get path from url
+    const isAuthPage = window.location.pathname.includes("/login");
+
     return (
-      <>
-        <div className="flex gap-2 p-2">
-          <Link to="/" className="[&.active]:text-orange-500">
-            Home
-          </Link>
-        </div>
-        <hr />
+      <body>
+        {/* if it's the login page dont show the navbar */}
+        {!isAuthPage ? <Navbar /> : null}
         <Providers>
+          {/* used to restore scroll position to the top of the page in SPA apps */}
+          <ScrollRestoration />
+          {/* where the routes are actually rendered */}
           <Outlet />
         </Providers>
-        <TanStackRouterDevtools />
-      </>
+      </body>
     );
   },
 });

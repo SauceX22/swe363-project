@@ -18,10 +18,10 @@ import { Route as ContactUsImport } from './routes/contact-us'
 import { Route as IndexImport } from './routes/index'
 import { Route as MarketIndexImport } from './routes/market/index'
 import { Route as FoundIndexImport } from './routes/found/index'
+import { Route as MarketNewImport } from './routes/market/new'
 import { Route as MarketItemIdImport } from './routes/market/$itemId'
+import { Route as FoundNewImport } from './routes/found/new'
 import { Route as FoundItemIdImport } from './routes/found/$itemId'
-import { Route as AddItemMarketImport } from './routes/add-item/market'
-import { Route as AddItemFoundImport } from './routes/add-item/found'
 
 // Create Virtual Routes
 
@@ -72,27 +72,27 @@ const FoundIndexRoute = FoundIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const MarketNewRoute = MarketNewImport.update({
+  id: '/market/new',
+  path: '/market/new',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const MarketItemIdRoute = MarketItemIdImport.update({
   id: '/market/$itemId',
   path: '/market/$itemId',
   getParentRoute: () => rootRoute,
 } as any)
 
+const FoundNewRoute = FoundNewImport.update({
+  id: '/found/new',
+  path: '/found/new',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const FoundItemIdRoute = FoundItemIdImport.update({
   id: '/found/$itemId',
   path: '/found/$itemId',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const AddItemMarketRoute = AddItemMarketImport.update({
-  id: '/add-item/market',
-  path: '/add-item/market',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const AddItemFoundRoute = AddItemFoundImport.update({
-  id: '/add-item/found',
-  path: '/add-item/found',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -135,20 +135,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MyitemsLazyImport
       parentRoute: typeof rootRoute
     }
-    '/add-item/found': {
-      id: '/add-item/found'
-      path: '/add-item/found'
-      fullPath: '/add-item/found'
-      preLoaderRoute: typeof AddItemFoundImport
-      parentRoute: typeof rootRoute
-    }
-    '/add-item/market': {
-      id: '/add-item/market'
-      path: '/add-item/market'
-      fullPath: '/add-item/market'
-      preLoaderRoute: typeof AddItemMarketImport
-      parentRoute: typeof rootRoute
-    }
     '/found/$itemId': {
       id: '/found/$itemId'
       path: '/found/$itemId'
@@ -156,11 +142,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FoundItemIdImport
       parentRoute: typeof rootRoute
     }
+    '/found/new': {
+      id: '/found/new'
+      path: '/found/new'
+      fullPath: '/found/new'
+      preLoaderRoute: typeof FoundNewImport
+      parentRoute: typeof rootRoute
+    }
     '/market/$itemId': {
       id: '/market/$itemId'
       path: '/market/$itemId'
       fullPath: '/market/$itemId'
       preLoaderRoute: typeof MarketItemIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/market/new': {
+      id: '/market/new'
+      path: '/market/new'
+      fullPath: '/market/new'
+      preLoaderRoute: typeof MarketNewImport
       parentRoute: typeof rootRoute
     }
     '/found/': {
@@ -188,10 +188,10 @@ export interface FileRoutesByFullPath {
   '/not-found': typeof NotFoundRoute
   '/login': typeof LoginLazyRoute
   '/myitems': typeof MyitemsLazyRoute
-  '/add-item/found': typeof AddItemFoundRoute
-  '/add-item/market': typeof AddItemMarketRoute
   '/found/$itemId': typeof FoundItemIdRoute
+  '/found/new': typeof FoundNewRoute
   '/market/$itemId': typeof MarketItemIdRoute
+  '/market/new': typeof MarketNewRoute
   '/found': typeof FoundIndexRoute
   '/market': typeof MarketIndexRoute
 }
@@ -202,10 +202,10 @@ export interface FileRoutesByTo {
   '/not-found': typeof NotFoundRoute
   '/login': typeof LoginLazyRoute
   '/myitems': typeof MyitemsLazyRoute
-  '/add-item/found': typeof AddItemFoundRoute
-  '/add-item/market': typeof AddItemMarketRoute
   '/found/$itemId': typeof FoundItemIdRoute
+  '/found/new': typeof FoundNewRoute
   '/market/$itemId': typeof MarketItemIdRoute
+  '/market/new': typeof MarketNewRoute
   '/found': typeof FoundIndexRoute
   '/market': typeof MarketIndexRoute
 }
@@ -217,10 +217,10 @@ export interface FileRoutesById {
   '/not-found': typeof NotFoundRoute
   '/login': typeof LoginLazyRoute
   '/myitems': typeof MyitemsLazyRoute
-  '/add-item/found': typeof AddItemFoundRoute
-  '/add-item/market': typeof AddItemMarketRoute
   '/found/$itemId': typeof FoundItemIdRoute
+  '/found/new': typeof FoundNewRoute
   '/market/$itemId': typeof MarketItemIdRoute
+  '/market/new': typeof MarketNewRoute
   '/found/': typeof FoundIndexRoute
   '/market/': typeof MarketIndexRoute
 }
@@ -233,10 +233,10 @@ export interface FileRouteTypes {
     | '/not-found'
     | '/login'
     | '/myitems'
-    | '/add-item/found'
-    | '/add-item/market'
     | '/found/$itemId'
+    | '/found/new'
     | '/market/$itemId'
+    | '/market/new'
     | '/found'
     | '/market'
   fileRoutesByTo: FileRoutesByTo
@@ -246,10 +246,10 @@ export interface FileRouteTypes {
     | '/not-found'
     | '/login'
     | '/myitems'
-    | '/add-item/found'
-    | '/add-item/market'
     | '/found/$itemId'
+    | '/found/new'
     | '/market/$itemId'
+    | '/market/new'
     | '/found'
     | '/market'
   id:
@@ -259,10 +259,10 @@ export interface FileRouteTypes {
     | '/not-found'
     | '/login'
     | '/myitems'
-    | '/add-item/found'
-    | '/add-item/market'
     | '/found/$itemId'
+    | '/found/new'
     | '/market/$itemId'
+    | '/market/new'
     | '/found/'
     | '/market/'
   fileRoutesById: FileRoutesById
@@ -274,10 +274,10 @@ export interface RootRouteChildren {
   NotFoundRoute: typeof NotFoundRoute
   LoginLazyRoute: typeof LoginLazyRoute
   MyitemsLazyRoute: typeof MyitemsLazyRoute
-  AddItemFoundRoute: typeof AddItemFoundRoute
-  AddItemMarketRoute: typeof AddItemMarketRoute
   FoundItemIdRoute: typeof FoundItemIdRoute
+  FoundNewRoute: typeof FoundNewRoute
   MarketItemIdRoute: typeof MarketItemIdRoute
+  MarketNewRoute: typeof MarketNewRoute
   FoundIndexRoute: typeof FoundIndexRoute
   MarketIndexRoute: typeof MarketIndexRoute
 }
@@ -288,10 +288,10 @@ const rootRouteChildren: RootRouteChildren = {
   NotFoundRoute: NotFoundRoute,
   LoginLazyRoute: LoginLazyRoute,
   MyitemsLazyRoute: MyitemsLazyRoute,
-  AddItemFoundRoute: AddItemFoundRoute,
-  AddItemMarketRoute: AddItemMarketRoute,
   FoundItemIdRoute: FoundItemIdRoute,
+  FoundNewRoute: FoundNewRoute,
   MarketItemIdRoute: MarketItemIdRoute,
+  MarketNewRoute: MarketNewRoute,
   FoundIndexRoute: FoundIndexRoute,
   MarketIndexRoute: MarketIndexRoute,
 }
@@ -311,10 +311,10 @@ export const routeTree = rootRoute
         "/not-found",
         "/login",
         "/myitems",
-        "/add-item/found",
-        "/add-item/market",
         "/found/$itemId",
+        "/found/new",
         "/market/$itemId",
+        "/market/new",
         "/found/",
         "/market/"
       ]
@@ -334,17 +334,17 @@ export const routeTree = rootRoute
     "/myitems": {
       "filePath": "myitems.lazy.tsx"
     },
-    "/add-item/found": {
-      "filePath": "add-item/found.tsx"
-    },
-    "/add-item/market": {
-      "filePath": "add-item/market.tsx"
-    },
     "/found/$itemId": {
       "filePath": "found/$itemId.tsx"
     },
+    "/found/new": {
+      "filePath": "found/new.tsx"
+    },
     "/market/$itemId": {
       "filePath": "market/$itemId.tsx"
+    },
+    "/market/new": {
+      "filePath": "market/new.tsx"
     },
     "/found/": {
       "filePath": "found/index.tsx"

@@ -1,6 +1,5 @@
-import { createFileRoute } from '@tanstack/react-router'
 import { useState, FormEvent } from 'react'
-import { Upload } from 'lucide-react'
+import { Upload, Camera } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -8,21 +7,21 @@ import { Card, CardContent } from '@/components/ui/card'
 import { useToast } from '@/hooks/use-toast'
 import { Label } from '@/components/ui/label'
 
-export const Route = createFileRoute('/add-item/found')({
-  component: AddFoundItem,
+import { createFileRoute } from '@tanstack/react-router'
+
+export const Route = createFileRoute('/market/new')({
+  component: AddMarketItem,
 })
 
-export default function AddFoundItem() {
+export default function AddMarketItem() {
   const [image, setImage] = useState<File | null>(null)
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
-  const [buildingName, setBuildingName] = useState('')
+  const [price, setPrice] = useState('')
   const [errors, setErrors] = useState<{ [key: string]: string }>({})
   const { toast } = useToast()
 
-
-
-  const handleImageUpload = (e: any) => {
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
       setImage(file)
@@ -35,26 +34,25 @@ export default function AddFoundItem() {
     if (!image) newErrors.image = 'Photo is required'
     if (!name.trim()) newErrors.name = 'Item name is required'
     if (!description.trim()) newErrors.description = 'Description is required'
-    if (!buildingName.trim())
-      newErrors.buildingName = 'Building name is required'
+    if (!price.trim()) newErrors.price = 'Price is required'
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
 
-  
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (validateForm()) {
-      //TODO: sending data 
-      console.log({ image, name, description, buildingName })
+      // Here you would typically send the data to your backend
+      console.log({ image, name, description, price })
       toast({
         title: 'Success',
         description: 'Item added successfully',
       })
+      // Reset form
       setImage(null)
       setName('')
       setDescription('')
-      setBuildingName('')
+      setPrice('')
       setErrors({})
     } else {
       toast({
@@ -64,8 +62,6 @@ export default function AddFoundItem() {
       })
     }
   }
-
-
 
   return (
     <div className="min-h-screen bg-gray-200 flex items-center justify-center p-4">
@@ -111,7 +107,6 @@ export default function AddFoundItem() {
                   <p className="text-red-500 text-sm mt-1">{errors.image}</p>
                 )}
               </div>
-              
             </div>
 
             <div className="flex flex-col gap-4">
@@ -163,25 +158,24 @@ export default function AddFoundItem() {
 
               <div>
                 <Label
-                  htmlFor="buildingName"
+                  htmlFor="price"
                   className="block text-sm font-medium text-slate-200 mb-1"
                 >
-                  Building Name
+                  Price
                 </Label>
                 <Input
-                  id="buildingName"
-                  placeholder="Building Name"
-                  className={`bg-slate-500 border-slate-400 text-white placeholder:text-slate-300 ${errors.buildingName ? 'border-red-500' : ''}`}
-                  value={buildingName}
+                  id="price"
+                  type="number"
+                  placeholder="Item Price"
+                  className={`bg-slate-500 border-slate-400 text-white placeholder:text-slate-300 ${errors.price ? 'border-red-500' : ''}`}
+                  value={price}
                   onChange={(e) => {
-                    setBuildingName(e.target.value)
-                    setErrors((prev) => ({ ...prev, buildingName: '' }))
+                    setPrice(e.target.value)
+                    setErrors((prev) => ({ ...prev, price: '' }))
                   }}
                 />
-                {errors.buildingName && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.buildingName}
-                  </p>
+                {errors.price && (
+                  <p className="text-red-500 text-sm mt-1">{errors.price}</p>
                 )}
               </div>
 

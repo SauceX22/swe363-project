@@ -1,4 +1,4 @@
-import { FoundItemCard } from "@/components/found/found-item-card";
+import { FoundItemCard } from "@/components/found-item-card";
 import { NotFoundComponent } from "@/components/not-found";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";

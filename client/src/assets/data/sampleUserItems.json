@@ -1,0 +1,45 @@
+[
+   {
+      "id": "1",
+      "name": "Vintage Desk Lamp",
+      "price": 100,
+      "datePosted": "2024-11-07T00:00:00.000Z",
+      "description": "Very good lamp, bright light, easy on the eyes. Perfect for your home office or study area.",
+      "image": "/src/assets/placeholder.png",
+      "tag": "Home & Living"
+   },
+   {
+      "id": "3",
+      "name": "Table Lamp",
+      "datePosted": "2024-11-07T00:00:00.000Z",
+      "description": "Compact and elegant table lamp. It provides excellent focused lighting.",
+      "image": "/src/assets/placeholder.png",
+      "tag": "Home & Living"
+   },
+   {
+      "id": "4",
+      "name": "Wall Sconce",
+      "datePosted": "2024-11-07T00:00:00.000Z",
+      "description": "Wall-mounted sconce that adds a touch of class to any room. Ideal for hallways or bedrooms.",
+      "image": "/src/assets/placeholder.png",
+      "tag": "Lighting"
+   },
+   {
+      "id": "5",
+      "name": "Pendant Light",
+      "datePosted": "2024-11-07T00:00:00.000Z",
+      "description": "Hanging pendant light perfect for dining rooms and kitchens.",
+      "price": 100,
+      "image": "/src/assets/placeholder.png",
+      "tag": "Lighting & Decor"
+   },
+   {
+      "id": "9",
+      "name": "LED Lamp",
+      "datePosted": "2024-11-07T00:00:00.000Z",
+      "description": "Energy-efficient LED lamp with long-lasting brightness.",
+      "price": 100,
+      "image": "/src/assets/placeholder.png",
+      "tag": "Energy Efficient"
+   }
+]

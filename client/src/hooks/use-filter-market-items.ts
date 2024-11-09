@@ -1,4 +1,4 @@
-import { isPriceInRange } from "@/lib/utils";
+import { getAllCategories, isPriceInRange } from "@/lib/utils";
 import type { MarketItem } from "@/types";
 import { useState } from "react";
 
@@ -47,5 +47,6 @@ export const useFilterMarketItems = (initialItems: MarketItem[]) => {
     setCategory,
     sortBy,
     setSortBy,
+    allCategories: getAllCategories(initialItems.map((item) => item.tag)),
   };
 };

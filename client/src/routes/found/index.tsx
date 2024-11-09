@@ -35,6 +35,7 @@ function FoundItemsPage() {
     setCategory,
     sortBy,
     setSortBy,
+    allCategories,
   } = useFilterFoundItems(initialItems);
 
   return (
@@ -62,9 +63,9 @@ function FoundItemsPage() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">Any</SelectItem>
-              <SelectItem value="Technology">Technology</SelectItem>
-              <SelectItem value="Fashion">Fashion</SelectItem>
-              <SelectItem value="Others">Others</SelectItem>
+              {allCategories.map((category) => (
+                <SelectItem value={category}>{category}</SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>

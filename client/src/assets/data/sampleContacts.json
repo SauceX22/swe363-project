@@ -1,0 +1,26 @@
+[
+   {
+      "id": 1,
+      "name": "Alice Smith",
+      "avatar": "/src/assets/placeholder.png",
+      "phone": "+966559265940",
+      "lastMessageContent": "Hey, how are you?",
+      "lastMessageTime": "10:30 AM"
+   },
+   {
+      "id": 2,
+      "name": "Bob Johnson",
+      "avatar": "/src/assets/placeholder.png",
+      "phone": "+966553202930",
+      "lastMessageContent": "Can we meet tomorrow?",
+      "lastMessageTime": "Yesterday"
+   },
+   {
+      "id": 3,
+      "name": "Charlie Brown",
+      "avatar": "/src/assets/placeholder.png",
+      "phone": "+966559322940",
+      "lastMessageContent": "Thanks for your help!",
+      "lastMessageTime": "2 days ago"
+   }
+]

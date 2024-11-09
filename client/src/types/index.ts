@@ -16,3 +16,19 @@ export type FoundItem = {
   image: string | null;
   tag: string;
 };
+
+export type Contact = {
+  id: number;
+  name: string;
+  avatar: string;
+  phone: string;
+  lastMessageContent: string;
+  lastMessageTime: string;
+};
+
+export type Message = {
+  id: number;
+  contactId: number;
+  content: string;
+  timestamp: string;
+};

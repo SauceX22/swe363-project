@@ -1,0 +1,50 @@
+{
+   "1": [
+      {
+         "id": 1,
+         "contactId": 1,
+         "content": "Hey, how are you?",
+         "timestamp": "10:30 AM"
+      },
+      {
+         "id": 2,
+         "contactId": 0,
+         "content": "I'm good, thanks! How about you?",
+         "timestamp": "10:31 AM"
+      },
+      {
+         "id": 3,
+         "contactId": 1,
+         "content": "Doing well! Want to grab lunch later?",
+         "timestamp": "10:32 AM"
+      }
+   ],
+   "2": [
+      {
+         "id": 1,
+         "contactId": 2,
+         "content": "Can we meet tomorrow?",
+         "timestamp": "Yesterday"
+      },
+      {
+         "id": 2,
+         "contactId": 0,
+         "content": "Sure, what time works for you?",
+         "timestamp": "Yesterday"
+      }
+   ],
+   "3": [
+      {
+         "id": 1,
+         "contactId": 3,
+         "content": "Thanks for your help!",
+         "timestamp": "2 days ago"
+      },
+      {
+         "id": 2,
+         "contactId": 0,
+         "content": "You're welcome! Let me know if you need anything else.",
+         "timestamp": "2 days ago"
+      }
+   ]
+}

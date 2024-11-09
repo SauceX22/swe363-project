@@ -1,4 +1,5 @@
 import { MarketItemCard } from "@/components/market/market-item-card";
+import { NotFoundComponent } from "@/components/not-found";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,10 +11,11 @@ import {
 } from "@/components/ui/card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { getMarketItemDetails } from "@/routers/market";
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/market/$itemId")({
   component: MarketItemDetailsPage,
+  notFoundComponent: NotFoundComponent,
   loader: async ({ params }) => {
     const { itemId } = params;
     const { item, similarItems } = await getMarketItemDetails({
@@ -21,9 +23,7 @@ export const Route = createFileRoute("/market/$itemId")({
     });
     // if the id isn't proper or doesn't exist, redirect to the market page
     if (!item) {
-      throw redirect({
-        to: "/market",
-      });
+      throw notFound();
     }
     return { item, similarItems };
   },

@@ -5,9 +5,11 @@ import { Button } from "@/components/ui/button";
 import { MarketItemCard } from "@/components/market/market-item-card";
 import { FoundItemCard } from "@/components/found/found-item-card";
 import { getMarketItems } from "@/routers/market";
+import { NotFoundComponent } from "@/components/not-found";
 
 export const Route = createFileRoute("/")({
   component: MainPage,
+  notFoundComponent: NotFoundComponent,
   loader: async () => {
     const { items } = await getMarketItems();
     return { items };

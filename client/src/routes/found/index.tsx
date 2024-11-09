@@ -1,4 +1,5 @@
 import { FoundItemCard } from "@/components/found/found-item-card";
+import { NotFoundComponent } from "@/components/not-found";
 import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,6 +18,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/found/")({
   component: FoundItemsPage,
+  notFoundComponent: NotFoundComponent,
   loader: async () => {
     const { items } = await getFoundItems();
     return { items };

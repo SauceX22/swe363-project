@@ -8,9 +8,11 @@ import { Upload } from "lucide-react";
 import { FormEvent, useState } from "react";
 
 import { createFileRoute } from "@tanstack/react-router";
+import { NotFoundComponent } from "@/components/not-found";
 
 export const Route = createFileRoute("/market/new")({
   component: AddMarketItem,
+  notFoundComponent: NotFoundComponent,
 });
 
 export default function AddMarketItem() {

@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState, FormEvent } from 'react'
-import { Upload, Camera } from 'lucide-react'
+import { Upload } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -45,13 +45,12 @@ export default function AddFoundItem() {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (validateForm()) {
-      // Here you would typically send the data to your backend
+      //TODO: sending data 
       console.log({ image, name, description, buildingName })
       toast({
         title: 'Success',
         description: 'Item added successfully',
       })
-      // Reset form
       setImage(null)
       setName('')
       setDescription('')

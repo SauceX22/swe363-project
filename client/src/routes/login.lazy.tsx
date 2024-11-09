@@ -1,6 +1,7 @@
 import { NotFoundComponent } from "@/components/not-found";
 import { Button } from "@/components/ui/button";
-import { createLazyFileRoute } from "@tanstack/react-router";
+import { setCookie } from "@/lib/utils";
+import { createLazyFileRoute, useNavigate } from "@tanstack/react-router";
 
 // routing for the page
 export const Route = createLazyFileRoute("/login")({
@@ -10,6 +11,8 @@ export const Route = createLazyFileRoute("/login")({
 });
 
 function LoginPage() {
+  const navigate = useNavigate();
+
   return (
     <main
       className="flex h-screen w-screen items-center justify-center bg-cover bg-center"
@@ -34,6 +37,13 @@ function LoginPage() {
           variant="secondary"
           size="lg"
           className="mt-8 w-full max-w-sm py-8 text-lg"
+          onClick={() => {
+            setCookie("isLoggedIn", "true");
+
+            navigate({
+              to: "/",
+            });
+          }}
         >
           Login with KFUPM Email
         </Button>

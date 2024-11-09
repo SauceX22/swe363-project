@@ -34,13 +34,6 @@ cd client
 npm install
 ```
 
-#### For the Server
-```bash
-# From the root directory
-cd server
-npm install
-```
-
 ### 3. Run the Application
 
 #### Client
@@ -49,16 +42,8 @@ npm install
 npm run dev
 ```
 
-This will start the client on `http://localhost:3000` by default. 🌐
+This will start the client on `http://localhost:5173` by default. 🌐
 
-#### Server
-To run the server, navigate to the `server` directory and start it:
-```bash
-# From the server directory
-npm run server
-```
-
-The server should start on `http://localhost:5000` by default. 🌐
 
 ---
 

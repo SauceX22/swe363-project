@@ -14,8 +14,9 @@ export const Route = createRootRoute({
   // not found component boundary
   notFoundComponent: NotFoundComponent,
   component: () => {
-    // get path from url
-    const isAuthPage = window.location.pathname.includes("/login");
+    // get path from url\
+    const { pathname } = Route.useMatch();
+    const isAuthPage = pathname.includes("/login");
 
     return (
       <body>

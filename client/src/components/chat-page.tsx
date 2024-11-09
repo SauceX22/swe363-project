@@ -236,7 +236,7 @@ export function ChatPage({
         </div>
         <div className="mb-4">
           <h3 className="mb-2 font-semibold">Phone Number</h3>
-          <p>+1 (555) 123-4567</p>
+          <p>{selectedContact?.phone}</p>
         </div>
         <Tabs defaultValue="files">
           <TabsList className="grid w-full grid-cols-3">
@@ -334,7 +334,7 @@ export function ChatPage({
   }
 
   return (
-    <div className="flex h-full w-full">
+    <div className="flex h-[93.5vh] w-full">
       <div className="w-1/4 border-r">
         <ContactsList />
       </div>

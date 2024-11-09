@@ -21,6 +21,7 @@ export type Contact = {
   id: number;
   name: string;
   avatar: string;
+  phone: string;
   lastMessageContent: string;
   lastMessageTime: string;
 };

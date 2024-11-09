@@ -2,8 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import kfupmImg from "../assets/kfupm.jpg";
 import worried from "../assets/worried-bro.svg";
 import { Button } from "@/components/ui/button";
-import { MarketItemCard } from "@/components/market/market-item-card";
-import { FoundItemCard } from "@/components/found/found-item-card";
+import { MarketItemCard } from "@/components/market-item-card";
+import { FoundItemCard } from "@/components/found-item-card";
 import { getMarketItems } from "@/routers/market";
 import { NotFoundComponent } from "@/components/not-found";
 

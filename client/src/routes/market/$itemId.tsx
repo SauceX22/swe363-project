@@ -1,4 +1,4 @@
-import { MarketItemCard } from "@/components/market/market-item-card";
+import { MarketItemCard } from "@/components/market-item-card";
 import { NotFoundComponent } from "@/components/not-found";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";

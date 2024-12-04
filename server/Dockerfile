@@ -14,4 +14,4 @@ RUN npm install
 EXPOSE 5000
 
 # Start the development server
-CMD ["npm", "run", "server"]
+CMD ["npm", "run", "dev"]

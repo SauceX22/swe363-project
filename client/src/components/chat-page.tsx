@@ -13,7 +13,7 @@ import { Separator } from "@/components/ui/separator";
 import { useFilterContacts } from "@/hooks/use-filter-contacts";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-const placeholderImage = "/src/assets/placeholder.png";
+const placeholderImage = "/assets/placeholder.png";
 
 // chat page component, this is a component becauase it relies on 2 routes
 // "/chat" and "/chat/$chatId", so we're using composition to render the page

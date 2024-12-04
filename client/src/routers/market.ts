@@ -1,16 +1,24 @@
 import type { MarketItem } from "@/types";
-import marketItemsData from "@/assets/data/sampleMarketItems.json";
 
-// routers-based api, this is a layer betwen client and server to centralize data fetching and manipulation method
+// Fetch and transform the list of market items
+async function fetchSampleMarketItems(): Promise<MarketItem[]> {
+  const response = await fetch("/assets/data/sampleMarketItems.json");
+  if (!response.ok) {
+    throw new Error("Failed to fetch market items");
+  }
 
-// type casting
-const sampleMarketItems: MarketItem[] = marketItemsData.map((item) => ({
-  ...item,
-  datePosted: new Date(item.datePosted),
-}));
+  const rawItems = (await response.json()) as Array<
+    Omit<MarketItem, "datePosted"> & { datePosted: string }
+  >;
+  return rawItems.map((item) => ({
+    ...item,
+    datePosted: new Date(item.datePosted), // Transform datePosted to a Date object
+  }));
+}
 
-// get the details of a market item from the server
-export function getMarketItemDetails({ itemId }: { itemId: string }) {
+// Get the details of a specific market item
+export async function getMarketItemDetails({ itemId }: { itemId: string }) {
+  const sampleMarketItems = await fetchSampleMarketItems();
   const itemDetails = sampleMarketItems.find((item) => item.id === itemId);
   return {
     item: itemDetails,
@@ -18,8 +26,9 @@ export function getMarketItemDetails({ itemId }: { itemId: string }) {
   };
 }
 
-// get the list of market items from the server
-export function getMarketItems() {
+// Get the list of all market items
+export async function getMarketItems() {
+  const sampleMarketItems = await fetchSampleMarketItems();
   return {
     items: sampleMarketItems,
   };

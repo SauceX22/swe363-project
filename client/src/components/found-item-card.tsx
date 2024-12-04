@@ -15,7 +15,7 @@ export function FoundItemCard({ item }: { item: FoundItem }) {
       <Card className="flex h-full w-64 flex-col bg-primary p-4 text-primary-foreground hover:bg-primary/90">
         <CardHeader className="p-0">
           <img
-            src={item.image ?? "/src/assets/placeholder.png"}
+            src={item.image ?? "/assets/placeholder.png"}
             alt={item.name}
             className="aspect-square w-full rounded-md object-cover"
           />

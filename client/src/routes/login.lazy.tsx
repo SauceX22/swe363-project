@@ -16,7 +16,7 @@ function LoginPage() {
   return (
     <main
       className="flex h-screen w-screen items-center justify-center bg-cover bg-center"
-      style={{ backgroundImage: "url('/src/assets/login.png')" }}
+      style={{ backgroundImage: "url('/assets/login.png')" }}
     >
       <div
         className="flex flex-col items-center justify-center rounded-[70px] border-2 border-white/50 bg-[#64748B] shadow-lg"
@@ -27,7 +27,7 @@ function LoginPage() {
         </h1>
 
         <img
-          src="/src/assets/loginIcon.png"
+          src="/assets/loginIcon.png"
           alt="Login Icon"
           className="h-[382px] w-[500px]"
         />

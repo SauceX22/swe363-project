@@ -1,31 +1,38 @@
 import type { Contact, Message } from "@/types";
 
-// TEMPORARY SAMPLE DATA
-import contactsData from "@/assets/data/sampleContacts.json";
-import messagesData from "@/assets/data/sampleMessages.json";
-
 // routers-based api, this is a layer betwen client and server to centralize data fetching and manipulation method
 
 // get the list of contacts from the server
 export async function getContacts() {
   // TODO do fetching here
-  return contactsData as Contact[];
-}
-
-// get the messages of a chat from the server
-export async function getMessages(chatId: number) {
-  // TODO do fetching here
-  if (messagesData[chatId as unknown as keyof typeof messagesData]) {
-    return messagesData[
-      chatId as unknown as keyof typeof messagesData
-    ] as unknown as Message[];
+  const response = await fetch("/assets/data/sampleContacts.json");
+  if (!response.ok) {
+    throw new Error("Failed to fetch contacts");
   }
-  return undefined;
+  return (await response.json()) as Contact[];
 }
 
-// send a message to the server
-export async function sendMessage(chatId: number, content: string) {
+// Fetch the messages of a chat from the static JSON file
+export async function getMessages(
+  chatId: number,
+): Promise<Message[] | undefined> {
+  // TODO do fetching here
+  const response = await fetch("/assets/data/sampleMessages.json");
+  if (!response.ok) {
+    throw new Error("Failed to fetch messages");
+  }
+
+  const messagesData = (await response.json()) as Record<number, Message[]>;
+  return messagesData[chatId as keyof typeof messagesData];
+}
+
+// Send a message to the server (still simulates a local update for now)
+export async function sendMessage(
+  chatId: number,
+  content: string,
+): Promise<Message> {
   // TODO do post here
+  // Simulate creating a new message
   const newMessage: Message = {
     id: Date.now(),
     contactId: 0, // Assuming 0 is the current user
@@ -35,9 +42,11 @@ export async function sendMessage(chatId: number, content: string) {
       minute: "2-digit",
     }),
   };
-  messagesData[chatId as unknown as keyof typeof messagesData] = [
-    ...(messagesData[chatId as unknown as keyof typeof messagesData] || []),
-    newMessage,
-  ];
+
+  // Simulate appending the new message to the chat
+  const messages = await getMessages(chatId);
+  if (messages) {
+    messages.push(newMessage);
+  }
   return newMessage;
 }

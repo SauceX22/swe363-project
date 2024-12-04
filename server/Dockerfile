@@ -10,11 +10,8 @@ COPY . .
 # Install dependencies
 RUN npm install
 
-# Build TypeScript
-RUN npm run tsc
-
 # Expose the port
 EXPOSE 5000
 
-# Start the server
+# Start the development server
 CMD ["npm", "run", "server"]

@@ -1,35 +1,23 @@
-import bodyParser from "body-parser";
+import cors from "cors";
+import dotenv from "dotenv";
 import express from "express";
+import connectDB from "./lib/database.js";
 
-import connectDB from "../config/database";
-import auth from "./routes/api/auth";
-import user from "./routes/api/user";
-import profile from "./routes/api/profile";
+dotenv.config();
+
+connectDB();
 
 const app = express();
 
-// Connect to MongoDB
-connectDB();
+const PORT = process.env.SERVER_PORT || 5000;
 
-// Express configuration
-app.set("port", process.env.PORT || 5000);
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors());
+app.use(express.json());
 
-// @route   GET /
-// @desc    Test Base API
-// @access  Public
-app.get("/", (_req, res) => {
-  res.send("API Running");
+app.get("/", (req, res) => {
+  res.send("Hello Worldfasd!");
 });
 
-app.use("/api/auth", auth);
-app.use("/api/user", user);
-app.use("/api/profile", profile);
-
-const port = app.get("port");
-const server = app.listen(port, () =>
-  console.log(`Server started on port ${port}`)
-);
-
-export default server;
+app.listen(PORT, () => {
+  console.log(`Server is running at http://localhost:${PORT}`);
+});

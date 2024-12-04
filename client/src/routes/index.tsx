@@ -1,6 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import kfupmImg from "../assets/kfupm.jpg";
-import worried from "../assets/worried-bro.svg";
 import { Button } from "@/components/ui/button";
 import { MarketItemCard } from "@/components/market-item-card";
 import { FoundItemCard } from "@/components/found-item-card";
@@ -28,7 +26,7 @@ function MainPage() {
         <div className="h-[600px] w-full overflow-hidden sm:h-[700px] lg:h-[800px]">
           <img
             className="h-full w-full bg-black object-cover opacity-60"
-            src={kfupmImg}
+            src="/src/assets/kfupm.jpg"
             alt="KFUPM campus"
           />
         </div>
@@ -65,7 +63,7 @@ function MainPage() {
       <div className="flex w-full flex-col bg-[#64748B] lg:h-[600px] lg:flex-row lg:justify-evenly">
         <img
           className="mx-auto h-auto max-w-full object-contain p-8 lg:w-1/2"
-          src={worried}
+          src="/src/assets/worried-bro.svg"
           alt="Worried person illustration"
         />
         <div className="flex flex-col justify-center p-8 text-white lg:w-1/2 lg:p-20">

@@ -5,19 +5,22 @@ import connectDB from "./lib/database.js";
 
 dotenv.config();
 
+// Connect to MongoDB
 connectDB();
 
 const app = express();
 
-const PORT = process.env.SERVER_PORT || 5000;
+// Express configuration
+app.set("port", process.env.SERVER_PORT || 5000);
 
 app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Hello Worldfasd!");
+  res.send("Sup bro");
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running at http://localhost:${PORT}`);
+const port = app.get("port");
+app.listen(port, () => {
+  console.log(`Server is running at http://localhost:${port}`);
 });

@@ -16,13 +16,14 @@ export const Route = createRootRoute({
   component: () => {
     // get path from url\
     const { pathname } = Route.useMatch();
-    const isAuthPage = pathname.includes("/login");
+    const isAuthPage =
+      pathname.includes("/login") || pathname.startsWith("/login");
 
     return (
       <body>
         {/* if it's the login page dont show the navbar */}
-        {!isAuthPage ? <Navbar /> : null}
         <Providers>
+          {!isAuthPage ? <Navbar /> : null}
           {/* used to restore scroll position to the top of the page in SPA apps */}
           <ScrollRestoration />
           {/* where the routes are actually rendered */}

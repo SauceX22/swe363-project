@@ -8,12 +8,11 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createFileRoute } from '@tanstack/react-router'
-
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as MyitemsImport } from './routes/myitems'
+import { Route as LoginImport } from './routes/login'
 import { Route as ContactUsImport } from './routes/contact-us'
 import { Route as IndexImport } from './routes/index'
 import { Route as MarketIndexImport } from './routes/market/index'
@@ -25,21 +24,17 @@ import { Route as FoundNewImport } from './routes/found/new'
 import { Route as FoundItemIdImport } from './routes/found/$itemId'
 import { Route as ChatChatIdImport } from './routes/chat/$chatId'
 
-// Create Virtual Routes
-
-const LoginLazyImport = createFileRoute('/login')()
-
 // Create/Update Routes
-
-const LoginLazyRoute = LoginLazyImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/login.lazy').then((d) => d.Route))
 
 const MyitemsRoute = MyitemsImport.update({
   id: '/myitems',
   path: '/myitems',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LoginRoute = LoginImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -121,18 +116,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactUsImport
       parentRoute: typeof rootRoute
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
     '/myitems': {
       id: '/myitems'
       path: '/myitems'
       fullPath: '/myitems'
       preLoaderRoute: typeof MyitemsImport
-      parentRoute: typeof rootRoute
-    }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginLazyImport
       parentRoute: typeof rootRoute
     }
     '/chat/$chatId': {
@@ -199,8 +194,8 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contact-us': typeof ContactUsRoute
+  '/login': typeof LoginRoute
   '/myitems': typeof MyitemsRoute
-  '/login': typeof LoginLazyRoute
   '/chat/$chatId': typeof ChatChatIdRoute
   '/found/$itemId': typeof FoundItemIdRoute
   '/found/new': typeof FoundNewRoute
@@ -214,8 +209,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contact-us': typeof ContactUsRoute
+  '/login': typeof LoginRoute
   '/myitems': typeof MyitemsRoute
-  '/login': typeof LoginLazyRoute
   '/chat/$chatId': typeof ChatChatIdRoute
   '/found/$itemId': typeof FoundItemIdRoute
   '/found/new': typeof FoundNewRoute
@@ -230,8 +225,8 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/contact-us': typeof ContactUsRoute
+  '/login': typeof LoginRoute
   '/myitems': typeof MyitemsRoute
-  '/login': typeof LoginLazyRoute
   '/chat/$chatId': typeof ChatChatIdRoute
   '/found/$itemId': typeof FoundItemIdRoute
   '/found/new': typeof FoundNewRoute
@@ -247,8 +242,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/contact-us'
-    | '/myitems'
     | '/login'
+    | '/myitems'
     | '/chat/$chatId'
     | '/found/$itemId'
     | '/found/new'
@@ -261,8 +256,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/contact-us'
-    | '/myitems'
     | '/login'
+    | '/myitems'
     | '/chat/$chatId'
     | '/found/$itemId'
     | '/found/new'
@@ -275,8 +270,8 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/contact-us'
-    | '/myitems'
     | '/login'
+    | '/myitems'
     | '/chat/$chatId'
     | '/found/$itemId'
     | '/found/new'
@@ -291,8 +286,8 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ContactUsRoute: typeof ContactUsRoute
+  LoginRoute: typeof LoginRoute
   MyitemsRoute: typeof MyitemsRoute
-  LoginLazyRoute: typeof LoginLazyRoute
   ChatChatIdRoute: typeof ChatChatIdRoute
   FoundItemIdRoute: typeof FoundItemIdRoute
   FoundNewRoute: typeof FoundNewRoute
@@ -306,8 +301,8 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ContactUsRoute: ContactUsRoute,
+  LoginRoute: LoginRoute,
   MyitemsRoute: MyitemsRoute,
-  LoginLazyRoute: LoginLazyRoute,
   ChatChatIdRoute: ChatChatIdRoute,
   FoundItemIdRoute: FoundItemIdRoute,
   FoundNewRoute: FoundNewRoute,
@@ -330,8 +325,8 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/contact-us",
-        "/myitems",
         "/login",
+        "/myitems",
         "/chat/$chatId",
         "/found/$itemId",
         "/found/new",
@@ -348,11 +343,11 @@ export const routeTree = rootRoute
     "/contact-us": {
       "filePath": "contact-us.tsx"
     },
+    "/login": {
+      "filePath": "login.tsx"
+    },
     "/myitems": {
       "filePath": "myitems.tsx"
-    },
-    "/login": {
-      "filePath": "login.lazy.tsx"
     },
     "/chat/$chatId": {
       "filePath": "chat/$chatId.tsx"

@@ -13,7 +13,8 @@
     "skipLibCheck": true,
     "esModuleInterop": false,
     "declaration": false,
-    "allowJs": true
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
   },
   "exclude": [
     "**/dist/",

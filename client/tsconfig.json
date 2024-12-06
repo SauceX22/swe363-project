@@ -22,6 +22,7 @@
     "skipLibCheck": true, // Skip type checking of declaration files
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
+    "allowSyntheticDefaultImports": true,
     "paths": {
       "@/*": [
         "./src/*"

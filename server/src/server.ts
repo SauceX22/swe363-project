@@ -1,15 +1,17 @@
-import { clerkMiddleware } from "@clerk/express";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import connectDB from "./lib/database.js";
-import {
-  clerkAuthenticationMiddleware,
-  requireAuthentication,
-} from "./middleware/auth.js";
+import { requireAuthentication } from "./middleware/auth.js";
 import { postsRouter } from "./routers/api/post.js";
+import path, { dirname } from "path";
+import { fileURLToPath } from "url";
 
-dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Load the root .env file
+dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 
 // Connect to MongoDB
 connectDB();

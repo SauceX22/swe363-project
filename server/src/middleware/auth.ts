@@ -13,7 +13,7 @@ export function requireAuthentication() {
 
 export function clerkAuthenticationMiddleware() {
   return clerkMiddleware({
-    publishableKey: process.env.CLERK_PUBLISHABLE_KEY,
+    publishableKey: process.env.VITE_CLERK_PUBLISHABLE_KEY,
     secretKey: process.env.CLERK_SECRET_KEY,
   });
 }

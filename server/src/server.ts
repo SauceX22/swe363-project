@@ -1,35 +1,40 @@
-import bodyParser from "body-parser";
+import cors from "cors";
+import dotenv from "dotenv";
 import express from "express";
+import connectDB from "./lib/database.js";
+import { requireAuthentication } from "./middleware/auth.js";
+import { postsRouter } from "./routers/api/post.js";
+import path, { dirname } from "path";
+import { fileURLToPath } from "url";
 
-import connectDB from "../config/database";
-import auth from "./routes/api/auth";
-import user from "./routes/api/user";
-import profile from "./routes/api/profile";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-const app = express();
+// Load the root .env file
+dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 
 // Connect to MongoDB
 connectDB();
 
-// Express configuration
-app.set("port", process.env.PORT || 5000);
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+const app = express();
 
-// @route   GET /
-// @desc    Test Base API
-// @access  Public
-app.get("/", (_req, res) => {
-  res.send("API Running");
+// Express configuration
+app.set("port", process.env.SERVER_PORT || 5000);
+
+app.use(cors());
+app.use(express.json());
+
+app.get("/protected", requireAuthentication(), (req, res) => {
+  res.send("This is a protected route");
 });
 
-app.use("/api/auth", auth);
-app.use("/api/user", user);
-app.use("/api/profile", profile);
+app.get("/", (req, res) => {
+  res.send("Sup bro");
+});
+
+app.use("/api", postsRouter);
 
 const port = app.get("port");
-const server = app.listen(port, () =>
-  console.log(`Server started on port ${port}`)
-);
-
-export default server;
+app.listen(port, () => {
+  console.log(`Server is running at http://localhost:${port}`);
+});

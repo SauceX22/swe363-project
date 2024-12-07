@@ -12,6 +12,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { getCookie, setCookie } from "@/lib/utils";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  SignOutButton,
+  UserButton,
+} from "@clerk/clerk-react";
 
 // application's navbar
 export function Navbar() {
@@ -56,9 +63,10 @@ export function Navbar() {
           </div>
           <div className="hidden md:block">
             <div className="ml-4 flex items-center md:ml-6">
-              {getCookie("isLoggedIn") === "true" ? (
+              <SignedIn>
                 <ProfileDropdown handleSignOut={handleSignOut} />
-              ) : (
+              </SignedIn>
+              <SignedOut>
                 <Link
                   to="/login"
                   className={buttonVariants({
@@ -67,7 +75,7 @@ export function Navbar() {
                 >
                   Login
                 </Link>
-              )}
+              </SignedOut>
             </div>
           </div>
           <div className="-mr-2 flex md:hidden">
@@ -195,9 +203,11 @@ function ProfileDropdown({ handleSignOut }: { handleSignOut: () => void }) {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <Button className="flex w-full" onClick={handleSignOut}>
-            Sign out
-          </Button>
+          <SignOutButton>
+            <Button className="flex w-full" onClick={handleSignOut}>
+              Sign out
+            </Button>
+          </SignOutButton>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

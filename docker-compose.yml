@@ -1,46 +1,41 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  client:
-    build:
-      context: ./client
-      dockerfile: Dockerfile
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb
     ports:
-      - "${CLIENT_PORT}:${CLIENT_PORT}"
-    networks:
-      - app-network
-
-  server:
-    build:
-      context: ./server
-      dockerfile: Dockerfile
-    ports:
-      - "${SERVER_PORT}:${SERVER_PORT}"
-    environment:
-      - PORT=${SERVER_PORT}
-      - MONGO_URI=${MONGO_URI}
-      - JWT_SECRET=${JWT_SECRET}
-    depends_on:
-      - mongo
-    networks:
-      - app-network
-
-  mongo:
-    image: mongo:5.0
-    container_name: mongo
+      - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     volumes:
-      - mongo_data:/data/db
-    ports:
-      - "27017:27017"
-    networks:
-      - app-network
+      - mongodb_data:/data/db
 
-networks:
-  app-network:
-    driver: bridge
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.prod
+    container_name: swe363_server
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    depends_on:
+      - mongodb
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.prod
+    container_name: swe363_client
+    ports:
+      # - "5173:5173"
+      - "80:80"
+    env_file:
+      - .env
+    depends_on:
+      - server
 
 volumes:
-  mongo_data:
+  mongodb_data:

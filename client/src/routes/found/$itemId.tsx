@@ -43,7 +43,7 @@ function FoundItemDetailsPage() {
           <div className="flex flex-col md:flex-row md:items-start md:gap-8">
             <div className="mb-6 md:mb-0 md:w-1/2">
               <img
-                src={itemDetails.image ?? "/src/assets/placeholder.png"}
+                src={itemDetails.image ?? "/assets/placeholder.png"}
                 alt={itemDetails.name}
                 className="aspect-square w-full rounded-lg object-cover"
               />

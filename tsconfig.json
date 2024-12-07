@@ -1,8 +1,5 @@
 {
   "compilerOptions": {
-    "rootDir": "./src",
-    "outDir": "./dist",
-    "noEmit": false,
     "target": "ES2015",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
@@ -13,14 +10,12 @@
     "skipLibCheck": true,
     "esModuleInterop": false,
     "declaration": false,
+    "noEmit": true,
     "allowJs": true,
-    "allowSyntheticDefaultImports": true,
+    "allowSyntheticDefaultImports": true
   },
   "exclude": [
     "**/dist/",
     "**/node_modules/"
-  ],
-  "include": [
-    "./src"
   ]
 }

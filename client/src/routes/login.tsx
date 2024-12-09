@@ -1,6 +1,6 @@
 import { NotFoundComponent } from "@/components/not-found";
 import { Button } from "@/components/ui/button";
-import { useSignIn } from "@clerk/clerk-react";
+import { SignInButton, useSignIn } from "@clerk/clerk-react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 
 // routing for the page
@@ -45,7 +45,6 @@ function LoginPage() {
           alt="Login Icon"
           className="h-[382px] w-[500px]"
         />
-        {/* <SignInButton forceRedirectUrl="/market" mode="modal"> */}
         <Button
           type="button"
           variant="secondary"
@@ -55,7 +54,6 @@ function LoginPage() {
         >
           Login with KFUPM Email
         </Button>
-        {/* </SignInButton> */}
       </div>
     </main>
   );

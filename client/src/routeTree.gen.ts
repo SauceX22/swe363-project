@@ -55,7 +55,7 @@ const LoginRoute = LoginImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/login.lazy').then((d) => d.Route))
+} as any)
 
 const ContactUsRoute = ContactUsImport.update({
   id: '/contact-us',

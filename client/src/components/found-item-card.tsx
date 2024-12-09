@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import type { FoundItem } from "@/types";
+import type { FoundItem } from "@/../../types";
 import { Link } from "@tanstack/react-router";
 
 // card component for the found items posted by users

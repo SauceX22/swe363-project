@@ -13,7 +13,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { useFilterMarketItems } from "@/hooks/use-filter-market-items";
 import { cn } from "@/lib/utils";
-import { getMarketItems } from "@/routers/market";
+import { getMarketItems } from "@/api/market";
 import { createFileRoute, Link } from "@tanstack/react-router";
 
 // routing for the page

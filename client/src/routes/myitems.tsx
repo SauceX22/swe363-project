@@ -13,12 +13,12 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { useFilterUserItems } from "@/hooks/use-filter-user-items";
 import { cn } from "@/lib/utils";
-import { getUserItems } from "@/routers/user";
+import { getUserItems } from "@/api/user";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { NotFoundComponent } from "@/components/not-found";
 import { FoundItemCard } from "@/components/found-item-card";
 import { MarketItemCard } from "@/components/market-item-card";
-import type { FoundItem, MarketItem } from "@/types";
+import type { FoundItem, MarketItem } from "@/../../types";
 
 // routing for the page
 export const Route = createFileRoute("/myitems")({

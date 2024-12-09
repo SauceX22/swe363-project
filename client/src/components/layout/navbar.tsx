@@ -11,28 +11,20 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { getCookie, setCookie } from "@/lib/utils";
 import {
   SignedIn,
   SignedOut,
   SignInButton,
   SignOutButton,
   UserButton,
+  useUser,
 } from "@clerk/clerk-react";
 
 // application's navbar
 export function Navbar() {
   // track state for mobile sheet dropdown
   const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter();
-
-  function handleSignOut() {
-    // set the cookie if isLoggedIn is false
-    setCookie("isLoggedIn", "false");
-    router.navigate({
-      to: "/",
-    });
-  }
+  const { user } = useUser();
 
   return (
     <nav className="select-none bg-primary shadow-md">
@@ -64,7 +56,7 @@ export function Navbar() {
           <div className="hidden md:block">
             <div className="ml-4 flex items-center md:ml-6">
               <SignedIn>
-                <ProfileDropdown handleSignOut={handleSignOut} />
+                <ProfileDropdown />
               </SignedIn>
               <SignedOut>
                 <Link
@@ -126,10 +118,10 @@ export function Navbar() {
             </div>
             <div className="ml-3">
               <div className="text-base font-medium text-gray-800">
-                John Doe
+                {user?.username}
               </div>
               <div className="text-sm font-medium text-gray-500">
-                john@example.com
+                {user?.primaryEmailAddress?.emailAddress}
               </div>
             </div>
           </div>
@@ -140,12 +132,13 @@ export function Navbar() {
             >
               Your Posted Items
             </Link>
-            <Button
-              className="block rounded-md px-3 py-2 text-base font-medium transition-colors duration-200 ease-in-out hover:bg-gray-100 hover:text-gray-800"
-              onClick={handleSignOut}
-            >
-              Sign out
-            </Button>
+            <SignedIn>
+              <SignOutButton>
+                <Button className="block rounded-md px-3 py-2 text-base font-medium transition-colors duration-200 ease-in-out hover:bg-gray-100 hover:text-gray-800">
+                  Sign out
+                </Button>
+              </SignOutButton>
+            </SignedIn>
           </div>
         </div>
       </div>
@@ -177,7 +170,7 @@ function NavLink({
 }
 
 // user profile dropdown menu for the navigation links
-function ProfileDropdown({ handleSignOut }: { handleSignOut: () => void }) {
+function ProfileDropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -202,13 +195,13 @@ function ProfileDropdown({ handleSignOut }: { handleSignOut: () => void }) {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <SignOutButton>
-            <Button className="flex w-full" onClick={handleSignOut}>
-              Sign out
-            </Button>
-          </SignOutButton>
-        </DropdownMenuItem>
+        <SignedIn>
+          <DropdownMenuItem>
+            <SignOutButton>
+              <Button className="flex w-full">Sign out</Button>
+            </SignOutButton>
+          </DropdownMenuItem>
+        </SignedIn>
       </DropdownMenuContent>
     </DropdownMenu>
   );

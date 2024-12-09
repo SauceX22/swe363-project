@@ -1,5 +1,5 @@
 import { getAllCategories } from "@/lib/utils";
-import type { FoundItem } from "@/types";
+import type { FoundItem } from "@/../../types";
 import { useState } from "react";
 
 // custom hook to filter found items based on the search term, category, and sort order

@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-import { getFoundItemDetails } from "@/routers/found";
+import { getFoundItemDetails } from "@/api/found";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 
 // routing for the page
@@ -22,9 +22,7 @@ export const Route = createFileRoute("/found/$itemId")({
   // executed before the page renders
   loader: async ({ params }) => {
     const { itemId } = params;
-    const { item, similarItems } = await getFoundItemDetails({
-      itemId,
-    });
+    const { item, similarItems } = await getFoundItemDetails(itemId);
     // if the id isn't proper or doesn't exist, redirect to the found page
     if (!item) {
       throw notFound();

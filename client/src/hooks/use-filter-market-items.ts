@@ -1,5 +1,5 @@
 import { getAllCategories, isPriceInRange } from "@/lib/utils";
-import type { MarketItem } from "@/types";
+import type { MarketItem } from "@/../../types";
 import { useState } from "react";
 
 // custom hook to filter market items based on the search term, category, and sort order

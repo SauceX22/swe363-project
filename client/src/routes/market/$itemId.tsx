@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-import { getMarketItemDetails } from "@/routers/market";
+import { getMarketItemDetails } from "@/api/market";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 
 // routing for the page
@@ -22,9 +22,7 @@ export const Route = createFileRoute("/market/$itemId")({
   // executed before the page renders
   loader: async ({ params }) => {
     const { itemId } = params;
-    const { item, similarItems } = await getMarketItemDetails({
-      itemId,
-    });
+    const { item, similarItems } = await getMarketItemDetails(itemId);
     // if the id isn't proper or doesn't exist, redirect to the market page
     if (!item) {
       throw notFound();

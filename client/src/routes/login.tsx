@@ -1,9 +1,7 @@
 import { NotFoundComponent } from "@/components/not-found";
 import { Button } from "@/components/ui/button";
-import { setCookie } from "@/lib/utils";
-import { SignInButton } from "@clerk/clerk-react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useSignIn } from "@clerk/clerk-react";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 
 // routing for the page
 export const Route = createFileRoute("/login")({

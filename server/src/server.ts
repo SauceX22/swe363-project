@@ -27,6 +27,9 @@ app.use(express.json());
 app.get("/protected", requireAuthentication(), (req, res) => {
   res.send("This is a protected route");
 });
+app.get("/test", (req, res) => {
+  res.send(`This is a test route ${process.env.TEST}`);
+});
 
 app.get("/", (req, res) => {
   res.send("Sup bro");

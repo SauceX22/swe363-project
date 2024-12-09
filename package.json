@@ -1,0 +1,25 @@
+{
+  "name": "swe363-project",
+  "version": "1.0.0",
+  "description": "Welcome to the SWE363 Project! This setup includes both **client** and **server** components, designed for ease of development and deployment. Let’s dive in and get started! 🏊‍♂️",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@clerk/express": "^1.3.23",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.8.4"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.1",
+    "typescript": "^5.7.2"
+  }
+}

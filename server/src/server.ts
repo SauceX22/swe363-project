@@ -3,9 +3,14 @@ import dotenv from "dotenv";
 import express from "express";
 import connectDB from "./lib/database.js";
 import { requireAuthentication } from "./middleware/auth.js";
-import { postsRouter } from "./routers/api/post.js";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
+
+import userRouter from "./routers/api/userRouter.js";
+import foundRouter from "./routers/api/foundRouter.js";
+import marketRouter from "./routers/api/marketRouter.js";
+import contactRouter from "./routers/api/contactRouter.js";
+import chatRouter from "./routers/api/chatRouter.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -35,7 +40,11 @@ app.get("/", (req, res) => {
   res.send("Sup bro");
 });
 
-app.use("/api", postsRouter);
+app.use("/api/users", userRouter);
+app.use("/api/found", foundRouter);
+app.use("/api/market", marketRouter);
+app.use("/api/contact", contactRouter);
+app.use("/api/chat", chatRouter);
 
 const port = app.get("port");
 app.listen(port, () => {

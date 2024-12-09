@@ -1,45 +1,49 @@
-import express, { Request, Response } from "express";
-import { User } from "../../models/User.js"; // Assuming you have a User model
+import express from "express";
+import {
+  clerkAuthenticationMiddleware,
+  requireAuthentication,
+} from "../../middleware/auth.js";
+import { getAuth } from "@clerk/express";
+import { User } from "../../models/User.js";
 
-const userRouter = express.Router(); // Make sure this is correctly initialized
+const router = express.Router();
 
-// Register a new user
-userRouter.post("/register", async (req: Request, res: Response): Promise<void> => {
-  const { name, email, password } = req.body;
+// Clerk authentication middleware, this adds the Clerk session to the request object
+router.use(clerkAuthenticationMiddleware());
 
-  // Basic validation
-  if (!name || !email || !password) {
-    res.status(400).json({ message: "Name, email, and password are required." });
-    return; // Early return to ensure void is returned.
-  }
-
+// Get user profile
+router.get("/me", requireAuthentication(), async (req, res) => {
   try {
-    // Check if the email is already registered
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      res.status(400).json({ message: "Email already in use." });
-      return; // Early return to ensure void is returned.
+    // Get the `userId` from the `Auth` object
+    const { userId } = getAuth(req); // Clerk provides the authenticated user's ID
+    const user = await User.findOne({ clerkId: userId });
+    if (!user) {
+      res.status(404).json({ error: "User not found" });
+      return;
     }
-
-    // Create a new user instance
-    const newUser = new User({
-      name,
-      email,
-      password, // Ensure that password is properly hashed before saving
-    });
-
-    // Save the user to the database
-    const savedUser = await newUser.save();
-
-    // Respond with the saved user
-    res.status(201).json({
-      message: "User registered successfully.",
-      user: savedUser,
-    });
-  } catch (error) {
-    console.error("Error registering user:", error);
-    res.status(500).json({ message: "Failed to register user." });
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
-export { userRouter };
+// Update user profile
+router.put("/me", requireAuthentication(), async (req, res) => {
+  try {
+    // Get the `userId` from the `Auth` object
+    const { userId } = getAuth(req);
+    const updates = req.body;
+    const user = await User.findOneAndUpdate({ clerkId: userId }, updates, {
+      new: true,
+    });
+    if (!user) {
+      res.status(404).json({ error: "User not found" });
+      return;
+    }
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+export default router;

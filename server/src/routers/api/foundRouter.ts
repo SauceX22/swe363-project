@@ -1,6 +1,6 @@
 import express from "express";
-import { MarketItem } from "../../models/MarketItem.js";
-import { MarketItemPost } from "../../models/MarketItemPost.js"; // Assuming a Post model
+import { FoundItem } from "../../models/FoundItem.js";
+import { FoundItemPost } from "../../models/FoundItemPost.js"; // Assuming a Post model
 import {
   clerkAuthenticationMiddleware,
   requireAuthentication,
@@ -12,58 +12,59 @@ const router = express.Router();
 // Clerk authentication middleware, this adds the Clerk session to the request object
 router.use(clerkAuthenticationMiddleware());
 
-// Get all posts with linked market items
+// Get all posts with linked found items
 router.get("/", async (req, res) => {
   try {
     // Populate the `item` field in posts
-    const posts = await MarketItemPost.find().populate("item");
+    const posts = await FoundItemPost.find().populate("item");
     res.json(posts);
   } catch (err) {
     res.status(500).json({ error: "Internal server error" });
   }
 });
 
-// Create a new post and link it to a market item
+// Create a new post and link it to a found item
 router.post("/", requireAuthentication(), async (req, res) => {
   try {
     const { userId } = getAuth(req); // Clerk user ID
-    const { title, description, category, price } = req.body;
+    const { title, description, category, dateLost, location } = req.body;
 
     // Validate input
-    if (!title || !description || !category || !price) {
+    if (!title || !description || !category || !dateLost || !location) {
       res.status(400).json({ error: "Missing required fields" });
       return;
     }
 
     // Create the post
-    const post = new MarketItemPost({
+    const post = new FoundItemPost({
       author: userId,
     });
 
-    // Create the market item and link it to the post
-    const marketItem = new MarketItem({
+    // Create the found item and link it to the post
+    const foundItem = new FoundItem({
       title,
       description,
       category,
-      price,
-      seller: userId,
+      dateLost,
+      location,
+      reportedBy: userId,
       post: post._id, // Reference to the post
     });
 
-    // Link the market item to the post
-    post.set("item", marketItem._id);
+    // Link the found item to the post
+    post.set("item", foundItem._id);
     await post.save();
 
-    res.status(201).json({ post, marketItem });
+    res.status(201).json({ post, foundItem });
   } catch (err) {
     res.status(500).json({ error: "Internal server error" });
   }
 });
 
-// Get a single post with its linked market item by post ID
+// Get a single post with its linked found item by post ID
 router.get("/:id", async (req, res) => {
   try {
-    const post = await MarketItemPost.findById(req.params.id).populate("item");
+    const post = await FoundItemPost.findById(req.params.id).populate("item");
     if (!post) {
       res.status(404).json({ error: "Post not found" });
       return;
@@ -74,21 +75,21 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Delete a post and its linked market item
+// Delete a post and its linked found item
 router.delete("/:id", requireAuthentication(), async (req, res) => {
   try {
     const { userId } = getAuth(req);
 
     // Find the post by ID
-    const post = await MarketItemPost.findById(req.params.id).populate("item");
+    const post = await FoundItemPost.findById(req.params.id).populate("item");
     if (!post || post.postedBy.toString() !== userId) {
       res.status(403).json({ error: "Forbidden" });
       return;
     }
 
-    // Delete the linked market item
+    // Delete the linked found item
     if (post.item) {
-      await MarketItem.findByIdAndDelete(post.item._id);
+      await FoundItem.findByIdAndDelete(post.item._id);
     }
 
     // Delete the post

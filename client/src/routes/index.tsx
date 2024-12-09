@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { MarketItemCard } from "@/components/market-item-card";
 import { FoundItemCard } from "@/components/found-item-card";
-import { getMarketItems } from "@/api/market";
+import { getMarketItems } from "@/routers/market";
 import { NotFoundComponent } from "@/components/not-found";
 
 // routing for the page

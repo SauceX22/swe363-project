@@ -13,7 +13,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { useFilterUserItems } from "@/hooks/use-filter-user-items";
 import { cn } from "@/lib/utils";
-import { getUserItems } from "@/api/user";
+import { getUserItems } from "@/routers/user";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { NotFoundComponent } from "@/components/not-found";
 import { FoundItemCard } from "@/components/found-item-card";

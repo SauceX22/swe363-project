@@ -1,6 +1,6 @@
 import { ChatPage } from "@/components/chat-page";
 import { NotFoundComponent } from "@/components/not-found";
-import { getContacts } from "@/api/chat";
+import { getContacts } from "@/routers/chat";
 import { createFileRoute } from "@tanstack/react-router";
 
 // routing for the page

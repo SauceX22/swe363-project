@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
-import { getMessages, sendMessage } from "@/api/chat";
+import { getMessages, sendMessage } from "@/routers/chat";
 import { FileText, Search, Send, Video, ArrowLeft, Menu } from "lucide-react";
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";

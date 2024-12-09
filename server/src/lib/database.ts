@@ -1,4 +1,4 @@
-import { connect } from "mongoose";
+import mongoose from "mongoose";
 
 const connectDB = async () => {
   if (!process.env.MONGO_URI) {
@@ -6,7 +6,8 @@ const connectDB = async () => {
     process.exit(1);
   }
   try {
-    await connect(process.env.MONGO_URI);
+    await mongoose.connect(process.env.MONGO_URI);
+    const db = mongoose.connection;
     console.log("MongoDB Connected...");
   } catch (err) {
     console.error("Error connecting to MongoDB");

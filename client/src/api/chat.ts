@@ -1,5 +1,5 @@
 import apiClient from "@/lib/apiClient";
-import type { Contact, Message } from "@/../../types";
+import type { Contact, Message } from "@/types";
 
 // Get all contacts
 export async function getContacts(): Promise<Contact[]> {

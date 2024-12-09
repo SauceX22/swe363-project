@@ -1,5 +1,5 @@
 import apiClient from "@/lib/apiClient";
-import type { FoundItem, MarketItem } from "@/../../types";
+import type { FoundItem, MarketItem } from "@/types";
 
 // Get all user items (found items and market items)
 export async function getUserItems(): Promise<{

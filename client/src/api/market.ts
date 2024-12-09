@@ -1,5 +1,5 @@
 import apiClient from "@/lib/apiClient";
-import type { MarketItem } from "@/../../types";
+import type { MarketItem } from "@/types";
 
 // Get all market items
 export async function getMarketItems(): Promise<{ items: MarketItem[] }> {

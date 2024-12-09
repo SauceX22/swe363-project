@@ -1,5 +1,5 @@
 import apiClient from "@/lib/apiClient";
-import type { FoundItem } from "@/../../types";
+import type { FoundItem } from "@/types";
 
 // Get all found items
 export async function getFoundItems(): Promise<{ items: FoundItem[] }> {

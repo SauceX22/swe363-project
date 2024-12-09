@@ -1,14 +1,9 @@
-import { clerkMiddleware, getAuth, requireAuth } from "@clerk/express";
-import { getFrontendUrl, getLoginUrl } from "../lib/config.js";
-import { fileURLToPath } from "url";
-import path, { dirname } from "path";
+import { clerkMiddleware, requireAuth } from "@clerk/express";
+import { getLoginUrl } from "../lib/config.js";
 import dotenv from "dotenv";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
 // Load the root .env file
-dotenv.config({ path: path.resolve(__dirname, "../../.env") });
+dotenv.config();
 
 /**
  *  Middleware to check if the user is authenticated

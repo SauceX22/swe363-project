@@ -1,6 +1,6 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import apiClient from "@/lib/apiClient";
-import type { FoundItem } from "@/../../types";
+import type { FoundItem } from "@/types";
 
 // Fetch All Found Items
 export const useFetchFoundItems = () =>

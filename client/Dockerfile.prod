@@ -4,11 +4,18 @@ FROM node:18-alpine AS build
 WORKDIR /app
 
 # Install dependencies
-COPY package.json package-lock.json ./
+COPY package*.json ./
 RUN npm install
 
-# Copy source files and build
+# Copy the rest of the app and build it
 COPY . .
+ARG VITE_API_URL
+ARG VITE_BACKEND_API_URL
+ARG VITE_CLERK_PUBLISHABLE_KEY
+
+ENV VITE_API_URL=$VITE_API_URL
+ENV VITE_BACKEND_API_URL=$VITE_BACKEND_API_URL
+ENV VITE_CLERK_PUBLISHABLE_KEY=$VITE_CLERK_PUBLISHABLE_KEY
 RUN npm run build
 
 # Use an nginx image to serve the built app

@@ -1,6 +1,6 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import apiClient from "../lib/apiClient";
-import type { MarketItem } from "@/../../types";
+import type { MarketItem } from "@/types";
 
 // Fetch All Market Items
 export const useFetchMarketItems = () =>

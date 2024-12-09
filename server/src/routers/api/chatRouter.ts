@@ -1,68 +1,109 @@
-import express from "express";
-import { ChatRoom } from "../../models/ChatRoom.js";
-import { ChatMessage } from "../../models/ChatMessage.js";
-import {
-  clerkAuthenticationMiddleware,
-  requireAuthentication,
-} from "../../middleware/auth.js";
-import { getAuth } from "@clerk/express";
+// Required imports
+import express, { Request, Response } from "express";
+import { z } from "zod";
+import { validateRequest } from "../../middleware/validation.js";
+import ChatRoom from "../../models/ChatRoom.js";
+import ChatMessage from "../../models/ChatMessage.js";
+import { getAuthUser, requireAuthentication } from "../../middleware/auth.js";
 
-const router = express.Router();
+const chatRouter = express.Router();
 
-// Clerk authentication middleware, this adds the Clerk session to the request object
-router.use(clerkAuthenticationMiddleware());
-
-// Get chat rooms for the user
-router.get("/rooms", requireAuthentication(), async (req, res) => {
-  try {
-    // Get the `userId` from the `Auth` object
-    const { userId } = getAuth(req);
-    const rooms = await ChatRoom.find({ participants: userId });
-    res.json(rooms);
-  } catch (err) {
-    res.status(500).json({ error: "Internal server error" });
-  }
+// Zod schemas for validation
+const chatRoomSchema = z.object({
+  participants: z.array(z.string()).min(1, "Participants are required"),
 });
 
-// Send a message
-router.post(
-  "/rooms/:roomId/messages",
+const chatMessageSchema = z.object({
+  chatRoom: z.string().min(1, "ChatRoom ID is required"),
+  sender: z.string().min(1, "Sender ID is required"),
+  content: z.string().min(1, "Message content is required"),
+});
+
+// Create a new chat room
+chatRouter.post(
+  "/rooms",
   requireAuthentication(),
-  async (req, res) => {
+  validateRequest(chatRoomSchema),
+  async (req: Request, res: Response) => {
     try {
-      // Get the `userId` from the `Auth` object
-      const { userId } = getAuth(req);
-      const { content } = req.body;
-      const roomId = req.params.roomId;
-
-      const message = new ChatMessage({
-        chatRoom: roomId,
-        sender: userId,
-        content,
-      });
-      await message.save();
-
-      await ChatRoom.findByIdAndUpdate(roomId, { lastMessage: message._id });
-      res.status(201).json(message);
-    } catch (err) {
+      const { participants } = req.body;
+      const newChatRoom = new ChatRoom({ participants });
+      const savedChatRoom = await newChatRoom.save();
+      res.status(201).json(savedChatRoom);
+    } catch (error) {
       res.status(500).json({ error: "Internal server error" });
     }
   },
 );
 
-// Get messages in a chat room
-router.get(
+// Get all chat rooms for a user
+chatRouter.get(
+  "/rooms",
+  requireAuthentication(),
+  async (req: Request, res: Response) => {
+    try {
+      const userId = await getAuthUser(req, res);
+      const chatRooms = await ChatRoom.find({ participants: userId });
+      res.status(200).json(chatRooms);
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  },
+);
+
+// Send a message in a chat room
+chatRouter.post(
+  "/messages",
+  requireAuthentication(),
+  validateRequest(chatMessageSchema),
+  async (req: Request, res: Response) => {
+    try {
+      const { chatRoom, sender, content } = req.body;
+
+      // Ensure the chat room exists
+      const room = await ChatRoom.findById(chatRoom);
+      if (!room) {
+        res.status(404).json({ error: "ChatRoom not found" });
+        return;
+      }
+
+      // Create and save the message
+      const newMessage = new ChatMessage({ chatRoom, sender, content });
+      const savedMessage = await newMessage.save();
+
+      // Update the lastMessage field in the chat room
+      room.lastMessage = savedMessage.content;
+      await room.save();
+
+      res.status(201).json(savedMessage);
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  },
+);
+
+// Get all messages in a chat room
+chatRouter.get(
   "/rooms/:roomId/messages",
   requireAuthentication(),
-  async (req, res) => {
+  async (req: Request, res: Response) => {
     try {
-      const roomId = req.params.roomId;
+      const { roomId } = req.params;
+
+      // Ensure the chat room exists
+      const room = await ChatRoom.findById(roomId);
+      if (!room) {
+        res.status(404).json({ error: "ChatRoom not found" });
+        return;
+      }
+
+      // Get all messages in the chat room
       const messages = await ChatMessage.find({ chatRoom: roomId });
-      res.json(messages);
-    } catch (err) {
+      res.status(200).json(messages);
+    } catch (error) {
       res.status(500).json({ error: "Internal server error" });
     }
   },
 );
 
-export default router;
+export default chatRouter;

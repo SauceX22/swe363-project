@@ -1,26 +1,23 @@
+import bodyParser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import bodyParser from "body-parser";
-import { requireAuthentication } from "./middleware/auth.js";
 
+import mongoose from "mongoose";
 import { createRouteHandler } from "uploadthing/express";
 import { uploadRouter } from "./lib/uploadthing.js";
-import mongoose from "mongoose";
 
+import devAuthRouter from "./routers/api/auth.js";
+import chatRouter from "./routers/api/chatRouter.js";
+import contactRouter from "./routers/api/contactRouter.js";
 import foundRouter from "./routers/api/foundRouter.js";
 import marketRouter from "./routers/api/marketRouter.js";
 import userRouter from "./routers/api/userRouter.js";
-import chatRouter from "./routers/api/chatRouter.js";
-import contactRouter from "./routers/api/contactRouter.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 // Load the root .env file
 dotenv.config();
+
+const app = express();
 
 const SERVER_PORT = process.env.SERVER_PORT || 5000;
 const MONGO_URI =
@@ -29,21 +26,9 @@ const MONGO_URI =
 
 console.log(process.env.MONGO_URI);
 
-const app = express();
-
-// Express configuration
-app.set("port", process.env.SERVER_PORT || 5000);
-
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
-
-app.get("/protected", requireAuthentication(), (req, res) => {
-  res.send("This is a protected route");
-});
-app.get("/test", (req, res) => {
-  res.send(`This is a test route ${process.env.TEST}`);
-});
 
 app.use(
   "/api/uploadthing",
@@ -56,10 +41,7 @@ app.use(
   }),
 );
 
-app.get("/", (req, res) => {
-  res.send("Sup bro");
-});
-
+app.use("/auth", devAuthRouter);
 app.use("/api/users", userRouter);
 app.use("/api/found", foundRouter);
 app.use("/api/market", marketRouter);

@@ -1,10 +1,10 @@
 import express from "express";
 import {
   clerkAuthenticationMiddleware,
+  getAuthUser,
   requireAuthentication,
 } from "../../middleware/auth.js";
-import { getAuth } from "@clerk/express";
-import { User } from "../../models/User.js";
+import User from "../../models/User.js";
 
 const router = express.Router();
 
@@ -15,8 +15,8 @@ router.use(clerkAuthenticationMiddleware());
 router.get("/me", requireAuthentication(), async (req, res) => {
   try {
     // Get the `userId` from the `Auth` object
-    const { userId } = getAuth(req); // Clerk provides the authenticated user's ID
-    const user = await User.findOne({ clerkId: userId });
+    const userId = await getAuthUser(req, res);
+    const user = await User.findOne({ id: userId });
     if (!user) {
       res.status(404).json({ error: "User not found" });
       return;
@@ -31,9 +31,9 @@ router.get("/me", requireAuthentication(), async (req, res) => {
 router.put("/me", requireAuthentication(), async (req, res) => {
   try {
     // Get the `userId` from the `Auth` object
-    const { userId } = getAuth(req);
+    const userId = await getAuthUser(req, res);
     const updates = req.body;
-    const user = await User.findOneAndUpdate({ clerkId: userId }, updates, {
+    const user = await User.findOneAndUpdate({ id: userId }, updates, {
       new: true,
     });
     if (!user) {

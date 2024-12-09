@@ -1,0 +1,35 @@
+### Get all market items
+GET http://localhost:5000/api/market
+
+### Get a specific market item
+GET http://localhost:5000/api/market/{{itemId}}
+Content-Type: application/json
+Authorization: Bearer YOUR_AUTH_TOKEN_FROM_LOGIN_ROUTE
+
+### Create a new market item
+POST http://localhost:5000/api/market
+Content-Type: application/json
+Authorization: Bearer YOUR_AUTH_TOKEN_FROM_LOGIN_ROUTE
+
+{
+  "name": "Sample Item",
+  "description": "This is a sample market item.",
+  "tag": "Electronics",
+  "price": 199.99
+}
+
+### Update an existing market item
+PUT http://localhost:5000/api/market/{{itemId}}
+Content-Type: application/json
+Authorization: Bearer YOUR_AUTH_TOKEN_FROM_LOGIN_ROUTE
+
+{
+  "name": "Updated Item",
+  "description": "Updated description.",
+  "tag": "Home",
+  "price": 149.99
+}
+
+### Delete a market item
+DELETE http://localhost:5000/api/market/{{itemId}}
+Authorization: Bearer YOUR_AUTH_TOKEN_FROM_LOGIN_ROUTE

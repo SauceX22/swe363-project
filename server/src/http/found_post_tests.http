@@ -1,0 +1,35 @@
+### Get all found items
+GET http://localhost:5000/api/found
+Authorization: Bearer YOUR_AUTH_TOKEN_FROM_LOGIN_ROUTE
+
+### Get a specific found item
+GET http://localhost:5000/api/found/{{itemId}}
+Authorization: Bearer YOUR_AUTH_TOKEN_FROM_LOGIN_ROUTE
+
+### Create a new found item
+POST http://localhost:5000/api/found
+Content-Type: application/json
+Authorization: Bearer YOUR_AUTH_TOKEN_FROM_LOGIN_ROUTE
+
+{
+  "name": "Sample Item",
+  "description": "This is a sample found item.",
+  "tag": "Electronics",
+  "dateFound": "2023-01-01",
+  "location": "Sample Location"
+}
+
+### Update an existing found item
+PUT http://localhost:5000/api/found/{{itemId}}
+Content-Type: application/json
+Authorization: Bearer YOUR_AUTH_TOKEN_FROM_LOGIN_ROUTE
+
+{
+  "name": "Updated Item",
+  "description": "Updated description.",
+  "tag": "Home"
+}
+
+### Delete a found item
+DELETE http://localhost:5000/api/found/{{itemId}}
+Authorization: Bearer YOUR_AUTH_TOKEN_FROM_LOGIN_ROUTE

@@ -1,130 +1,126 @@
-import express from "express";
-import { FoundItemPost } from "../../models/FoundItemPost.js"; // Assuming a Post model
+// Required imports
+import express, { Request, Response } from "express";
+import { z } from "zod";
 import {
   clerkAuthenticationMiddleware,
+  getAuthUser,
   requireAuthentication,
 } from "../../middleware/auth.js";
-import { getAuth } from "@clerk/express";
-import { z } from "zod";
+import { validateRequest } from "../../middleware/validation.js";
+import FoundItemPost from "../../models/FoundItemPost.js";
 
-const router = express.Router();
-
-export interface FoundItemPost {
-  id: string; // Unique identifier
-  name: string; // Name of the found item
-  description: string; // Detailed description of the item
-  datePosted: Date;
-  image: string | null;
-  tag: string;
-  location: string;
-  reportedBy: string; // ID of the user who reported the item
-}
-
-const schema = z.object({
-  name: z
-    .string()
-    .min(1, { message: "Name is too short" })
-    .max(100, { message: "Name is too long" }),
-  description: z
-    .string()
-    .min(1, { message: "Description is too short" })
-    .max(1000, { message: "Description is too long" }),
-  location: z
-    .string()
-    .min(1, { message: "Building name is too short" })
-    .max(100, { message: "Building name is too long" }),
-  tag: z
-    .string()
-    .min(1, { message: "Item Tag is too short" })
-    .max(30, { message: "Item Tag is too long" }),
-  image: z.string().optional(),
-});
+// FoundItemPost router
+const foundItemPostRouter = express.Router();
 
 // Clerk authentication middleware, this adds the Clerk session to the request object
-router.use(clerkAuthenticationMiddleware());
+foundItemPostRouter.use(clerkAuthenticationMiddleware());
 
-// Get all posts with linked found items
-router.get("/", async (req, res) => {
+// Zod schema for FoundItemPost validation
+const foundItemSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  description: z.string().min(1, "Description is required"),
+  tag: z.string().min(1, "Tag is required"),
+  dateFound: z.string().transform((val) => new Date(val)),
+  location: z.string().min(1, "Location is required"),
+});
+
+// Get all found items
+foundItemPostRouter.get("/", async (req: Request, res: Response) => {
   try {
-    // Populate the `item` field in posts
-    const posts = await FoundItemPost.find().populate("item");
-    res.json(posts);
-  } catch (err) {
-    res.status(500).json({ error: "Internal server error" });
+    const foundItems = await FoundItemPost.find();
+    res.status(200).json(foundItems);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-// Create a new post and link it to a found item
-router.post("/new", async (req, res) => {
-  try {
-    // const { userId } = getAuth(req); // Clerk user ID
-    const userId = "123";
-    console.log(userId);
-    const { name, description, tag, location, image } = req.body as Omit<
-      FoundItemPost,
-      "id" | "datePosted" | "reportedBy"
-    >;
-
-    // Validate input
-    if (!name || !location || !tag || !description) {
-      res.status(400).json({ error: "All fields are required" });
-      return;
+// Get a specific found item by ID
+foundItemPostRouter.get(
+  "/:id",
+  requireAuthentication(),
+  async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const foundItem = await FoundItemPost.findById(id);
+      if (!foundItem) {
+        res.status(404).json({ error: "Found item not found" });
+        return;
+      }
+      res.status(200).json(foundItem);
+    } catch (error) {
+      res.status(500).json({ error: "Internal Server Error" });
     }
+  },
+);
 
-    // Create the post
-    const post = new FoundItemPost({
-      postedBy: userId,
-      // Create the found item and link it to the post
-      name: name,
-      description: description,
-      tag: tag,
-      location: location,
-      image: image,
-      reportedBy: userId,
-    });
+// Create a new found item
+foundItemPostRouter.post(
+  "/",
+  requireAuthentication(),
+  validateRequest(foundItemSchema),
+  async (req: Request, res: Response) => {
+    try {
+      const { name, description, tag, dateFound, location } = req.body;
+      const postedBy = await getAuthUser(req, res);
 
-    await post.save();
-
-    res.status(201).json({ post });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-// Get a single post with its linked found item by post ID
-router.get("/:id", async (req, res) => {
-  try {
-    const post = await FoundItemPost.findById(req.params.id).populate("item");
-    if (!post) {
-      res.status(404).json({ error: "Post not found" });
-      return;
+      const newFoundItem = new FoundItemPost({
+        name,
+        description,
+        tag,
+        dateFound,
+        location,
+        postedBy,
+      });
+      await newFoundItem.save();
+      res.status(201).json(newFoundItem);
+    } catch (error) {
+      res.status(500).json({ error: "Internal Server Error" });
     }
-    res.json(post);
-  } catch (err) {
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
+  },
+);
 
-// Delete a post and its linked found item
-router.delete("/:id", requireAuthentication(), async (req, res) => {
-  try {
-    const { userId } = getAuth(req);
-
-    // Find the post by ID
-    const post = await FoundItemPost.findById(req.params.id).populate("item");
-    if (!post || post.postedBy.toString() !== userId) {
-      res.status(403).json({ error: "Forbidden" });
-      return;
+// Update an existing found item
+foundItemPostRouter.put(
+  "/:id",
+  requireAuthentication(),
+  validateRequest(foundItemSchema),
+  async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const { name, description, tag, dateFound, location } = req.body;
+      const updatedFoundItem = await FoundItemPost.findByIdAndUpdate(
+        id,
+        { name, description, tag, dateFound, location },
+        { new: true, runValidators: true },
+      );
+      if (!updatedFoundItem) {
+        res.status(404).json({ error: "Found item not found" });
+        return;
+      }
+      res.status(200).json(updatedFoundItem);
+    } catch (error) {
+      res.status(500).json({ error: "Internal Server Error" });
     }
+  },
+);
 
-    // Delete the post
-    await post.deleteOne();
+// Delete a found item
+foundItemPostRouter.delete(
+  "/:id",
+  requireAuthentication(),
+  async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const deletedFoundItem = await FoundItemPost.findByIdAndDelete(id);
+      if (!deletedFoundItem) {
+        res.status(404).json({ error: "Found item not found" });
+        return;
+      }
+      res.status(200).json({ message: "Found item deleted successfully" });
+    } catch (error) {
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  },
+);
 
-    res.status(204).send();
-  } catch (err) {
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-export default router;
+export default foundItemPostRouter;

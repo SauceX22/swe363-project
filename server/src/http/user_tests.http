@@ -1,0 +1,12 @@
+### Get user profile
+GET http://localhost:5000/api/users/me
+Authorization: Bearer YOUR_AUTH_TOKEN_FROM_LOGIN_ROUTE
+
+### Update user profile
+PUT http://localhost:5000/api/users/me
+Content-Type: application/json
+Authorization: Bearer YOUR_AUTH_TOKEN_FROM_LOGIN_ROUTE
+
+{
+  "email": "new_email@example.com"
+}

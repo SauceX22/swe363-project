@@ -1,9 +1,9 @@
 import express from "express";
-import { ContactMessage } from "../../models/ContactMessage.js";
 import {
   clerkAuthenticationMiddleware,
   requireAuthentication,
 } from "../../middleware/auth.js";
+import ContactMessage from "../../models/ContactMessage.js";
 
 const router = express.Router();
 

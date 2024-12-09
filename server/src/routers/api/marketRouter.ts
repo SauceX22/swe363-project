@@ -1,90 +1,127 @@
-import express from "express";
-import { MarketItemPost } from "../../models/MarketItemPost.js"; // Assuming a Post model
+// Required imports
+import express, { Request, Response } from "express";
+import { z } from "zod";
 import {
   clerkAuthenticationMiddleware,
+  getAuthUser,
   requireAuthentication,
 } from "../../middleware/auth.js";
-import { getAuth } from "@clerk/express";
+import { validateRequest } from "../../middleware/validation.js";
+import MarketItemPost from "../../models/MarketItemPost.js";
 
-const router = express.Router();
+// MarketItemPost router
+const marketItemPostRouter = express.Router();
 
 // Clerk authentication middleware, this adds the Clerk session to the request object
-router.use(clerkAuthenticationMiddleware());
+marketItemPostRouter.use(clerkAuthenticationMiddleware());
 
-// Get all posts with linked market items
-router.get("/", async (req, res) => {
+// Zod schema for MarketItemPost validation
+const marketItemSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  description: z.string().min(1, "Description is required"),
+  tag: z.string().min(1, "Tag is required"),
+  price: z.number().min(0, "Price must be a positive number"),
+  postedBy: z.string().min(1, "Posted by is required"),
+  createdAt: z.string().transform((val) => new Date(val)),
+});
+
+// Get all market items
+marketItemPostRouter.get("/", async (req: Request, res: Response) => {
   try {
-    // Populate the `item` field in posts
-    const posts = await MarketItemPost.find().populate("item");
-    res.json(posts);
-  } catch (err) {
-    res.status(500).json({ error: "Internal server error" });
+    const marketItems = await MarketItemPost.find();
+    res.status(200).json(marketItems);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-// Create a new post and link it to a market item
-router.post("/", requireAuthentication(), async (req, res) => {
-  try {
-    const { userId } = getAuth(req); // Clerk user ID
-    const { title, description, category, price } = req.body;
-
-    // Validate input
-    if (!title || !description || !category || !price) {
-      res.status(400).json({ error: "Missing required fields" });
-      return;
+// Get a specific market item by ID
+marketItemPostRouter.get(
+  "/:id",
+  requireAuthentication(),
+  async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const marketItem = await MarketItemPost.findById(id);
+      if (!marketItem) {
+        res.status(404).json({ error: "Market item not market" });
+        return;
+      }
+      res.status(200).json(marketItem);
+    } catch (error) {
+      res.status(500).json({ error: "Internal Server Error" });
     }
+  },
+);
 
-    // Create the post
-    const post = new MarketItemPost({
-      author: userId,
-      title,
-      description,
-      category,
-      price,
-      seller: userId,
-    });
+// Create a new market item
+marketItemPostRouter.post(
+  "/",
+  requireAuthentication(),
+  validateRequest(marketItemSchema),
+  async (req: Request, res: Response) => {
+    try {
+      const { name, description, tag, dateMarket, location } = req.body;
+      const postedBy = await getAuthUser(req, res);
 
-    await post.save();
-
-    res.status(201).json({ post });
-  } catch (err) {
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-// Get a single post with its linked market item by post ID
-router.get("/:id", async (req, res) => {
-  try {
-    const post = await MarketItemPost.findById(req.params.id).populate("item");
-    if (!post) {
-      res.status(404).json({ error: "Post not found" });
-      return;
+      const newMarketItem = new MarketItemPost({
+        name,
+        description,
+        tag,
+        dateMarket,
+        location,
+        postedBy,
+      });
+      await newMarketItem.save();
+      res.status(201).json(newMarketItem);
+    } catch (error) {
+      res.status(500).json({ error: "Internal Server Error" });
     }
-    res.json(post);
-  } catch (err) {
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
+  },
+);
 
-// Delete a post and its linked market item
-router.delete("/:id", requireAuthentication(), async (req, res) => {
-  try {
-    const { userId } = getAuth(req);
-
-    // Find the post by ID
-    const post = await MarketItemPost.findById(req.params.id).populate("item");
-    if (!post || post.postedBy.toString() !== userId) {
-      res.status(403).json({ error: "Forbidden" });
-      return;
+// Update an existing market item
+marketItemPostRouter.put(
+  "/:id",
+  requireAuthentication(),
+  validateRequest(marketItemSchema),
+  async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const { name, description, tag, dateMarket, location } = req.body;
+      const updatedMarketItem = await MarketItemPost.findByIdAndUpdate(
+        id,
+        { name, description, tag, dateMarket, location },
+        { new: true, runValidators: true },
+      );
+      if (!updatedMarketItem) {
+        res.status(404).json({ error: "Market item not market" });
+        return;
+      }
+      res.status(200).json(updatedMarketItem);
+    } catch (error) {
+      res.status(500).json({ error: "Internal Server Error" });
     }
+  },
+);
 
-    // Delete the post
-    await post.deleteOne();
+// Delete a market item
+marketItemPostRouter.delete(
+  "/:id",
+  requireAuthentication(),
+  async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const deletedMarketItem = await MarketItemPost.findByIdAndDelete(id);
+      if (!deletedMarketItem) {
+        res.status(404).json({ error: "Market item not market" });
+        return;
+      }
+      res.status(200).json({ message: "Market item deleted successfully" });
+    } catch (error) {
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  },
+);
 
-    res.status(204).send();
-  } catch (err) {
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-export default router;
+export default marketItemPostRouter;

@@ -20,7 +20,7 @@ export const Route = createRootRoute({
       pathname.includes("/login") || pathname.startsWith("/login");
 
     return (
-      <body>
+      <div>
         {/* if it's the login page dont show the navbar */}
         <Providers>
           {!isAuthPage ? <Navbar /> : null}
@@ -29,7 +29,7 @@ export const Route = createRootRoute({
           {/* where the routes are actually rendered */}
           <Outlet />
         </Providers>
-      </body>
+      </div>
     );
   },
 });

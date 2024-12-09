@@ -8,10 +8,13 @@ import vercel from "vite-plugin-vercel";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vercel(), react(), TanStackRouterVite()],
-  envDir: path.resolve(__dirname, "../"),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+  },
+  define: {
+    // Pass through environment variables to Vite during build
+    "process.env": process.env,
   },
 });

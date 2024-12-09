@@ -13,21 +13,25 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as MyitemsImport } from './routes/myitems'
 import { Route as MarketImport } from './routes/market'
+import { Route as LoginImport } from './routes/login'
+import { Route as ContactUsImport } from './routes/contact-us'
+import { Route as IndexImport } from './routes/index'
+import { Route as MarketIndexImport } from './routes/market/index'
+import { Route as FoundIndexImport } from './routes/found/index'
+import { Route as ChatIndexImport } from './routes/chat/index'
+import { Route as MarketNewImport } from './routes/market/new'
+import { Route as MarketItemIdImport } from './routes/market/$itemId'
+import { Route as FoundNewImport } from './routes/found/new'
+import { Route as FoundItemIdImport } from './routes/found/$itemId'
+import { Route as ChatChatIdImport } from './routes/chat/$chatId'
 
 // Create Virtual Routes
 
-const LoginLazyImport = createFileRoute('/login')()
 const CardDetailLazyImport = createFileRoute('/card-detail')()
-const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
-
-const LoginLazyRoute = LoginLazyImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/login.lazy').then((d) => d.Route))
 
 const CardDetailLazyRoute = CardDetailLazyImport.update({
   id: '/card-detail',
@@ -35,17 +39,83 @@ const CardDetailLazyRoute = CardDetailLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/card-detail.lazy').then((d) => d.Route))
 
+const MyitemsRoute = MyitemsImport.update({
+  id: '/myitems',
+  path: '/myitems',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const MarketRoute = MarketImport.update({
   id: '/market',
   path: '/market',
   getParentRoute: () => rootRoute,
 } as any)
 
-const IndexLazyRoute = IndexLazyImport.update({
+const LoginRoute = LoginImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/login.lazy').then((d) => d.Route))
+
+const ContactUsRoute = ContactUsImport.update({
+  id: '/contact-us',
+  path: '/contact-us',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+} as any)
+
+const MarketIndexRoute = MarketIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => MarketRoute,
+} as any)
+
+const FoundIndexRoute = FoundIndexImport.update({
+  id: '/found/',
+  path: '/found/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ChatIndexRoute = ChatIndexImport.update({
+  id: '/chat/',
+  path: '/chat/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const MarketNewRoute = MarketNewImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => MarketRoute,
+} as any)
+
+const MarketItemIdRoute = MarketItemIdImport.update({
+  id: '/$itemId',
+  path: '/$itemId',
+  getParentRoute: () => MarketRoute,
+} as any)
+
+const FoundNewRoute = FoundNewImport.update({
+  id: '/found/new',
+  path: '/found/new',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const FoundItemIdRoute = FoundItemIdImport.update({
+  id: '/found/$itemId',
+  path: '/found/$itemId',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ChatChatIdRoute = ChatChatIdImport.update({
+  id: '/chat/$chatId',
+  path: '/chat/$chatId',
+  getParentRoute: () => rootRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -55,7 +125,21 @@ declare module '@tanstack/react-router' {
       id: '/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexLazyImport
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/contact-us': {
+      id: '/contact-us'
+      path: '/contact-us'
+      fullPath: '/contact-us'
+      preLoaderRoute: typeof ContactUsImport
+      parentRoute: typeof rootRoute
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
     '/market': {
@@ -65,6 +149,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MarketImport
       parentRoute: typeof rootRoute
     }
+    '/myitems': {
+      id: '/myitems'
+      path: '/myitems'
+      fullPath: '/myitems'
+      preLoaderRoute: typeof MyitemsImport
+      parentRoute: typeof rootRoute
+    }
     '/card-detail': {
       id: '/card-detail'
       path: '/card-detail'
@@ -72,61 +163,210 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CardDetailLazyImport
       parentRoute: typeof rootRoute
     }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginLazyImport
+    '/chat/$chatId': {
+      id: '/chat/$chatId'
+      path: '/chat/$chatId'
+      fullPath: '/chat/$chatId'
+      preLoaderRoute: typeof ChatChatIdImport
       parentRoute: typeof rootRoute
+    }
+    '/found/$itemId': {
+      id: '/found/$itemId'
+      path: '/found/$itemId'
+      fullPath: '/found/$itemId'
+      preLoaderRoute: typeof FoundItemIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/found/new': {
+      id: '/found/new'
+      path: '/found/new'
+      fullPath: '/found/new'
+      preLoaderRoute: typeof FoundNewImport
+      parentRoute: typeof rootRoute
+    }
+    '/market/$itemId': {
+      id: '/market/$itemId'
+      path: '/$itemId'
+      fullPath: '/market/$itemId'
+      preLoaderRoute: typeof MarketItemIdImport
+      parentRoute: typeof MarketImport
+    }
+    '/market/new': {
+      id: '/market/new'
+      path: '/new'
+      fullPath: '/market/new'
+      preLoaderRoute: typeof MarketNewImport
+      parentRoute: typeof MarketImport
+    }
+    '/chat/': {
+      id: '/chat/'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/found/': {
+      id: '/found/'
+      path: '/found'
+      fullPath: '/found'
+      preLoaderRoute: typeof FoundIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/market/': {
+      id: '/market/'
+      path: '/'
+      fullPath: '/market/'
+      preLoaderRoute: typeof MarketIndexImport
+      parentRoute: typeof MarketImport
     }
   }
 }
 
 // Create and export the route tree
 
+interface MarketRouteChildren {
+  MarketItemIdRoute: typeof MarketItemIdRoute
+  MarketNewRoute: typeof MarketNewRoute
+  MarketIndexRoute: typeof MarketIndexRoute
+}
+
+const MarketRouteChildren: MarketRouteChildren = {
+  MarketItemIdRoute: MarketItemIdRoute,
+  MarketNewRoute: MarketNewRoute,
+  MarketIndexRoute: MarketIndexRoute,
+}
+
+const MarketRouteWithChildren =
+  MarketRoute._addFileChildren(MarketRouteChildren)
+
 export interface FileRoutesByFullPath {
-  '/': typeof IndexLazyRoute
-  '/market': typeof MarketRoute
+  '/': typeof IndexRoute
+  '/contact-us': typeof ContactUsRoute
+  '/login': typeof LoginRoute
+  '/market': typeof MarketRouteWithChildren
+  '/myitems': typeof MyitemsRoute
   '/card-detail': typeof CardDetailLazyRoute
-  '/login': typeof LoginLazyRoute
+  '/chat/$chatId': typeof ChatChatIdRoute
+  '/found/$itemId': typeof FoundItemIdRoute
+  '/found/new': typeof FoundNewRoute
+  '/market/$itemId': typeof MarketItemIdRoute
+  '/market/new': typeof MarketNewRoute
+  '/chat': typeof ChatIndexRoute
+  '/found': typeof FoundIndexRoute
+  '/market/': typeof MarketIndexRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexLazyRoute
-  '/market': typeof MarketRoute
+  '/': typeof IndexRoute
+  '/contact-us': typeof ContactUsRoute
+  '/login': typeof LoginRoute
+  '/myitems': typeof MyitemsRoute
   '/card-detail': typeof CardDetailLazyRoute
-  '/login': typeof LoginLazyRoute
+  '/chat/$chatId': typeof ChatChatIdRoute
+  '/found/$itemId': typeof FoundItemIdRoute
+  '/found/new': typeof FoundNewRoute
+  '/market/$itemId': typeof MarketItemIdRoute
+  '/market/new': typeof MarketNewRoute
+  '/chat': typeof ChatIndexRoute
+  '/found': typeof FoundIndexRoute
+  '/market': typeof MarketIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexLazyRoute
-  '/market': typeof MarketRoute
+  '/': typeof IndexRoute
+  '/contact-us': typeof ContactUsRoute
+  '/login': typeof LoginRoute
+  '/market': typeof MarketRouteWithChildren
+  '/myitems': typeof MyitemsRoute
   '/card-detail': typeof CardDetailLazyRoute
-  '/login': typeof LoginLazyRoute
+  '/chat/$chatId': typeof ChatChatIdRoute
+  '/found/$itemId': typeof FoundItemIdRoute
+  '/found/new': typeof FoundNewRoute
+  '/market/$itemId': typeof MarketItemIdRoute
+  '/market/new': typeof MarketNewRoute
+  '/chat/': typeof ChatIndexRoute
+  '/found/': typeof FoundIndexRoute
+  '/market/': typeof MarketIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/market' | '/card-detail' | '/login'
+  fullPaths:
+    | '/'
+    | '/contact-us'
+    | '/login'
+    | '/market'
+    | '/myitems'
+    | '/card-detail'
+    | '/chat/$chatId'
+    | '/found/$itemId'
+    | '/found/new'
+    | '/market/$itemId'
+    | '/market/new'
+    | '/chat'
+    | '/found'
+    | '/market/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/market' | '/card-detail' | '/login'
-  id: '__root__' | '/' | '/market' | '/card-detail' | '/login'
+  to:
+    | '/'
+    | '/contact-us'
+    | '/login'
+    | '/myitems'
+    | '/card-detail'
+    | '/chat/$chatId'
+    | '/found/$itemId'
+    | '/found/new'
+    | '/market/$itemId'
+    | '/market/new'
+    | '/chat'
+    | '/found'
+    | '/market'
+  id:
+    | '__root__'
+    | '/'
+    | '/contact-us'
+    | '/login'
+    | '/market'
+    | '/myitems'
+    | '/card-detail'
+    | '/chat/$chatId'
+    | '/found/$itemId'
+    | '/found/new'
+    | '/market/$itemId'
+    | '/market/new'
+    | '/chat/'
+    | '/found/'
+    | '/market/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexLazyRoute: typeof IndexLazyRoute
-  MarketRoute: typeof MarketRoute
+  IndexRoute: typeof IndexRoute
+  ContactUsRoute: typeof ContactUsRoute
+  LoginRoute: typeof LoginRoute
+  MarketRoute: typeof MarketRouteWithChildren
+  MyitemsRoute: typeof MyitemsRoute
   CardDetailLazyRoute: typeof CardDetailLazyRoute
-  LoginLazyRoute: typeof LoginLazyRoute
+  ChatChatIdRoute: typeof ChatChatIdRoute
+  FoundItemIdRoute: typeof FoundItemIdRoute
+  FoundNewRoute: typeof FoundNewRoute
+  ChatIndexRoute: typeof ChatIndexRoute
+  FoundIndexRoute: typeof FoundIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexLazyRoute: IndexLazyRoute,
-  MarketRoute: MarketRoute,
+  IndexRoute: IndexRoute,
+  ContactUsRoute: ContactUsRoute,
+  LoginRoute: LoginRoute,
+  MarketRoute: MarketRouteWithChildren,
+  MyitemsRoute: MyitemsRoute,
   CardDetailLazyRoute: CardDetailLazyRoute,
-  LoginLazyRoute: LoginLazyRoute,
+  ChatChatIdRoute: ChatChatIdRoute,
+  FoundItemIdRoute: FoundItemIdRoute,
+  FoundNewRoute: FoundNewRoute,
+  ChatIndexRoute: ChatIndexRoute,
+  FoundIndexRoute: FoundIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -140,22 +380,67 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/contact-us",
+        "/login",
         "/market",
+        "/myitems",
         "/card-detail",
-        "/login"
+        "/chat/$chatId",
+        "/found/$itemId",
+        "/found/new",
+        "/chat/",
+        "/found/"
       ]
     },
     "/": {
-      "filePath": "index.lazy.tsx"
+      "filePath": "index.tsx"
+    },
+    "/contact-us": {
+      "filePath": "contact-us.tsx"
+    },
+    "/login": {
+      "filePath": "login.tsx"
     },
     "/market": {
-      "filePath": "market.tsx"
+      "filePath": "market.tsx",
+      "children": [
+        "/market/$itemId",
+        "/market/new",
+        "/market/"
+      ]
+    },
+    "/myitems": {
+      "filePath": "myitems.tsx"
     },
     "/card-detail": {
       "filePath": "card-detail.lazy.tsx"
     },
-    "/login": {
-      "filePath": "login.lazy.tsx"
+    "/chat/$chatId": {
+      "filePath": "chat/$chatId.tsx"
+    },
+    "/found/$itemId": {
+      "filePath": "found/$itemId.tsx"
+    },
+    "/found/new": {
+      "filePath": "found/new.tsx"
+    },
+    "/market/$itemId": {
+      "filePath": "market/$itemId.tsx",
+      "parent": "/market"
+    },
+    "/market/new": {
+      "filePath": "market/new.tsx",
+      "parent": "/market"
+    },
+    "/chat/": {
+      "filePath": "chat/index.tsx"
+    },
+    "/found/": {
+      "filePath": "found/index.tsx"
+    },
+    "/market/": {
+      "filePath": "market/index.tsx",
+      "parent": "/market"
     }
   }
 }

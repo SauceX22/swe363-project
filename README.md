@@ -15,56 +15,75 @@ Each part has its own configuration, dependencies, and environment variables for
 
 ---
 
-## 🚀 Quickstart Guide
+### 🚀 Quickstart Guide
 
-### 1. Clone the Repository
+1. **Clone the Repository**  
+
 ```bash
 git clone https://github.com/SauceX22/swe363-project.git swe363-project
 cd swe363-project
 ```
 
-### 2. Install Dependencies
+2. **Install Dependencies**  
 
-- Navigate to each directory (`client` and `server`) and install dependencies:
+- **Client**  
 
-#### For the Client
 ```bash
-# From the root directory
 cd client
 npm install
 ```
 
-#### For the Server
+<<<<<<< HEAD
+### 3. Run the Application
+=======
+- **Server**  
+
 ```bash
-# From the root directory
-cd server
+cd ../server
 npm install
 ```
 
-### 3. Run the Application
+3. **Setup Environment Variables**  
 
-#### Client
+- Clone the `.env.example` file and rename it to `.env` at the root of the project (next to `docker-compose.yml`). This file contains the environment variables for the server and client.
+
+4. **Run MongoDB Database**  
+
+- From the root directory, run the following command to start MongoDB:  
+>>>>>>> 20cb0db0e22c6e20850e717c903461542563f821
+
 ```bash
-# From the client directory
+docker compose up -d --build mongodb
+```
+
+5. **Run the Application**  
+
+- **Client**  
+
+```bash
+cd client
 npm run dev
 ```
 
-This will start the client on `http://localhost:3000` by default. 🌐
+This will start the client on [http://localhost:5173](http://localhost:5173). 🌐  
 
-#### Server
-To run the server, navigate to the `server` directory and start it:
+- **Server**  
+
 ```bash
-# From the server directory
-npm run server
+cd ../server
+npm run dev
 ```
 
-The server should start on `http://localhost:5000` by default. 🌐
+This will start the server on [http://localhost:5000](http://localhost:5000). 🖥️
+
+You're all set! 🎉
 
 ---
 
 ## ✨ Client Side
 
 ### 🛠 Tools and Technologies
+
 The client is set up with **Vite** for fast builds and **React** for the component-based structure. Here’s a rundown of the main tools:
 
 - **[shadcn/ui](https://ui.shadcn.com/)**: A key UI component library based on Radix, used to build accessible and unstyled components. Refer to the shadcn UI docs for setup, usage, and customization.
@@ -76,14 +95,17 @@ The client is set up with **Vite** for fast builds and **React** for the compone
 - **Vite**: Fast build tooling for optimized performance
 
 ### 📜 Package Scripts
+
 - **`npm run dev`**: Runs the app in development mode with hot reloading.
 - **`npm run build`**: Builds the app for production, bundling and minifying everything.
 - **`npm run preview`**: Previews the production build.
 
 ### 🔧 Client Environment Variables
+
 For the client, any environment variables can be added in `.env` files. You can use `.env.example` as a reference to set up any specific variables you may need.
 
 ### 📖 Additional Resources
+
 - [shadcn UI Documentation](https://ui.shadcn.com/): Primary documentation for setting up and customizing UI components.
 - [TailwindCSS Documentation](https://tailwindcss.com/docs): Comprehensive resource for Tailwind styling.
 - [TanStack React Query](https://tanstack.com/query/latest): Learn more about data fetching and caching.
@@ -94,6 +116,7 @@ For the client, any environment variables can be added in `.env` files. You can 
 ## 🌐 Server Side
 
 ### 🛠 Tools and Technologies
+
 Our server is set up with **Express** and **Mongoose** to manage MongoDB interactions, along with:
 
 - **JWT Authentication**: Secure token-based authentication
@@ -102,11 +125,13 @@ Our server is set up with **Express** and **Mongoose** to manage MongoDB interac
 - **BcryptJS**: Password hashing
 
 ### 📜 Package Scripts
+
 - **`npm run server`**: Runs the server in development mode, using `nodemon` for automatic restarts.
 - **`npm run build`**: Compiles TypeScript to JavaScript.
 - **`npm run start`**: Starts the compiled server for production.
 
 ### 🔧 Server Environment Variables
+
 For the server, make sure you configure the following variables in a `.env` file in the `server` directory:
 
 - **`PORT`**: The port on which the server will run (default is `5000`)

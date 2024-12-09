@@ -1,29 +1,19 @@
-import config from "config";
-import { Response, NextFunction } from "express";
-import HttpStatusCodes from "http-status-codes";
-import jwt from "jsonwebtoken";
+import { clerkMiddleware, getAuth, requireAuth } from "@clerk/express";
+import { getFrontendUrl, getLoginUrl } from "../lib/config.js";
 
-import Payload from "../types/Payload";
-import Request from "../types/Request";
+/**
+ *  Middleware to check if the user is authenticated
+ */
+export function requireAuthentication() {
+  return requireAuth({
+    signInUrl: getLoginUrl(),
+    signUpUrl: getLoginUrl(),
+  });
+}
 
-export default function(req: Request, res: Response, next: NextFunction) {
-  // Get token from header
-  const token = req.header("x-auth-token");
-
-  // Check if no token
-  if (!token) {
-    return res
-      .status(HttpStatusCodes.UNAUTHORIZED)
-      .json({ msg: "No token, authorization denied" });
-  }
-  // Verify token
-  try {
-    const payload: Payload | any = jwt.verify(token, config.get("jwtSecret"));
-    req.userId = payload.userId;
-    next();
-  } catch (err) {
-    res
-      .status(HttpStatusCodes.UNAUTHORIZED)
-      .json({ msg: "Token is not valid" });
-  }
+export function clerkAuthenticationMiddleware() {
+  return clerkMiddleware({
+    publishableKey: process.env.VITE_CLERK_PUBLISHABLE_KEY,
+    secretKey: process.env.CLERK_SECRET_KEY,
+  });
 }

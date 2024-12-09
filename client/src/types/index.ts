@@ -1,21 +1,31 @@
-export type MarketItem = {
-  id: string;
-  name: string;
-  description: string;
+export interface FoundItemPost {
+  id: string; // Unique identifier
+  name: string; // Name of the found item
+  description: string; // Detailed description of the item
   datePosted: Date;
   image: string | null;
-  price: number;
   tag: string;
-};
+  location: string;
+  reportedBy: string; // ID of the user who reported the item
+}
 
-export type FoundItem = {
-  id: string;
-  name: string;
-  description: string;
+export interface MarketItemPost {
+  id: string; // Unique identifier
+  name: string; // Name of the market item
+  description: string; // Detailed description of the item
   datePosted: Date;
   image: string | null;
   tag: string;
-};
+  price: number; // Price of the item
+  seller: string; // ID of the user selling the item
+}
+
+export interface User {
+  id: string; // Unique identifier
+  name: string; // Name of the user
+  email: string; // Email address of the user
+  avatarUrl?: string; // Optional avatar URL of the user
+}
 
 export type Contact = {
   id: number;

@@ -1,5 +1,4 @@
 {
-  "extends": "../tsconfig.json",
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
@@ -27,6 +26,9 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "allowSyntheticDefaultImports": true,
+    "esModuleInterop": false,
+    "declaration": false,
+    "allowJs": true,
     "paths": {
       "@/*": [
         "./src/*"
@@ -36,4 +38,8 @@
   "include": [
     "./src",
   ],
+  "exclude": [
+    "**/dist/",
+    "**/node_modules/"
+  ]
 }

@@ -1,11 +1,11 @@
 import { getAllCategories } from "@/lib/utils";
-import type { FoundItem, MarketItem } from "@/types";
 import { useState } from "react";
+import type { FoundItemPost, MarketItemPost } from "@/types";
 
 // custom hook to filter user items based on the search term, category, and sort order
 // this is used in the user page for the header filters
 export const useFilterUserItems = (
-  initialItems: (FoundItem | MarketItem)[],
+  initialItems: (FoundItemPost | MarketItemPost)[],
 ) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [category, setCategory] = useState("all");

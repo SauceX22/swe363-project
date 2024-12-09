@@ -5,11 +5,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import type { MarketItem } from "@/types";
+import type { MarketItemPost } from "@/types";
 import { Link } from "@tanstack/react-router";
 
 // card component for the market items posted by users
-export function MarketItemCard({ item }: { item: MarketItem }) {
+export function MarketItemCard({ item }: { item: MarketItemPost }) {
   return (
     <Link to={`/market/${item.id}`} className="w-fit">
       <Card className="flex h-full w-64 flex-col bg-primary p-4 text-primary-foreground hover:bg-primary/90">

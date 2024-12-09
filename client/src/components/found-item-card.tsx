@@ -5,11 +5,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import type { FoundItem } from "@/types";
+import type { FoundItemPost } from "@/types";
 import { Link } from "@tanstack/react-router";
 
 // card component for the found items posted by users
-export function FoundItemCard({ item }: { item: FoundItem }) {
+export function FoundItemCard({ item }: { item: FoundItemPost }) {
   return (
     <Link to={`/found/${item.id}`} className="w-fit">
       <Card className="flex h-full w-64 flex-col bg-primary p-4 text-primary-foreground hover:bg-primary/90">

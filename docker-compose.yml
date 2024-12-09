@@ -11,7 +11,8 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     volumes:
       - mongodb_data:/data/db
-
+    networks:
+      - app-network
   server:
     build:
       context: ./server
@@ -42,6 +43,8 @@ services:
       - .env
     depends_on:
       - mongodb
+    networks:
+      - app-network
 
   client:
     build:
@@ -62,6 +65,12 @@ services:
       - .env
     depends_on:
       - server
+    networks:
+      - app-network
 
 volumes:
   mongodb_data:
+
+networks:
+  app-network:
+    driver: bridge

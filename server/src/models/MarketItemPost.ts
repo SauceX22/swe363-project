@@ -1,13 +1,19 @@
 import { Schema, model, Document, Types } from "mongoose";
 
 export interface IMarketItemPost extends Document {
-  item: Types.ObjectId; // Reference to MarketItem
-  postedBy: Types.ObjectId; // Reference to User
   createdAt: Date;
+  name: string;
+  description: string;
+  category: string;
+  price: number;
+  postedBy: Types.ObjectId; // Reference to User
 }
 
 const MarketItemPostSchema = new Schema<IMarketItemPost>({
-  item: { type: Schema.Types.ObjectId, ref: "MarketItem", required: true },
+  name: { type: String, required: true },
+  description: { type: String, required: true },
+  category: { type: String, required: true },
+  price: { type: Number, required: true },
   postedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
   createdAt: { type: Date, default: Date.now },
 });

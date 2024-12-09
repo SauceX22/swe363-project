@@ -1,13 +1,53 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState, FormEvent } from "react";
-import { Upload } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
-import { Label } from "@/components/ui/label";
 import { NotFoundComponent } from "@/components/not-found";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+
+import { createFoundItemPost } from "@/api/found";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { useUploadThing } from "@/lib/uploadthing";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useDropzone } from "@uploadthing/react";
+import { UploadIcon } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import {
+  generateClientDropzoneAccept,
+  generatePermittedFileTypes,
+} from "uploadthing/client";
+import { z } from "zod";
+
+const schema = z.object({
+  name: z
+    .string()
+    .min(1, { message: "Name is too short" })
+    .max(100, { message: "Name is too long" }),
+  description: z
+    .string()
+    .min(1, { message: "Description is too short" })
+    .max(1000, { message: "Description is too long" }),
+  location: z
+    .string()
+    .min(1, { message: "Building name is too short" })
+    .max(100, { message: "Building name is too long" }),
+  tag: z
+    .string()
+    .min(1, { message: "Item Tag is too short" })
+    .max(30, { message: "Item Tag is too long" }),
+});
+
+type FormData = z.infer<typeof schema>;
 
 // routing for the page
 export const Route = createFileRoute("/found/new")({
@@ -17,54 +57,65 @@ export const Route = createFileRoute("/found/new")({
 });
 
 export default function AddFoundItem() {
-  const [image, setImage] = useState<File | null>(null);
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [buildingName, setBuildingName] = useState("");
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const { toast } = useToast();
-
-  const handleImageUpload = (e: any) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setImage(file);
-      setErrors((prev) => ({ ...prev, image: "" }));
-    }
-  };
-
-  const validateForm = () => {
-    const newErrors: { [key: string]: string } = {};
-    if (!image) newErrors.image = "Photo is required";
-    if (!name.trim()) newErrors.name = "Item name is required";
-    if (!description.trim()) newErrors.description = "Description is required";
-    if (!buildingName.trim())
-      newErrors.buildingName = "Building name is required";
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (validateForm()) {
-      //TODO: sending data
-      console.log({ image, name, description, buildingName });
-      toast({
-        title: "Success",
-        description: "Item added successfully",
+  const [files, setFiles] = useState<File[]>([]);
+  const { startUpload, routeConfig } = useUploadThing("imageUploader", {
+    onClientUploadComplete: (file) => {
+      toast.success("uploaded successfully!", {
+        id: "file-upload",
       });
-      setImage(null);
-      setName("");
-      setDescription("");
-      setBuildingName("");
-      setErrors({});
-    } else {
-      toast({
-        title: "Error",
-        description: "Please fill in all required fields",
-        variant: "destructive",
+    },
+    onUploadError: (err) => {
+      toast.error("error occurred while uploading", {
+        id: "file-upload",
       });
+    },
+    onUploadBegin: (file) => {
+      toast.info("upload has begun for " + file, {
+        id: "file-upload",
+      });
+    },
+  });
+
+  const form = useForm<FormData>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      name: "",
+      description: "",
+      location: "",
+      tag: "",
+    },
+  });
+
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop: (acceptedFiles: File[]) => setFiles(acceptedFiles),
+    accept: generateClientDropzoneAccept(
+      generatePermittedFileTypes(routeConfig).fileTypes,
+    ),
+  });
+
+  async function onSubmit(data: FormData) {
+    let fileUrl = "";
+
+    try {
+      // if (files.length > 0) {
+      //   const uploadedFiles = await startUpload(files);
+      //   fileUrl = uploadedFiles?.[0]?.url || "";
+      // }
+
+      // Assuming createFoundItemPost is a function that posts the data to the backend
+      await createFoundItemPost({
+        name: data.name,
+        description: data.description,
+        tag: data.tag,
+        location: data.location,
+        image: fileUrl,
+      });
+
+      toast.success("Item added successfully");
+    } catch (error) {
+      toast.error("Error adding item");
     }
-  };
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-200 p-4">
@@ -73,121 +124,95 @@ export default function AddFoundItem() {
           <h2 className="mb-4 text-xl font-semibold text-white">
             Add Your Item
           </h2>
-          <form
-            onSubmit={handleSubmit}
-            className="grid gap-6 md:grid-cols-[300px,1fr]"
-          >
-            <div className="flex flex-col gap-4">
+          <Form {...form}>
+            <form
+              noValidate
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="grid gap-6 md:grid-cols-[300px,1fr]"
+            >
               <div>
-                <Label
-                  htmlFor="image-upload"
-                  className="mb-1 block text-sm font-medium text-slate-200"
-                >
+                <Label htmlFor="image-upload" className="text-slate-200">
                   Photo
                 </Label>
-                <label
-                  htmlFor="image-upload"
-                  className={`flex aspect-square cursor-pointer items-center justify-center rounded-lg bg-slate-500 transition-colors hover:bg-slate-500/90 ${errors.image ? "border-2 border-red-500" : ""}`}
+                <div
+                  {...getRootProps()}
+                  className="flex aspect-square cursor-pointer items-center justify-center rounded-lg bg-slate-500 text-slate-300 hover:bg-slate-500/90"
                 >
-                  {image ? (
+                  {files.length > 0 ? (
                     <img
-                      src={URL.createObjectURL(image)}
+                      src={URL.createObjectURL(files[0])}
                       alt="Preview"
                       className="h-full w-full rounded-lg object-cover"
                     />
                   ) : (
-                    <Upload className="h-8 w-8 text-slate-300" />
+                    <UploadIcon className="h-8 w-8" />
                   )}
-                  <input
-                    id="image-upload"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    className="hidden"
-                  />
-                </label>
-                {errors.image && (
-                  <p className="mt-1 text-sm text-red-500">{errors.image}</p>
-                )}
+                  <input {...getInputProps()} />
+                </div>
               </div>
-            </div>
-
-            <div className="flex flex-col gap-4">
-              <div>
-                <Label
-                  htmlFor="name"
-                  className="mb-1 block text-sm font-medium text-slate-200"
-                >
-                  Item Name
-                </Label>
-                <Input
-                  id="name"
-                  placeholder="Item Name"
-                  className={`border-slate-400 bg-slate-500 text-white placeholder:text-slate-300 ${errors.name ? "border-red-500" : ""}`}
-                  value={name}
-                  onChange={(e) => {
-                    setName(e.target.value);
-                    setErrors((prev) => ({ ...prev, name: "" }));
-                  }}
+              <div className="flex flex-col gap-4">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Item Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Item Name" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-                {errors.name && (
-                  <p className="mt-1 text-sm text-red-500">{errors.name}</p>
-                )}
-              </div>
-
-              <div>
-                <Label
-                  htmlFor="description"
-                  className="mb-1 block text-sm font-medium text-slate-200"
-                >
-                  Description
-                </Label>
-                <Textarea
-                  id="description"
-                  placeholder="Item Description"
-                  className={`min-h-[100px] border-slate-400 bg-slate-500 text-white placeholder:text-slate-300 ${errors.description ? "border-red-500" : ""}`}
-                  value={description}
-                  onChange={(e) => {
-                    setDescription(e.target.value);
-                    setErrors((prev) => ({ ...prev, description: "" }));
-                  }}
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Description</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Item Description"
+                          className="min-h-[100px]"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-                {errors.description && (
-                  <p className="mt-1 text-sm text-red-500">
-                    {errors.description}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <Label
-                  htmlFor="buildingName"
-                  className="mb-1 block text-sm font-medium text-slate-200"
-                >
-                  Building Name
-                </Label>
-                <Input
-                  id="buildingName"
-                  placeholder="Building Name"
-                  className={`border-slate-400 bg-slate-500 text-white placeholder:text-slate-300 ${errors.buildingName ? "border-red-500" : ""}`}
-                  value={buildingName}
-                  onChange={(e) => {
-                    setBuildingName(e.target.value);
-                    setErrors((prev) => ({ ...prev, buildingName: "" }));
-                  }}
+                <FormField
+                  control={form.control}
+                  name="location"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Building Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Building Name" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-                {errors.buildingName && (
-                  <p className="mt-1 text-sm text-red-500">
-                    {errors.buildingName}
-                  </p>
-                )}
+                <FormField
+                  control={form.control}
+                  name="tag"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Item Tag</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Item Tag" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit" className="mt-2">
+                  Post Item
+                </Button>
               </div>
-
-              <Button type="submit" className="mt-2 w-full">
-                Post Item
-              </Button>
-            </div>
-          </form>
+            </form>
+          </Form>
         </CardContent>
       </Card>
     </div>

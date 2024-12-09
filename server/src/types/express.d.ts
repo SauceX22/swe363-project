@@ -1,4 +1,4 @@
-import { IUser } from "../../models/User"; // Adjust the path based on your file structure
+import { IUser } from "../../models/User.ts"; // Adjust the path based on your file structure
 declare global {
   namespace Express {
     interface Request {

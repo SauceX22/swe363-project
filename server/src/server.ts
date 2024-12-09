@@ -3,15 +3,18 @@ import dotenv from "dotenv";
 import express from "express";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-import connectDB from "./lib/database.js";
+import bodyParser from "body-parser";
 import { requireAuthentication } from "./middleware/auth.js";
 
-import chatRouter from "./routers/api/chatRouter.js";
-import contactRouter from "./routers/api/contactRouter.js";
+import { createRouteHandler } from "uploadthing/express";
+import { uploadRouter } from "./lib/uploadthing.js";
+import mongoose from "mongoose";
+
 import foundRouter from "./routers/api/foundRouter.js";
 import marketRouter from "./routers/api/marketRouter.js";
 import userRouter from "./routers/api/userRouter.js";
-import mongoose from "mongoose";
+import chatRouter from "./routers/api/chatRouter.js";
+import contactRouter from "./routers/api/contactRouter.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -33,6 +36,7 @@ app.set("port", process.env.SERVER_PORT || 5000);
 
 app.use(cors());
 app.use(express.json());
+app.use(bodyParser.json());
 
 app.get("/protected", requireAuthentication(), (req, res) => {
   res.send("This is a protected route");
@@ -40,6 +44,17 @@ app.get("/protected", requireAuthentication(), (req, res) => {
 app.get("/test", (req, res) => {
   res.send(`This is a test route ${process.env.TEST}`);
 });
+
+app.use(
+  "/api/uploadthing",
+  createRouteHandler({
+    router: uploadRouter,
+    config: {
+      isDev: process.env.NODE_ENV === "development",
+      token: process.env.UPLOADTHING_TOKEN,
+    },
+  }),
+);
 
 app.get("/", (req, res) => {
   res.send("Sup bro");

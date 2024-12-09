@@ -18,7 +18,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { NotFoundComponent } from "@/components/not-found";
 import { FoundItemCard } from "@/components/found-item-card";
 import { MarketItemCard } from "@/components/market-item-card";
-import type { FoundItem, MarketItem } from "@/types";
+import type { FoundItemPost, MarketItemPost } from "@/types";
 
 // routing for the page
 export const Route = createFileRoute("/myitems")({
@@ -105,9 +105,9 @@ function MyItemsPage() {
         {filteredItems.map((item) =>
           // item type of FoundItem or MarketItem
           "price" in item ? (
-            <MarketItemCard key={item.id} item={item as MarketItem} />
+            <MarketItemCard key={item.id} item={item as MarketItemPost} />
           ) : (
-            <FoundItemCard key={item.id} item={item as FoundItem} />
+            <FoundItemCard key={item.id} item={item as FoundItemPost} />
           ),
         )}
       </div>

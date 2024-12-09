@@ -1,5 +1,4 @@
 import express from "express";
-import { MarketItem } from "../../models/MarketItem.js";
 import { MarketItemPost } from "../../models/MarketItemPost.js"; // Assuming a Post model
 import {
   clerkAuthenticationMiddleware,
@@ -38,23 +37,16 @@ router.post("/", requireAuthentication(), async (req, res) => {
     // Create the post
     const post = new MarketItemPost({
       author: userId,
-    });
-
-    // Create the market item and link it to the post
-    const marketItem = new MarketItem({
       title,
       description,
       category,
       price,
       seller: userId,
-      post: post._id, // Reference to the post
     });
 
-    // Link the market item to the post
-    post.set("item", marketItem._id);
     await post.save();
 
-    res.status(201).json({ post, marketItem });
+    res.status(201).json({ post });
   } catch (err) {
     res.status(500).json({ error: "Internal server error" });
   }
@@ -84,11 +76,6 @@ router.delete("/:id", requireAuthentication(), async (req, res) => {
     if (!post || post.postedBy.toString() !== userId) {
       res.status(403).json({ error: "Forbidden" });
       return;
-    }
-
-    // Delete the linked market item
-    if (post.item) {
-      await MarketItem.findByIdAndDelete(post.item._id);
     }
 
     // Delete the post

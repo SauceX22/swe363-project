@@ -1,13 +1,44 @@
 import express from "express";
-import { FoundItem } from "../../models/FoundItem.js";
 import { FoundItemPost } from "../../models/FoundItemPost.js"; // Assuming a Post model
 import {
   clerkAuthenticationMiddleware,
   requireAuthentication,
 } from "../../middleware/auth.js";
 import { getAuth } from "@clerk/express";
+import { z } from "zod";
 
 const router = express.Router();
+
+export interface FoundItemPost {
+  id: string; // Unique identifier
+  name: string; // Name of the found item
+  description: string; // Detailed description of the item
+  datePosted: Date;
+  image: string | null;
+  tag: string;
+  location: string;
+  reportedBy: string; // ID of the user who reported the item
+}
+
+const schema = z.object({
+  name: z
+    .string()
+    .min(1, { message: "Name is too short" })
+    .max(100, { message: "Name is too long" }),
+  description: z
+    .string()
+    .min(1, { message: "Description is too short" })
+    .max(1000, { message: "Description is too long" }),
+  location: z
+    .string()
+    .min(1, { message: "Building name is too short" })
+    .max(100, { message: "Building name is too long" }),
+  tag: z
+    .string()
+    .min(1, { message: "Item Tag is too short" })
+    .max(30, { message: "Item Tag is too long" }),
+  image: z.string().optional(),
+});
 
 // Clerk authentication middleware, this adds the Clerk session to the request object
 router.use(clerkAuthenticationMiddleware());
@@ -24,39 +55,39 @@ router.get("/", async (req, res) => {
 });
 
 // Create a new post and link it to a found item
-router.post("/", requireAuthentication(), async (req, res) => {
+router.post("/new", async (req, res) => {
   try {
-    const { userId } = getAuth(req); // Clerk user ID
-    const { title, description, category, dateLost, location } = req.body;
+    // const { userId } = getAuth(req); // Clerk user ID
+    const userId = "123";
+    console.log(userId);
+    const { name, description, tag, location, image } = req.body as Omit<
+      FoundItemPost,
+      "id" | "datePosted" | "reportedBy"
+    >;
 
     // Validate input
-    if (!title || !description || !category || !dateLost || !location) {
-      res.status(400).json({ error: "Missing required fields" });
+    if (!name || !location || !tag || !description) {
+      res.status(400).json({ error: "All fields are required" });
       return;
     }
 
     // Create the post
     const post = new FoundItemPost({
-      author: userId,
-    });
-
-    // Create the found item and link it to the post
-    const foundItem = new FoundItem({
-      title,
-      description,
-      category,
-      dateLost,
-      location,
+      postedBy: userId,
+      // Create the found item and link it to the post
+      name: name,
+      description: description,
+      tag: tag,
+      location: location,
+      image: image,
       reportedBy: userId,
-      post: post._id, // Reference to the post
     });
 
-    // Link the found item to the post
-    post.set("item", foundItem._id);
     await post.save();
 
-    res.status(201).json({ post, foundItem });
+    res.status(201).json({ post });
   } catch (err) {
+    console.log(err);
     res.status(500).json({ error: "Internal server error" });
   }
 });
@@ -85,11 +116,6 @@ router.delete("/:id", requireAuthentication(), async (req, res) => {
     if (!post || post.postedBy.toString() !== userId) {
       res.status(403).json({ error: "Forbidden" });
       return;
-    }
-
-    // Delete the linked found item
-    if (post.item) {
-      await FoundItem.findByIdAndDelete(post.item._id);
     }
 
     // Delete the post

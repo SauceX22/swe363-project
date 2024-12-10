@@ -9,74 +9,134 @@ Welcome to the SWE363 Project! This setup includes both **client** and **server*
 We have split the application into two main parts:
 
 1. **Client**: The frontend, built with **Vite**, **React**, **TailwindCSS**, and **shadcn/ui** components.
-2. **Server**: The backend, powered by **Express** and **MongoDB** (using Mongoose).
+2. **Server**: The backend, powered by **Express, ****MongoDB** (using Mongoose), and Clerk for authentication.
 
 Each part has its own configuration, dependencies, and environment variables for easy separation and development.
 
 ---
 
-### 🚀 Quickstart Guide
+## 🚀 Quickstart Guide
 
-1. **Clone the Repository**  
+### **Client Setup**
 
-```bash
-git clone https://github.com/SauceX22/swe363-project.git swe363-project
-cd swe363-project
-```
-
-2. **Install Dependencies**  
-
-- **Client**  
+1. **Navigate to the Client Directory**
 
 ```bash
 cd client
-npm install
 ```
 
-<<<<<<< HEAD
-### 3. Run the Application
-=======
-- **Server**  
+2. **Install Dependencies**
 
 ```bash
-cd ../server
 npm install
 ```
 
-3. **Setup Environment Variables**  
+3. **Run the Client**
 
-- Clone the `.env.example` file and rename it to `.env` at the root of the project (next to `docker-compose.yml`). This file contains the environment variables for the server and client.
+```bash
+npm run dev
+```
 
-4. **Run MongoDB Database**  
+This will start the client on [http://localhost:5173](http://localhost:5173). 🌐
 
-- From the root directory, run the following command to start MongoDB:  
->>>>>>> 20cb0db0e22c6e20850e717c903461542563f821
+---
+
+### **Server Setup**
+
+1. **Navigate to the Server Directory**
+
+```bash
+cd server
+```
+
+2. **Install Dependencies**
+
+```bash
+npm install
+```
+
+3. **Run MongoDB Database**
+
+From the root directory, start MongoDB using Docker:
 
 ```bash
 docker compose up -d --build mongodb
 ```
 
-5. **Run the Application**  
-
-- **Client**  
+4. **Run the Server**
 
 ```bash
-cd client
-npm run dev
-```
-
-This will start the client on [http://localhost:5173](http://localhost:5173). 🌐  
-
-- **Server**  
-
-```bash
-cd ../server
 npm run dev
 ```
 
 This will start the server on [http://localhost:5000](http://localhost:5000). 🖥️
 
-You're all set! 🎉
+🎉 You're all set, now you can make requests to the server using the provided `.http` files in the repository. 🎉
+
+## 🔑 Authentication System (GRADER IMPORTANT!)
+
+### **Clerk Authentication (Production)**
+
+This project uses **Clerk** for authentication. This requires requests to include Clerk headers, which are managed by the front-end integration. However, since this project phase focuses solely on the backend, an alternative authentication system has been implemented for development and testing, it works as folows:
+
+### **Development Authentication**
+
+A simple authentication system is included for local testing:
+
+1. **Register**
+
+   - Use the `/auth/register` endpoint.
+   - Provide an email address to register a user.
+   - Example request:
+     ```json
+     POST /auth/register
+     {
+       "email": "test@example.com"
+     }
+     ```
+
+2. **Login**
+
+   - Use the `/auth/login` endpoint.
+   - Provide the same email address to log in.
+   - The server will respond with a token (the user ID).
+   - Example response:
+     ```json
+     {
+       "message": "Login successful",
+       "token": "user-id-token"
+     }
+     ```
+
+3. **Using the Token**
+
+   - Include the token in the `Authorization` header for all protected endpoints:
+     ```
+     Authorization: Bearer user-id-token
+     ```
+   - This simulates user authentication and allows access to protected resources.
+
+---
+
+## 🛠️ Testing with REST Client (GRADER IMPORTANT!)
+
+Although you can test the backend using postman, to make testing easier, we’ve included `.http` files in the repository. These files can be used with the **REST Client** extension in VS Code to run sample requests.
+
+### **Setup REST Client**
+
+1. Install the **REST Client** extension from the ****[VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)****.
+2. Open any **.http** file in the backend folder, under /http
+3. Click on t**he s**mall **\`Send Request\`** button above each request in the file to test the endpoints.
+
+### Testing Endpoints
+
+- Use the provided `.http` files to test registration, login, market, and other authenticated/unauthenticated requests.
+
+---
+
+## 📝 Environment Variables (GRADER IMPORTANT!)
+
+All required environment variables are already included in the repository for testing purposes. These variables are pre-configured to ensure the backend works seamlessly. ⚠️ **Note:** Including sensitive keys in a repository is not a secure practice for production; this setup is for grader testing only.
 
 ---
 

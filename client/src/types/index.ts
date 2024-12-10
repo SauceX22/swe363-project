@@ -1,23 +1,24 @@
 export interface FoundItemPost {
   id: string; // Unique identifier
-  name: string; // Name of the found item
-  description: string; // Detailed description of the item
-  datePosted: Date;
-  image: string | null;
+  createdAt: Date;
+  name: string;
+  description: string;
   tag: string;
+  dateFound: Date;
   location: string;
-  reportedBy: string; // ID of the user who reported the item
+  postedBy: string;
+  image?: string;
 }
 
 export interface MarketItemPost {
   id: string; // Unique identifier
-  name: string; // Name of the market item
-  description: string; // Detailed description of the item
-  datePosted: Date;
-  image: string | null;
+  name: string;
+  description: string;
   tag: string;
-  price: number; // Price of the item
-  seller: string; // ID of the user selling the item
+  price: number;
+  postedBy: string;
+  createdAt: Date;
+  image?: string;
 }
 
 export interface User {

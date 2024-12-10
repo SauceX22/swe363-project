@@ -1,5 +1,5 @@
 import { getAllCategories } from "@/lib/utils";
-import type { FoundItemPost } from "@/types";
+import type { FoundItemPost } from "../types";
 import { useState } from "react";
 
 // custom hook to filter found items based on the search term, category, and sort order
@@ -21,11 +21,11 @@ export const useFilterFoundItems = (initialItems: FoundItemPost[]) => {
       switch (sortBy) {
         case "date_desc":
           return (
-            new Date(b.datePosted).getTime() - new Date(a.datePosted).getTime()
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
           );
         case "date_asc":
           return (
-            new Date(a.datePosted).getTime() - new Date(b.datePosted).getTime()
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
           );
         default:
           return 0;

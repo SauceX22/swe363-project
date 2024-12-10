@@ -1,4 +1,4 @@
-import type { Contact, Message } from "@/types";
+import type { Contact, Message } from "../types";
 
 // routers-based api, this is a layer betwen client and server to centralize data fetching and manipulation method
 

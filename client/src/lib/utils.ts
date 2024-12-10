@@ -1,4 +1,4 @@
-import type { CookieAttributes } from "@/types";
+import type { CookieAttributes } from "../types";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 

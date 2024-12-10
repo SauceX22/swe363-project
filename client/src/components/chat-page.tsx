@@ -8,7 +8,7 @@ import { getMessages, sendMessage } from "@/routers/chat";
 import { FileText, Search, Send, Video, ArrowLeft, Menu } from "lucide-react";
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { Contact, Message } from "@/types";
+import type { Contact, Message } from "../types";
 import { Separator } from "@/components/ui/separator";
 import { useFilterContacts } from "@/hooks/use-filter-contacts";
 import { useIsMobile } from "@/hooks/use-mobile";

@@ -1,20 +1,20 @@
-import type { FoundItem } from "@/types";
-
 // routers-based api, this is a layer betwen client and server to centralize data fetching and manipulation method
 
+import type { FoundItemPost } from "@/types";
+
 // Fetch and transform the list of found items
-async function fetchSampleFoundItems(): Promise<FoundItem[]> {
+async function fetchSampleFoundItems(): Promise<FoundItemPost[]> {
   const response = await fetch("/assets/data/sampleFoundItems.json");
   if (!response.ok) {
     throw new Error("Failed to fetch found items");
   }
 
   const rawItems = (await response.json()) as Array<
-    Omit<FoundItem, "datePosted"> & { datePosted: string }
+    Omit<FoundItemPost, "createdAt"> & { createdAt: string }
   >;
   return rawItems.map((item) => ({
     ...item,
-    datePosted: new Date(item.datePosted), // Transform datePosted to a Date object
+    createdAt: new Date(item.createdAt), // Transform createdAt to a Date object
   }));
 }
 

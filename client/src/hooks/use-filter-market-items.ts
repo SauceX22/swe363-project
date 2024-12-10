@@ -1,5 +1,5 @@
 import { getAllCategories, isPriceInRange } from "@/lib/utils";
-import type { MarketItemPost } from "@/types";
+import type { MarketItemPost } from "../types";
 import { useState } from "react";
 
 // custom hook to filter market items based on the search term, category, and sort order
@@ -28,11 +28,11 @@ export const useFilterMarketItems = (initialItems: MarketItemPost[]) => {
           return b.price - a.price;
         case "date_desc":
           return (
-            new Date(b.datePosted).getTime() - new Date(a.datePosted).getTime()
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
           );
         case "date_asc":
           return (
-            new Date(a.datePosted).getTime() - new Date(b.datePosted).getTime()
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
           );
         default:
           return 0;

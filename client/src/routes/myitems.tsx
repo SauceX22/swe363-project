@@ -18,7 +18,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { NotFoundComponent } from "@/components/not-found";
 import { FoundItemCard } from "@/components/found-item-card";
 import { MarketItemCard } from "@/components/market-item-card";
-import type { FoundItemPost, MarketItemPost } from "@/types";
+import type { FoundItemPost, MarketItemPost } from "../types";
 
 // routing for the page
 export const Route = createFileRoute("/myitems")({

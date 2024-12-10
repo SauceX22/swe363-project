@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import type { MarketItemPost } from "@/types";
+import type { MarketItemPost } from "../types";
 import { Link } from "@tanstack/react-router";
 
 // card component for the market items posted by users

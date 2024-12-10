@@ -1,6 +1,6 @@
 import { getAllCategories } from "@/lib/utils";
 import { useState } from "react";
-import type { FoundItemPost, MarketItemPost } from "@/types";
+import type { FoundItemPost, MarketItemPost } from "../types";
 
 // custom hook to filter user items based on the search term, category, and sort order
 // this is used in the user page for the header filters
@@ -23,11 +23,11 @@ export const useFilterUserItems = (
       switch (sortBy) {
         case "date_desc":
           return (
-            new Date(b.datePosted).getTime() - new Date(a.datePosted).getTime()
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
           );
         case "date_asc":
           return (
-            new Date(a.datePosted).getTime() - new Date(b.datePosted).getTime()
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
           );
         default:
           return 0;

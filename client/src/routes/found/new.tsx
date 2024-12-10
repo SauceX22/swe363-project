@@ -7,7 +7,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
-import { createFoundItemPost } from "@/api/found";
 import {
   Form,
   FormControl,
@@ -27,6 +26,7 @@ import {
   generatePermittedFileTypes,
 } from "uploadthing/client";
 import { z } from "zod";
+import { createFoundItemPost } from "@/api/found";
 
 const schema = z.object({
   name: z
@@ -97,10 +97,10 @@ export default function AddFoundItem() {
     let fileUrl = "";
 
     try {
-      // if (files.length > 0) {
-      //   const uploadedFiles = await startUpload(files);
-      //   fileUrl = uploadedFiles?.[0]?.url || "";
-      // }
+      if (files.length > 0) {
+        const uploadedFiles = await startUpload(files);
+        fileUrl = uploadedFiles?.[0]?.url || "";
+      }
 
       // Assuming createFoundItemPost is a function that posts the data to the backend
       await createFoundItemPost({

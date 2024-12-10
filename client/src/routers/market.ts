@@ -1,14 +1,14 @@
-import type { FoundItemPost } from "../types";
+import type { MarketItemPost } from "../types";
 
 // Fetch and transform the list of market items
-async function fetchSampleMarketItems(): Promise<FoundItemPost[]> {
+async function fetchSampleMarketItems(): Promise<MarketItemPost[]> {
   const response = await fetch("/assets/data/sampleMarketItems.json");
   if (!response.ok) {
     throw new Error("Failed to fetch market items");
   }
 
   const rawItems = (await response.json()) as Array<
-    Omit<FoundItemPost, "createdAt"> & { createdAt: string }
+    Omit<MarketItemPost, "createdAt"> & { createdAt: string }
   >;
   return rawItems.map((item) => ({
     ...item,

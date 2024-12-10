@@ -2,7 +2,6 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-
 import mongoose from "mongoose";
 import { createRouteHandler } from "uploadthing/express";
 import { uploadRouter } from "./lib/uploadthing.js";
@@ -13,6 +12,7 @@ import contactRouter from "./routers/api/contactRouter.js";
 import foundRouter from "./routers/api/foundRouter.js";
 import marketRouter from "./routers/api/marketRouter.js";
 import userRouter from "./routers/api/userRouter.js";
+import { requireAuthentication } from "./middleware/auth.js";
 
 // Load the root .env file
 dotenv.config();
@@ -40,6 +40,14 @@ app.use(
     },
   }),
 );
+
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
+
+app.get("/protected", requireAuthentication(), (req, res) => {
+  res.send("This is a protected route");
+});
 
 app.use("/auth", devAuthRouter);
 app.use("/api/users", userRouter);

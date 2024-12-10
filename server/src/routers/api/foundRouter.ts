@@ -12,6 +12,37 @@ import FoundItemPost from "../../models/FoundItemPost.js";
 // FoundItemPost router
 const foundItemPostRouter = express.Router();
 
+export interface FoundItemPost {
+  id: string; // Unique identifier
+  name: string; // Name of the found item
+  description: string; // Detailed description of the item
+  datePosted: Date;
+  image: string | null;
+  tag: string;
+  location: string;
+  postedBy: string; // ID of the user who reported the item
+}
+
+const schema = z.object({
+  name: z
+    .string()
+    .min(1, { message: "Name is too short" })
+    .max(100, { message: "Name is too long" }),
+  description: z
+    .string()
+    .min(1, { message: "Description is too short" })
+    .max(1000, { message: "Description is too long" }),
+  location: z
+    .string()
+    .min(1, { message: "Building name is too short" })
+    .max(100, { message: "Building name is too long" }),
+  tag: z
+    .string()
+    .min(1, { message: "Item Tag is too short" })
+    .max(30, { message: "Item Tag is too long" }),
+  image: z.string().optional(),
+});
+
 // Clerk authentication middleware, this adds the Clerk session to the request object
 foundItemPostRouter.use(clerkAuthenticationMiddleware());
 
